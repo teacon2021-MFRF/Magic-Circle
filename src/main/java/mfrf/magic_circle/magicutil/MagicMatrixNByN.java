@@ -41,5 +41,6 @@ public class MagicMatrixNByN extends BlockMatrix64F {
             }
         }
     }
+    //todo need non-Numbers Matrix
 }
 
