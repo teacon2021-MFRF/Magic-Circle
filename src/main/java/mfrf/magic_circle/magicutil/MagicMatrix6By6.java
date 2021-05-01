@@ -3,8 +3,6 @@ package mfrf.magic_circle.magicutil;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.ejml.data.BlockMatrix64F;
-import org.ejml.data.Matrix64F;
-import org.ejml.ops.MatrixComponent;
 
 public class MagicMatrix6By6 extends BlockMatrix64F implements INBTSerializable<CompoundNBT> {
 
