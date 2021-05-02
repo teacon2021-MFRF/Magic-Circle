@@ -8,7 +8,7 @@ public abstract class MagicNodeBase {
     protected int complexityAdd;
     protected double complexityMultiply;
     protected int nestedLayer;
-    protected MagicMatrix6By6 eigenMatrix;
+    protected DecimalMagicMatrix6By6 eigenMatrix;
     protected MagicNodeBase leftNode;
     protected MagicNodeBase rightCondition;
     protected Predicate<MagicModelBase> condition;
@@ -37,7 +37,7 @@ public abstract class MagicNodeBase {
      * @param rightNode          Right node, could be null.
      *                           All node set to null means this node is the final node.
      */
-    public MagicNodeBase(int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, MagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicModelBase> condition) {
+    public MagicNodeBase(int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicModelBase> condition) {
         this.manaReviseAdd = manaReviseAdd;
         this.manaReviseMultiply = manaReviseMultiply;
         this.complexityAdd = complexityAdd;
@@ -82,7 +82,7 @@ public abstract class MagicNodeBase {
         return nestedLayer;
     }
 
-    public MagicMatrix6By6 getEigenMatrix() {
+    public DecimalMagicMatrix6By6 getEigenMatrix() {
         return eigenMatrix;
     }
 }

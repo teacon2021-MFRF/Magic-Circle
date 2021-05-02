@@ -1,12 +1,11 @@
 package mfrf.magic_circle.magicutil;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.util.INBTSerializable;
 import org.ejml.data.BlockMatrix64F;
 
-public class MagicMatrixNByN extends BlockMatrix64F {
+public class DecimalMagicMatrixNByN extends BlockMatrix64F {
 
-    public MagicMatrixNByN(float[][] cr, int row, int col) {
+    public DecimalMagicMatrixNByN(float[][] cr, int row, int col) {
         super(row, col);
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
@@ -15,7 +14,7 @@ public class MagicMatrixNByN extends BlockMatrix64F {
         }
     }
 
-    public MagicMatrixNByN(int numRows, int numCols) {
+    public DecimalMagicMatrixNByN(int numRows, int numCols) {
         super(numRows, numCols);
     }
 
@@ -34,13 +33,12 @@ public class MagicMatrixNByN extends BlockMatrix64F {
     public static void deserializeNBT(CompoundNBT compoundNBT) {
         int row = compoundNBT.getInt("row");
         int col = compoundNBT.getInt("col");
-        MagicMatrixNByN magicMatrixNByN = new MagicMatrixNByN(row, col);
+        DecimalMagicMatrixNByN decimalMagicMatrixNByN = new DecimalMagicMatrixNByN(row, col);
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
-                magicMatrixNByN.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
+                decimalMagicMatrixNByN.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
             }
         }
     }
-    //todo need non-Numbers Matrix
 }
 
