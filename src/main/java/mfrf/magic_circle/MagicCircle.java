@@ -1,5 +1,6 @@
 package mfrf.magic_circle;
 
+import mfrf.magic_circle.registry_lists.Blocks;
 import mfrf.magic_circle.registry_lists.Items;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +19,7 @@ public class MagicCircle {
     public MagicCircle() {
         MinecraftForge.EVENT_BUS.register(this);
         Items.ITEM_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+        Blocks.BLOCK_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

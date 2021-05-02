@@ -99,8 +99,8 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.12'
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}:api")
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"

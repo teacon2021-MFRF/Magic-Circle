@@ -10,9 +10,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class Items {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MagicCircle.MOD_ID);
 
-    public static final RegistryObject<Item> MAGIC_CRYSTAL = registryObject(new ItemBase(new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES), "magic_crystal"));
+    public static final RegistryObject<Item> MAGIC_CRYSTAL = registryObject(new ItemBase(new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES)), "magic_crystal");
 
-    public static RegistryObject<Item> registryObject(Item item) {
-        return ITEM_DEFERRED_REGISTER.register(item.getRegistryName().getPath().toString(), () -> item);
+    public static RegistryObject<Item> registryObject(Item item, String name) {
+        return ITEM_DEFERRED_REGISTER.register(name, () -> item);
     }
 }

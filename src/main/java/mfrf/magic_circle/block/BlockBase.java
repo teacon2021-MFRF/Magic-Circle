@@ -8,8 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.registries.ForgeRegistry;
 
 public class BlockBase extends Block {
-    public BlockBase(Properties p_i48440_1_, String name) {
+    public BlockBase(Properties p_i48440_1_) {
         super(p_i48440_1_);
-        setRegistryName(name);
     }
 }

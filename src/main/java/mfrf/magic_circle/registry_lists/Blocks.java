@@ -14,11 +14,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class Blocks {
     public static final DeferredRegister<Block> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MagicCircle.MOD_ID);
 
-    public static final RegistryObject<Block> BLOCK_MAGIC_CRYSTAL = registryObject(new BlockBase(AbstractBlock.Properties.create(Material.IRON), "block_magic_crystal"), new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES));
+    public static final RegistryObject<Block> BLOCK_MAGIC_CRYSTAL = registryObject(new BlockBase(AbstractBlock.Properties.create(Material.IRON)), new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES), "block_magic_crystal");
 
 
-    public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties) {
-        Items.registryObject(new BlockItem(block, itemProperties));
-        return BLOCK_DEFERRED_REGISTER.register(block.getRegistryName().getPath().toString(), () -> block);
+    public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
+        Items.registryObject(new BlockItem(block, itemProperties),name);
+        return BLOCK_DEFERRED_REGISTER.register(name, () -> block);
     }
 }
