@@ -18,7 +18,7 @@ public class Blocks {
 
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
-        Items.registryObject(new BlockItem(block, itemProperties),name);
+        Items.registerObject(new BlockItem(block, itemProperties),name);
         return BLOCK_DEFERRED_REGISTER.register(name, () -> block);
     }
 }

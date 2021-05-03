@@ -4,12 +4,10 @@ import mfrf.magic_circle.registry_lists.Blocks;
 import mfrf.magic_circle.registry_lists.Items;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import static mfrf.magic_circle.MagicCircle.*;
+import static mfrf.magic_circle.MagicCircle.MOD_ID;
 
 @Mod(MOD_ID)
 public class MagicCircle {
