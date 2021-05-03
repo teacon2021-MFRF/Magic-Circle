@@ -14,7 +14,7 @@ public class Items {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MagicCircle.MOD_ID);
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES);
 
-    public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone".split(","));
+    public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
 
     public static RegistryObject<Item> registerObject(Item item, String name) {
         return ITEM_DEFERRED_REGISTER.register(name, () -> item);
