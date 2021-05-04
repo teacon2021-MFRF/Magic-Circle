@@ -34,39 +34,25 @@ public class MagicCircle {
         //----------------------------------------------------------------------------------------------------------------
         event.enqueueWork(() -> {
             CapabilityManager.INSTANCE.register(IMagicalItem.class, new Capability.IStorage<IMagicalItem>() {
-                @Nullable
-                @Override
-                public INBT writeNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side) {
-                    if (instance instanceof MagicalItemSimpleImplement) {
-                        MagicalItemSimpleImplement implement = (MagicalItemSimpleImplement) instance;
-                        CompoundNBT compoundNBT = new CompoundNBT();
-                        compoundNBT.put("effect_container", implement.getEffectContainer().serializeNBT());
-                        compoundNBT.putInt("current_capacity", instance.getManaCapacity());
-                        compoundNBT.putInt("current_recover", instance.getManaRecover());
-                        compoundNBT.putBoolean("primed", instance.hasPrimed());
-                        compoundNBT.putDouble("scale_capacity_if_primed", instance.getScaleCapacityIfPrimed());
-                        compoundNBT.putDouble("scale_recover_if_primed", implement.getScaleRecoverIfPrimed());
-                        compoundNBT.putInt("mana_current", implement.getMana());
-                    }
-                    return null;
-                }
+                        @Nullable
+                        @Override
+                        public INBT writeNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side) {
+//                    if (instance instanceof MagicalItemSimpleImplement) {
+//                        return ((MagicalItemSimpleImplement) instance).serializeNBT();
+//                    }
+                            return null;
+                        }
 
-                @Override
-                public void readNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side, INBT nbt) {
-                    if (instance instanceof MagicalItemSimpleImplement && nbt instanceof CompoundNBT) {
-                        MagicalItemSimpleImplement implement = (MagicalItemSimpleImplement) instance;
-                        CompoundNBT compoundNBT = (CompoundNBT) nbt;
-
-                        implement.getEffectContainer().deserializeNBT(compoundNBT.getCompound("effect_container"));
-                        implement.setManaCapacity(compoundNBT.getInt("current_capacity"));
-                        implement.setManaRecover(compoundNBT.getInt("current_recover"));
-                        implement.setHasPrimed(compoundNBT.getBoolean("primed"));
-                        implement.setScaleCapacityIfPrimed(compoundNBT.getDouble("scale_capacity_if_primed"));
-                        implement.setScaleRecoverIfPrimed(compoundNBT.getDouble("scale_recover_if_primed"));
-                        implement.setMana(compoundNBT.getInt("mana_current"));
-                    }
-                }
-            }, MagicalItemSimpleImplement::new);
+                        @Override
+                        public void readNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side, INBT nbt) {
+//                    if (instance instanceof MagicalItemSimpleImplement && nbt instanceof CompoundNBT) {
+//                        ((MagicalItemSimpleImplement) instance).deserializeNBT((CompoundNBT) nbt);
+//                    }
+                        }
+                    },
+//                    MagicalItemSimpleImplement::new
+                    () -> null
+            );
         });
         //----------------------------------------------------------------------------------------------------------------
     }

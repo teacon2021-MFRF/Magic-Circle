@@ -12,6 +12,6 @@ public class CreativeTab extends ItemGroup {
 
     @Override
     public ItemStack createIcon() {
-        return Items.DEFAULT_ITEMS.get("magic_crystal").get().getDefaultInstance();
+        return new ItemStack(Items.CREATIVE_STAFF.get());
     }
 }
