@@ -15,7 +15,7 @@ public class Blocks {
     public static final DeferredRegister<Block> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MagicCircle.MOD_ID);
 
     public static final RegistryObject<Block> BLOCK_MAGIC_CRYSTAL = registryObject(new BlockBase(AbstractBlock.Properties.create(Material.IRON)), new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES), "block_magic_crystal");
-
+    public static final RegistryObject<Block> MAGIC_MEDIUM = registryObject(new BlockBase(AbstractBlock.Properties.create(Material.IRON)), new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES), "magic_medium");
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
         Items.registerObject(new BlockItem(block, itemProperties),name);
