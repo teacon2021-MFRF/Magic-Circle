@@ -21,7 +21,28 @@ public class Items {
 
     public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("magic_crystal,ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
     public static final RegistryObject<ItemStaff> CREATIVE_STAFF = ITEM_DEFERRED_REGISTER.register("creative_stuff", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(
-            new EffectiveItemContainer(new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(Integer.MAX_VALUE, ItemStack.EMPTY), new EffectiveItemContainer.Slot(Integer.MAX_VALUE, ItemStack.EMPTY), new EffectiveItemContainer.Slot(Integer.MAX_VALUE, ItemStack.EMPTY)}), Integer.MAX_VALUE, 0, Integer.MAX_VALUE, Integer.MAX_VALUE, 0, null
+            new EffectiveItemContainer(new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(Integer.MAX_VALUE, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot(Integer.MAX_VALUE, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot(Integer.MAX_VALUE, ItemStack.EMPTY)}),
+            Integer.MAX_VALUE, 0, Integer.MAX_VALUE, Integer.MAX_VALUE, 0, null
+    )));
+    public static final RegistryObject<ItemStaff> STAFF_1 = ITEM_DEFERRED_REGISTER.register("stuff_1", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(
+            new EffectiveItemContainer(new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(2, ItemStack.EMPTY)}),
+            100, 0.8, 100, 20, 1, null
+    )));
+    public static final RegistryObject<ItemStaff> STAFF_2 = ITEM_DEFERRED_REGISTER.register("stuff_2", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(
+            new EffectiveItemContainer(new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(4, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot(4, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot(4, ItemStack.EMPTY)}),
+            280, 1.5, 280, 15, 0.7, null
+    )));
+    public static final RegistryObject<ItemStaff> STAFF_3 = ITEM_DEFERRED_REGISTER.register("stuff_3", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(
+            new EffectiveItemContainer(new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(5, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(5, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(5, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(5, ItemStack.EMPTY),
+                    new EffectiveItemContainer.Slot[]{new EffectiveItemContainer.Slot(5, ItemStack.EMPTY)}),
+            400, 1.2, 400, 50, 2, null
     )));
 
     public static RegistryObject<Item> registerObject(Item item, String name) {
