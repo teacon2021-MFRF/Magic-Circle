@@ -5,18 +5,21 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.Tag;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 public class Utils {
     public static HashMap<Tag<Item>, Properties> EFFECT_MAP = new HashMap();
 
     public class Properties {
-        public Function<MagicModelBase, MagicModelBase> function;
+        public final Function<MagicModelBase, MagicModelBase> function;
+        private final Function<Integer, Integer> manaCapacityEffect;
+        private final Function<Integer, Integer> manaRecoverEffect;
         public int complexity;
 
-        Properties(Function<MagicModelBase, MagicModelBase> function, int complexity) {
+        Properties(Function<MagicModelBase, MagicModelBase> function, Function<Integer, Integer> manaCapacityEffect, Function<Integer, Integer> manaRecoverEffect, int complexity) {
             this.function = function;
+            this.manaCapacityEffect = manaCapacityEffect;
+            this.manaRecoverEffect = manaRecoverEffect;
             this.complexity = complexity;
         }
 

@@ -45,6 +45,18 @@ public class ObjectMatrixNbyN {
         return (row - 1) * numCols + col;
     }
 
+    public Subscript getSubScript(int index) {
+        int j = index % numCols;
+        int i = (index - j) / numCols;
+        return new Subscript(i, j);
+    }
+
+    public static Subscript getSubScript(int index, int columns) {
+        int j = index % columns;
+        int i = (index - j) / columns;
+        return new Subscript(i, j);
+    }
+
     public void setNumRows(int numRows) {
         this.numRows = numRows;
     }
@@ -59,6 +71,23 @@ public class ObjectMatrixNbyN {
 
     public int getNumCols() {
         return numCols;
+    }
+
+    public MatrixObjectComponent[] getRow(int i) {
+        int begin = (i - 1) * numCols;
+        MatrixObjectComponent[] matrixObjectComponents = new MatrixObjectComponent[numCols];
+        for (int indexOffset = 0; indexOffset < numRows; indexOffset++) {
+            matrixObjectComponents[indexOffset] = data[begin + indexOffset];
+        }
+        return matrixObjectComponents;
+    }
+
+    public MatrixObjectComponent[] getCol(int j) {
+        MatrixObjectComponent[] matrixObjectComponents = new MatrixObjectComponent[numRows];
+        for (int i = 0; i < numRows; i++) {
+            matrixObjectComponents[i] = data[j + i * numCols];
+        }
+        return matrixObjectComponents;
     }
 
     public void setData(MatrixObjectComponent[] data) {
@@ -114,6 +143,43 @@ public class ObjectMatrixNbyN {
         return data[index] = data[index].times(val);
     }
 
+    /**
+     * "this" Matrix is A
+     * the shape should be checked;
+     * if shape not equal,the matrix will get the "best result"
+     *
+     * @param B AB = C
+     * @return result
+     */
+    public ObjectMatrixNbyN LeftTimes(ObjectMatrixNbyN B) {
+        int index = this.numRows * B.numCols;
+        MatrixObjectComponent[] matrixObjectComponents = new MatrixObjectComponent[index];
+
+        for (int i = 0; i < index; i++) {
+            Subscript subScript = getSubScript(i, B.numCols);
+            MatrixObjectComponent[] row = getRow(subScript.i);
+            MatrixObjectComponent[] col = getCol(subScript.j);
+
+            MatrixObjectComponent matrixObjectComponent = row[0].times(col[0]);
+            if (row.length > col.length) {
+
+                for (int i1 = 1; i1 < col.length; i1++) {
+                    matrixObjectComponent.plus(row[i1].times(col[i1]));
+                }
+
+            } else {
+
+                for (int i1 = 1; i1 < row.length; i1++) {
+                    matrixObjectComponent.plus(row[i1].times(col[i1]));
+                }
+
+            }
+            matrixObjectComponents[i] = matrixObjectComponent;
+        }
+
+        return new ObjectMatrixNbyN(matrixObjectComponents, this.numRows, B.numCols);
+    }
+
     public MatrixObjectComponent div(int index, MatrixObjectComponent val) {
         return data[index] = data[index].div(val);
     }
@@ -130,5 +196,15 @@ public class ObjectMatrixNbyN {
         ObjectMatrixNbyN objectMatrixNbyN = new ObjectMatrixNbyN(numRows, numCols);
         objectMatrixNbyN.set(this);
         return objectMatrixNbyN;
+    }
+
+    private static class Subscript {
+        public final int i;
+        public final int j;
+
+        public Subscript(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
     }
 }

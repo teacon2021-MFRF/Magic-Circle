@@ -3,6 +3,7 @@ package mfrf.magic_circle.magicutil;
 import java.util.function.Predicate;
 
 public abstract class MagicNodeBase {
+    protected double strengthModify;
     protected int manaReviseAdd;
     protected double manaReviseMultiply;
     protected int complexityAdd;
@@ -37,7 +38,8 @@ public abstract class MagicNodeBase {
      * @param rightNode          Right node, could be null.
      *                           All node set to null means this node is the final node.
      */
-    public MagicNodeBase(int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicModelBase> condition) {
+    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicModelBase> condition) {
+        this.strengthModify = strengthModify;
         this.manaReviseAdd = manaReviseAdd;
         this.manaReviseMultiply = manaReviseMultiply;
         this.complexityAdd = complexityAdd;
@@ -60,6 +62,10 @@ public abstract class MagicNodeBase {
         } else {
             return magic;
         }
+    }
+
+    public double getStrengthModify() {
+        return strengthModify;
     }
 
     public int getManaReviseAdd() {
