@@ -150,6 +150,7 @@ public class ObjectMatrixNbyN {
      *
      * @param B AB = C
      * @return result
+     * todo 解决矩阵形状不兼容时的问题
      */
     public ObjectMatrixNbyN LeftTimes(ObjectMatrixNbyN B) {
         int index = this.numRows * B.numCols;
