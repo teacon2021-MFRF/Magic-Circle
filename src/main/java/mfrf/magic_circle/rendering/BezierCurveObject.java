@@ -1,7 +1,11 @@
 package mfrf.magic_circle.rendering;
 
 import mfrf.magic_circle.Config;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -98,5 +102,36 @@ public class BezierCurveObject {
         }
 
         return list;
+    }
+
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = new CompoundNBT();
+        ListNBT pointList = new ListNBT();
+        compoundNBT.putInt("count", points.size());
+        for (int i = 0; i < points.size(); i++) {
+            CompoundNBT point = new CompoundNBT();
+            Vector3f vector3f = points.get(i);
+            point.putFloat("x", vector3f.getX());
+            point.putFloat("y", vector3f.getY());
+            point.putFloat("z", vector3f.getZ());
+            pointList.add(i, point);
+        }
+        compoundNBT.put("points", pointList);
+
+        return compoundNBT;
+    }
+
+    public static BezierCurveObject deserializeNBT(CompoundNBT nbt) {
+        if (nbt.contains("count") && nbt.contains("points")) {
+            int count = nbt.getInt("count");
+            Vector3f[] vector3fArray = new Vector3f[count];
+            ListNBT points = nbt.getList("points", Constants.NBT.TAG_COMPOUND);
+            for (int i = 0; i < count; i++) {
+                CompoundNBT compoundPoint = (CompoundNBT) points.get(i);
+                vector3fArray[i] = new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z"));
+            }
+            return new BezierCurveObject(vector3fArray);
+        }
+        return new BezierCurveObject();
     }
 }

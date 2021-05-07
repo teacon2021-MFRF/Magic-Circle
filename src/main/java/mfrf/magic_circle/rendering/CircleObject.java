@@ -2,6 +2,7 @@ package mfrf.magic_circle.rendering;
 
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.util.MathUtil;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
@@ -15,7 +16,7 @@ public class CircleObject {
     private final float yRotateSpeedRadius;
     private final float zRotateSpeedRadius;
 
-    public CircleObject(float radius, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, float selfRotateSpeed) {
+    public CircleObject(float radius, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius) {
         this.radius = radius;
         this.xRotateSpeedRadius = xRotateSpeedRadius;
         this.yRotateSpeedRadius = yRotateSpeedRadius;
@@ -30,6 +31,19 @@ public class CircleObject {
             points.add(MathUtil.RotationPoint(new Vector3f((float) (radius * Math.cos(i)), (float) (radius * Math.sin(i)), 0), xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed));
         }
         return points;
+    }
+
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = new CompoundNBT();
+        compoundNBT.putFloat("r", radius);
+        compoundNBT.putFloat("xrot", xRotateSpeedRadius);
+        compoundNBT.putFloat("yrot", yRotateSpeedRadius);
+        compoundNBT.putFloat("zrot", zRotateSpeedRadius);
+        return compoundNBT;
+    }
+
+    public static CircleObject deserializeNBT(CompoundNBT compoundNBT) {
+        return new CircleObject(compoundNBT.getFloat("r"), compoundNBT.getFloat("xrot"), compoundNBT.getFloat("yrot"), compoundNBT.getFloat("zrot"));
     }
 
 }
