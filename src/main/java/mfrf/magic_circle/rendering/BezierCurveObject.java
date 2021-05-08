@@ -3,6 +3,7 @@ package mfrf.magic_circle.rendering;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.Config;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundNBT;
@@ -40,13 +41,16 @@ public class BezierCurveObject extends MagicCircleComponentBase {
      * @return a list of point in bezier curve
      */
     public ArrayList<Vector3f> getBezierPoints(float time) {
+        //todo sequence of points
         ArrayList<Vector3f> bezierPointList = new ArrayList<>();
         Iterator<Vector3f> it = points.iterator();
         Float precision = Config.CURVE_PRECISION.get();
+
         int si = points.size();
         int s = si - 1;
         float[] f = sf(si);
         float[][] p = new float[si][3];
+        float v = 1.0 / precision <= 0 ? 1 : precision;
 
         for (int j = 0; it.hasNext(); j++) {
             Vector3f q = it.next();
@@ -60,7 +64,7 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         float z0 = p[0][2];
         float x1, y1, z1;
 
-        for (float t = 0; t <= time; t += 1.0 / precision <= 0 ? 1 : precision) {
+        for (float t = 0; t <= time; t += v) {
 
 
             double xt = 0;
@@ -153,13 +157,23 @@ public class BezierCurveObject extends MagicCircleComponentBase {
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix) {
         float timeStep = time % 1 / points.size();
-        ArrayList<Vector3f> bezierPoints = getBezierPoints(timeStep >= 1 ? 1 : timeStep);
+//        ArrayList<Vector3f> bezierPoints = getBezierPoints(timeStep >= 1 ? 1 : timeStep);
+        ArrayList<Vector3f> bezierPoints = new ArrayList<>(points);
 
-        IVertexBuilder buffer = bufferIn.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+
         matrixStackIn.push();
+
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
         for (int i = 0; i < bezierPoints.size() - 1; i++) {
-            drawLine(Matrix4f.makeTranslate(actualPosition.getX(), actualPosition.getY() + 1, actualPosition.getZ()), buffer, new Color((time * redGradient * i) % 1.0f, (time * greenGradient * i) % 1.0f, (time * blueGradient * i) % 1.0f, (time * alphaGradient * i) % 1.0f), bezierPoints.get(i), bezierPoints.get(i + 1));
+//            drawLine(Matrix4f.makeTranslate(actualPosition.getX(), actualPosition.getY() + 1, actualPosition.getZ()), builder, new Color((time * redGradient * i) % 1.0f, (time * greenGradient * i) % 1.0f, (time * blueGradient * i) % 1.0f, (time * alphaGradient * i) % 1.0f), bezierPoints.get(i), bezierPoints.get(i + 1));
+            drawLine(Matrix4f.makeTranslate(actualPosition.getX(), actualPosition.getY() + 1, actualPosition.getZ()), builder, 0, 0, 1, 1, bezierPoints.get(i), bezierPoints.get(i + 1));
         }
+        //TODO test this
+
         matrixStackIn.pop();
 
         if (timeStep >= 1) {

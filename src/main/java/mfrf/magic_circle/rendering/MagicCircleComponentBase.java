@@ -35,12 +35,12 @@ public abstract class MagicCircleComponentBase {
 
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix);
 
-    protected void drawLine(Matrix4f matrixPos, IVertexBuilder renderBuffer, Color color, Vector3f startVertex, Vector3f endVertex) {
+    protected void drawLine(Matrix4f matrixPos, IVertexBuilder renderBuffer, float red, float green, float blue, float alpha, Vector3f startVertex, Vector3f endVertex) {
         renderBuffer.pos(matrixPos, startVertex.getX(), startVertex.getY(), startVertex.getZ())
-                .color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())   // there is also a version for floats (0 -> 1)
+                .color(red, green, blue, alpha)
                 .endVertex();
         renderBuffer.pos(matrixPos, endVertex.getX(), endVertex.getY(), endVertex.getZ())
-                .color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha())   // there is also a version for floats (0 -> 1)
+                .color(red, green, blue, alpha)
                 .endVertex();
         //todo fix it
     }

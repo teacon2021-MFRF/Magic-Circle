@@ -14,16 +14,17 @@ public class RenderTypes extends RenderType {
         super(p_i225992_1_, p_i225992_2_, p_i225992_3_, p_i225992_4_, p_i225992_5_, p_i225992_6_, p_i225992_7_, p_i225992_8_);
     }
 
+    private static final LineState LINE_1_0D = new LineState(OptionalDouble.of(3.0D));
+
     public static final RenderType MAGIC_CIRCLE_LINES = makeType("magic_circle_lines",
-            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_SMOOTH, 256, true, false,
-            RenderType.State.getBuilder().line(new LineState(OptionalDouble.of(256)))
-                    .layer(LayerState.VIEW_OFFSET_Z_LAYERING)
-                    .transparency(TransparencyState.TRANSLUCENT_TRANSPARENCY)
-                    .texture(TextureState.NO_TEXTURE)
-                    .depthTest(RenderState.DEPTH_ALWAYS)
+            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
+            RenderType.State.getBuilder().line(LINE_1_0D)
+                    .layer(VIEW_OFFSET_Z_LAYERING)
+                    .transparency(TRANSLUCENT_TRANSPARENCY)
+                    .texture(NO_TEXTURE)
+                    .depthTest(RenderState.DEPTH_LEQUAL)
                     .cull(CullState.CULL_DISABLED)
-                    .lightmap(LIGHTMAP_DISABLED)
-                    .writeMask(RenderState.COLOR_WRITE)
-                    .build(false)
-    );
+                    .lightmap(RenderState.LIGHTMAP_DISABLED)
+                    .writeMask(COLOR_WRITE)
+                    .build(false));
 }

@@ -33,7 +33,8 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         circleObjects.add(new CircleObject(2.236f, 0, 0, 1, 20));
         circleObjects.add(new CircleObject(2.780f, 1, 1, 1, 20));
         MagicCircleObjectBase magicCircleObjectBase = new MagicCircleObjectBase(bezierCurveObjects, circleObjects, 0.5f, 0);
-        magicCircleObjectBase.rendering(v, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(), MathUtil.IDENTITY_MATRIX);
+
+        magicCircleObjectBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(), MathUtil.IDENTITY_MATRIX);
     }
 
     @Override
