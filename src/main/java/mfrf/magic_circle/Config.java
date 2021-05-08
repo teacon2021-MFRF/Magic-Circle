@@ -6,6 +6,10 @@ public class Config {
     public static ForgeConfigSpec CONFIG;
     public static ForgeConfigSpec.ConfigValue<Float> CURVE_PRECISION;
     public static ForgeConfigSpec.ConfigValue<Float> POLYGONS_RENDERING_SPEED;
+    public static ForgeConfigSpec.ConfigValue<Integer> RGB_RED_STEP;
+    public static ForgeConfigSpec.ConfigValue<Integer> RGB_GREEN_STEP;
+    public static ForgeConfigSpec.ConfigValue<Integer> RGB_BLUE_STEP;
+    public static ForgeConfigSpec.ConfigValue<Integer> RGB_ALPHA_STEP;
 
     static {
         ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
@@ -20,6 +24,22 @@ public class Config {
                 "Polygons include circle.",
                 "This is calculus,brother."
         ).define("speed_of_rendering_polygons", 0.1f);
+        RGB_RED_STEP = CONFIG_BUILDER.comment(
+                "Red color gradients each step.",
+                "R!G!B!"
+        ).defineInRange("red_gradient_step", 3, 0, 255);
+        RGB_GREEN_STEP = CONFIG_BUILDER.comment(
+                "Green color gradients each step.",
+                "R!G!B!"
+        ).defineInRange("green_gradient_step", 7, 0, 255);
+        RGB_BLUE_STEP = CONFIG_BUILDER.comment(
+                "Blue color gradients each step.",
+                "R!G!B!"
+        ).defineInRange("blue_gradient_step", 11, 0, 255);
+        RGB_ALPHA_STEP = CONFIG_BUILDER.comment(
+                "Alpha gradients each step.",
+                "R!G!B!"
+        ).defineInRange("alpha_gradient_step", 4, 0, 255);
 
         CONFIG_BUILDER.pop();
 

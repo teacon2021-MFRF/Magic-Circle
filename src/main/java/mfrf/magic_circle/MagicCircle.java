@@ -3,6 +3,7 @@ package mfrf.magic_circle;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.Blocks;
 import mfrf.magic_circle.registry_lists.Items;
+import mfrf.magic_circle.registry_lists.TileEntities;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.CompoundNBT;
@@ -28,6 +29,7 @@ public class MagicCircle {
         MinecraftForge.EVENT_BUS.register(this);
         Items.ITEM_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         Blocks.BLOCK_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TileEntities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     public static void onSetUpEvent(FMLCommonSetupEvent event) {

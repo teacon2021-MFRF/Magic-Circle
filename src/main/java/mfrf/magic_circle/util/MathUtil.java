@@ -1,10 +1,13 @@
 package mfrf.magic_circle.util;
 
 import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class MathUtil {
+    public static final Matrix4f IDENTITY_MATRIX = Matrix4f.makeScale(1, 1, 1);
+
     public static Vector3f RotationPoint(Vector3f point, float angleX, float angleY, float angleZ) {
         return new Vector3f(
                 (float) (point.getX() * cos(angleX) * cos(angleY) + cos(angleX) * sin(angleY) * sin(angleZ) - sin(angleX) * cos(angleZ) + cos(angleX) * cos(angleZ) * sin(angleY) + sin(angleX) * sin(angleZ)),

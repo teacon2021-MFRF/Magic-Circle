@@ -1,21 +1,34 @@
 package mfrf.magic_circle.rendering;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.Config;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.INBTSerializable;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class BezierCurveObject {
+public class BezierCurveObject extends MagicCircleComponentBase {
     private final List<Vector3f> points;
 
-    public BezierCurveObject(Vector3f... points) {
+    public BezierCurveObject(float delay, Vector3f... points) {
+        super(delay);
         this.points = List.of(points);
+    }
+
+    public BezierCurveObject(Vector3f... points) {
+        super();
+        this.points = Arrays.asList(points);
     }
 
     /**
@@ -26,7 +39,7 @@ public class BezierCurveObject {
      * @param time current time of rendering
      * @return a list of point in bezier curve
      */
-    public ArrayList<Vector3f> bezierPoints(float time) {
+    public ArrayList<Vector3f> getBezierPoints(float time) {
         ArrayList<Vector3f> bezierPointList = new ArrayList<>();
         Iterator<Vector3f> it = points.iterator();
         Float precision = Config.CURVE_PRECISION.get();
@@ -108,6 +121,7 @@ public class BezierCurveObject {
         CompoundNBT compoundNBT = new CompoundNBT();
         ListNBT pointList = new ListNBT();
         compoundNBT.putInt("count", points.size());
+        compoundNBT.putFloat("delay", delay);
         for (int i = 0; i < points.size(); i++) {
             CompoundNBT point = new CompoundNBT();
             Vector3f vector3f = points.get(i);
@@ -122,16 +136,35 @@ public class BezierCurveObject {
     }
 
     public static BezierCurveObject deserializeNBT(CompoundNBT nbt) {
-        if (nbt.contains("count") && nbt.contains("points")) {
+        if (nbt.contains("count") && nbt.contains("points") && nbt.contains("delay")) {
             int count = nbt.getInt("count");
+            float delay = nbt.getFloat("delay");
             Vector3f[] vector3fArray = new Vector3f[count];
             ListNBT points = nbt.getList("points", Constants.NBT.TAG_COMPOUND);
             for (int i = 0; i < count; i++) {
                 CompoundNBT compoundPoint = (CompoundNBT) points.get(i);
                 vector3fArray[i] = new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z"));
             }
-            return new BezierCurveObject(vector3fArray);
+            return new BezierCurveObject(delay, vector3fArray);
         }
         return new BezierCurveObject();
+    }
+
+    @Override
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix) {
+        float timeStep = time % 1 / points.size();
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(timeStep >= 1 ? 1 : timeStep);
+
+        IVertexBuilder buffer = bufferIn.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+        matrixStackIn.push();
+        for (int i = 0; i < bezierPoints.size() - 1; i++) {
+            drawLine(Matrix4f.makeTranslate(actualPosition.getX(), actualPosition.getY() + 1, actualPosition.getZ()), buffer, new Color((time * redGradient * i) % 1.0f, (time * greenGradient * i) % 1.0f, (time * blueGradient * i) % 1.0f, (time * alphaGradient * i) % 1.0f), bezierPoints.get(i), bezierPoints.get(i + 1));
+        }
+        matrixStackIn.pop();
+
+        if (timeStep >= 1) {
+            return true;
+        }
+        return false;
     }
 }

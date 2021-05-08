@@ -1,4 +1,4 @@
-package mfrf.magic_circle.entity;
+package mfrf.magic_circle.entity.magic_circle_base;
 
 import mfrf.magic_circle.rendering.MagicCircleObjectBase;
 import net.minecraft.entity.Entity;
@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityMagicCircleBase extends Entity {
-    private static final DataParameter<CompoundNBT> MAGIC_CIRCLE_OBJECT = EntityDataManager.createKey(EntityMagicCircleBase.class, DataSerializers.COMPOUND_NBT);
-    private static final DataParameter<Float> PROGRESS = EntityDataManager.createKey(EntityMagicCircleBase.class, DataSerializers.FLOAT);
+    public static final DataParameter<CompoundNBT> MAGIC_CIRCLE_OBJECT = EntityDataManager.createKey(EntityMagicCircleBase.class, DataSerializers.COMPOUND_NBT);
+    public static final DataParameter<Float> PROGRESS = EntityDataManager.createKey(EntityMagicCircleBase.class, DataSerializers.FLOAT);
     private static final DataParameter<Float> PROGRESS_ADDITION_PER_TICK = EntityDataManager.createKey(EntityMagicCircleBase.class, DataSerializers.FLOAT);
 
     public EntityMagicCircleBase(EntityType<?> p_i48580_1_, World p_i48580_2_, MagicCircleObjectBase magicCircleObjectBase) {
