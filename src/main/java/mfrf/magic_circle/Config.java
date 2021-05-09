@@ -6,10 +6,10 @@ public class Config {
     public static ForgeConfigSpec CONFIG;
     public static ForgeConfigSpec.ConfigValue<Float> CURVE_PRECISION;
     public static ForgeConfigSpec.ConfigValue<Float> POLYGONS_RENDERING_SPEED;
-    public static ForgeConfigSpec.ConfigValue<Integer> RGB_RED_STEP;
-    public static ForgeConfigSpec.ConfigValue<Integer> RGB_GREEN_STEP;
-    public static ForgeConfigSpec.ConfigValue<Integer> RGB_BLUE_STEP;
-    public static ForgeConfigSpec.ConfigValue<Integer> RGB_ALPHA_STEP;
+    public static ForgeConfigSpec.ConfigValue<Double> RGB_RED_STEP;
+    public static ForgeConfigSpec.ConfigValue<Double> RGB_GREEN_STEP;
+    public static ForgeConfigSpec.ConfigValue<Double> RGB_BLUE_STEP;
+    public static ForgeConfigSpec.ConfigValue<Double> RGB_ALPHA_STEP;
 
     static {
         ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
@@ -27,19 +27,19 @@ public class Config {
         RGB_RED_STEP = CONFIG_BUILDER.comment(
                 "Red color gradients each step.",
                 "R!G!B!"
-        ).defineInRange("red_gradient_step", 3, 0, 255);
+        ).defineInRange("red_gradient_step", 0.03f, 0f, 1f);
         RGB_GREEN_STEP = CONFIG_BUILDER.comment(
                 "Green color gradients each step.",
                 "R!G!B!"
-        ).defineInRange("green_gradient_step", 7, 0, 255);
+        ).defineInRange("green_gradient_step", 0.07f, 0f, 1f);
         RGB_BLUE_STEP = CONFIG_BUILDER.comment(
                 "Blue color gradients each step.",
                 "R!G!B!"
-        ).defineInRange("blue_gradient_step", 11, 0, 255);
+        ).defineInRange("blue_gradient_step", 0.11f, 0f, 1f);
         RGB_ALPHA_STEP = CONFIG_BUILDER.comment(
                 "Alpha gradients each step.",
                 "R!G!B!"
-        ).defineInRange("alpha_gradient_step", 4, 0, 255);
+        ).defineInRange("alpha_gradient_step", 0.04f, 0, 1f);
 
         CONFIG_BUILDER.pop();
 

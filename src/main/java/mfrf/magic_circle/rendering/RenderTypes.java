@@ -17,7 +17,19 @@ public class RenderTypes extends RenderType {
     private static final LineState LINE_1_0D = new LineState(OptionalDouble.of(3.0D));
 
     public static final RenderType MAGIC_CIRCLE_LINES = makeType("magic_circle_lines",
-            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
+            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_STRIP, 256,
+            RenderType.State.getBuilder().line(LINE_1_0D)
+                    .layer(VIEW_OFFSET_Z_LAYERING)
+                    .transparency(TRANSLUCENT_TRANSPARENCY)
+                    .texture(NO_TEXTURE)
+                    .depthTest(RenderState.DEPTH_LEQUAL)
+                    .cull(CullState.CULL_DISABLED)
+                    .lightmap(RenderState.LIGHTMAP_DISABLED)
+                    .writeMask(COLOR_WRITE)
+                    .build(false));
+
+    public static final RenderType MAGIC_CIRCLE_CLOSE_LINES = makeType("magic_circle_lines",
+            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_LOOP, 256,
             RenderType.State.getBuilder().line(LINE_1_0D)
                     .layer(VIEW_OFFSET_Z_LAYERING)
                     .transparency(TRANSLUCENT_TRANSPARENCY)

@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -24,7 +25,12 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
     public void render(TileProjector tileProjector, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
         ArrayList<BezierCurveObject> bezierCurveObjects = new ArrayList<>();
         ArrayList<CircleObject> circleObjects = new ArrayList<>();
-        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(1, 0, 1), new Vector3f(1, 1, -1), new Vector3f(-1, 2, -1), new Vector3f(-1, 3, 1)));
+        bezierCurveObjects.add(new BezierCurveObject(
+                new Vector3f(1, 0, 1),
+                new Vector3f(1, 1, -1),
+                new Vector3f(-1, 2, -1),
+                new Vector3f(-1, 3, 1)
+        ));
         bezierCurveObjects.add(new BezierCurveObject(new Vector3f(1, 0, -1), new Vector3f(-1, 1, -1), new Vector3f(-1, 2, 1), new Vector3f(1, 3, 1)));
         bezierCurveObjects.add(new BezierCurveObject(new Vector3f(-1, 0, -1), new Vector3f(-1, 1, 1), new Vector3f(1, 2, 1), new Vector3f(1, 3, -1)));
         bezierCurveObjects.add(new BezierCurveObject(new Vector3f(-1, 0, 1), new Vector3f(1, 1, 1), new Vector3f(1, 2, -1), new Vector3f(-1, 3, -1)));
@@ -33,8 +39,8 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         circleObjects.add(new CircleObject(2.236f, 0, 0, 1, 20));
         circleObjects.add(new CircleObject(2.780f, 1, 1, 1, 20));
         MagicCircleObjectBase magicCircleObjectBase = new MagicCircleObjectBase(bezierCurveObjects, circleObjects, 0.5f, 0);
-
-        magicCircleObjectBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(), MathUtil.IDENTITY_MATRIX);
+        BlockPos pos = tileProjector.getPos();
+        magicCircleObjectBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()), MathUtil.IDENTITY_MATRIX);
     }
 
     @Override

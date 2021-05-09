@@ -4,9 +4,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mfrf.magic_circle.rendering.MagicCircleObjectBase;
 import mfrf.magic_circle.util.MathUtil;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.culling.ClippingHelper;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
@@ -28,6 +30,8 @@ public class RenderMagicCircleBase extends EntityRenderer<EntityMagicCircleBase>
         MagicCircleObjectBase magicCircleObjectBase = MagicCircleObjectBase.deserializeNBT(entityMagicCircleBase.getDataManager().get(EntityMagicCircleBase.MAGIC_CIRCLE_OBJECT));
         Float progress = entityMagicCircleBase.getDataManager().get(EntityMagicCircleBase.PROGRESS);
         Vector3d lookVec = entityMagicCircleBase.getLookVec();
-        magicCircleObjectBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3f(entityMagicCircleBase.getPositionVec()), MathUtil.IDENTITY_MATRIX);
+        BlockPos positionVec = entityMagicCircleBase.getPosition();
+        magicCircleObjectBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()), MathUtil.IDENTITY_MATRIX);
     }
+
 }

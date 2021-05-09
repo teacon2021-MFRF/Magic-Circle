@@ -1,15 +1,15 @@
 package mfrf.magic_circle.rendering;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.util.MathUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.vector.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,32 +37,44 @@ public class CircleObject extends MagicCircleComponentBase {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix) {
-//        float allLength = (float) (Math.PI * radius * 2);
-//        float currentLength = (float) (time * Config.POLYGONS_RENDERING_SPEED.get() * radius * Math.PI * 2);
-//        float actualLength = Math.min(currentLength, allLength);
-//        List<Vector3f> circleArcPoints = getCircle(actualLength, time, actualPosition);
-//
-//
-//        IVertexBuilder buffer = bufferIn.getBuffer(RenderType.LINES);
-//        for (int i = 0; i < circleArcPoints.size() - 1; i++) {
-//        matrixStackIn.push();
-//            drawLine(Matrix4f.makeTranslate(actualPosition.getX(), actualPosition.getY(), actualPosition.getZ()), buffer, new Color(time * redGradient * i % 256, time * greenGradient * i % 256, time * blueGradient * i % 256, time * alphaGradient * i % 256), circleArcPoints.get(i), circleArcPoints.get(i + 1));
-//        matrixStackIn.pop();
-//        }
-//
-//        if (actualLength == allLength) {
-//            return true;
-//        }
+        time = 1.0f;
+        float allLength = (float) (Math.PI * radius * 2);
+        Float aFloat = Config.POLYGONS_RENDERING_SPEED.get();
+        float currentLength = (float) (time * radius * Math.PI * 2);
+        float actualLength = Math.min(currentLength, allLength);
+        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, time);
+
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        Matrix4f matrix = matrixStackIn.getLast().getMatrix();
+
+        matrixStackIn.push();
+
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
+        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), true, circleArcPoints);
+
+        matrixStackIn.pop();
+
+
+        RenderSystem.disableDepthTest();
+        buffer.finish(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+
+        if (actualLength == allLength) {
+            return true;
+        }
         return false;
     }
 
-    public List<Vector3f> getCircle(float length, float timePassed, Vector3f actualPosition) {
+    public ArrayList<Vector3f> getCircle(float length, float timePassed) {
         ArrayList<Vector3f> points = new ArrayList<>();
-        float v = length / Config.CURVE_PRECISION.get();
+        float v = length * Config.CURVE_PRECISION.get();
         for (float i = 0; i <= length; i += v) {
             Vector3f pos = new Vector3f((float) (radius * Math.cos(i)), (float) (radius * Math.sin(i)), 0);
-            pos.add(actualPosition);
-            points.add(MathUtil.RotationPoint(pos, xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed));
+//            Vector3f vector3f = MathUtil.RotationPoint(pos, xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed);
+            points.add(pos);
+            //todo improve algorithm
         }
         return points;
     }
