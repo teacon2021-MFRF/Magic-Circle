@@ -21,13 +21,15 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-        if (!world.isRemote()) {
+//        if (!world.isRemote()) {
             if (time >= maxTime) {
                 time = 0;
             }
-            time += 0.05;
+            time += 0.05f;
             markDirty();
-        }
+
+//        }
+//        getUpdatePacket();
     }
 
     @Override

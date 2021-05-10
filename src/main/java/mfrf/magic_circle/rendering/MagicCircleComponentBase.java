@@ -18,6 +18,7 @@ public abstract class MagicCircleComponentBase {
     protected static final double greenGradient = Config.RGB_GREEN_STEP.get();
     protected static final double blueGradient = Config.RGB_BLUE_STEP.get();
     protected static final double alphaGradient = Config.RGB_ALPHA_STEP.get();
+    protected static final double renderingSpeed = Config.POLYGONS_RENDERING_SPEED.get();
     protected float delay;
 
     public MagicCircleComponentBase(float delay) {
@@ -51,17 +52,22 @@ public abstract class MagicCircleComponentBase {
         float gradientR = 0;
         float gradientG = 0;
         float gradientB = 0;
-        float gradientAlpha = 0;
+
         for (int i = 0; i < nodes.size(); i++) {
             builder.pos(positionMatrix, pos.getX() + nodes.get(i).getX(), pos.getY() + nodes.get(i).getY(), pos.getZ() + nodes.get(i).getZ())
-                    .color(r + gradientR, g + gradientG, b + gradientB, alpha + gradientAlpha)
+                    .color(r + gradientR, g + gradientG, b + gradientB, alpha)
                     .endVertex();
+
             if (enableGradients && (i + 1) % 2 == 0) {
                 gradientR += (float) redGradient;
                 gradientG += (float) greenGradient;
                 gradientB += (float) blueGradient;
-                gradientAlpha += (float) alphaGradient;
             }
         }
+
+    }
+
+    protected static void picture() {
+
     }
 }

@@ -156,8 +156,8 @@ public class BezierCurveObject extends MagicCircleComponentBase {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix) {
-//        float timeStep = (time + trueTime) % 1.0f;
-        float timePassed = 1.0f;
+        float v = time + trueTime;
+        float timePassed = (v > 1.0f ? v % 1.0f : v);
         ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
@@ -170,7 +170,8 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
 //            curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), false, bezierPoints);
-        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, false, bezierPoints);
+//        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
+        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
 
         matrixStackIn.pop();
 
@@ -178,10 +179,6 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         RenderSystem.disableDepthTest();
         buffer.finish(RenderTypes.MAGIC_CIRCLE_LINES);
 
-        if (timePassed >= 1) {
-            return true;
-        }
-
-        return false;
+        return timePassed == 1.0f;
     }
 }
