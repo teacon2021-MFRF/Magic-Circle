@@ -36,24 +36,29 @@ public class CircleObject extends MagicCircleComponentBase {
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         float allLength = (float) (Math.PI * radius * 2);
         double renderingTimeSum = allLength * renderingSpeed;
-        float actualTime = (float) ((time + trueTime) % renderingTimeSum);
+//        float actualTime = (float) ((time + trueTime) % renderingTimeSum);
+//        float actualTime = time + trueTime;
+        float actualTime = trueTime + time;
+//        float actualTime = (float) Math.min(renderingTimeSum, (time + trueTime) % renderingTimeSum);
+
 //        float allLength = (float) (Math.PI * radius * 2);
 //        float currentLength = (float) (actualTime * radius * Math.PI * 2);
 //        float currentLength = (float) (actualTime * radius * Math.PI * 2 * renderingSpeed);
 //        float actualLength = Math.min(allLength, currentLength);
         float v = (float) (actualTime / renderingTimeSum);
-        float actualLength = v > 1 ? allLength : allLength * v;
+        float actualLength = (v >= 1 ? allLength : (allLength * v));
+//        float actualLength = (float) (v >= 1 ? 2 * Math.PI : (2 * Math.PI * v));
 
 
         ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
-//        Matrix4f matrix = matrixStackIn.getLast().getMatrix();
-        Matrix4f matrix = Matrix4f.makeScale(1, 1, 1);
+        Matrix4f matrix = matrixStackIn.getLast().getMatrix();
+//        Matrix4f matrix = Matrix4f.makeScale(1, 1, 1);
 
         matrixStackIn.push();
 
@@ -62,7 +67,8 @@ public class CircleObject extends MagicCircleComponentBase {
 
 //        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), true, circleArcPoints);
 //        curve(builder, matrix, actualPosition, (float) (actualTime * redGradient), (float) (actualTime * greenGradient), (float) (actualTime * blueGradient), 1, false, circleArcPoints);
-        curve(builder, matrix, actualPosition, (float) (trueTime * redGradient), (float) (trueTime * greenGradient), (float) (trueTime * blueGradient), 1, true, circleArcPoints);
+        //todo fix gradient algorithm
+        curve(builder, matrix, actualPosition, (float) (actualTime * redGradient * 10) % 1f, (float) (actualTime * greenGradient * 10) % 1f, (float) (actualTime * blueGradient * 10) % 1f, 1, false, circleArcPoints);
 
         matrixStackIn.pop();
 
@@ -78,7 +84,12 @@ public class CircleObject extends MagicCircleComponentBase {
 
     public ArrayList<Vector3f> getCircle(float length, float timePassed, boolean rotate) {
         ArrayList<Vector3f> points = new ArrayList<>();
-        float v = length * Config.CURVE_PRECISION.get();
+//        float radiusPerStep = (float) (2 * Math.PI * Config.CURVE_PRECISION.get());
+        float v = Config.CURVE_PRECISION.get() / length;
+
+//        for (float i = 0; i <= 2 * Math.PI; i += radiusPerStep) {
+//            Vector3f pos = new Vector3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
+
         for (float i = 0; i <= length; i += v) {
             Vector3f pos = new Vector3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
 

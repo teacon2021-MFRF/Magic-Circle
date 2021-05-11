@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 public abstract class MagicCircleComponentBase {
     protected static final float PRECISION = Config.CURVE_PRECISION.get();
-    protected static final double redGradient = Config.RGB_RED_STEP.get();
-    protected static final double greenGradient = Config.RGB_GREEN_STEP.get();
-    protected static final double blueGradient = Config.RGB_BLUE_STEP.get();
-    protected static final double alphaGradient = Config.RGB_ALPHA_STEP.get();
+    protected static final float redGradient = 0.031f;
+    protected static final float greenGradient = 0.023f;
+    protected static final float blueGradient = 0.025f;
+    protected static final float alphaGradient = 0.016f;
     protected static final double renderingSpeed = Config.POLYGONS_RENDERING_SPEED.get();
     protected float delay;
 
@@ -29,15 +29,15 @@ public abstract class MagicCircleComponentBase {
         delay = 0;
     }
 
-    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f translate) {
+    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         if (trueTime + time - delay <= 0) {
             return false;
         } else {
-            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition, translate);
+            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
         }
     }
 
-    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix);
+    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition);
 
     protected static void SingleLine(IVertexBuilder builder, Matrix4f positionMatrix, BlockPos pos, Vector3f positionBegin, Vector3f positionEnd, float r, float g, float b, float alpha) {
         builder.pos(positionMatrix, pos.getX() + positionBegin.getX(), pos.getY() + positionBegin.getY(), pos.getZ() + positionBegin.getZ())
@@ -49,20 +49,27 @@ public abstract class MagicCircleComponentBase {
     }
 
     protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, float r, float g, float b, float alpha, boolean enableGradients, ArrayList<Vector3f> nodes) {
-        float gradientR = 0;
-        float gradientG = 0;
-        float gradientB = 0;
+        int size = nodes.size();
 
-        for (int i = 0; i < nodes.size(); i++) {
-            builder.pos(positionMatrix, pos.getX() + nodes.get(i).getX(), pos.getY() + nodes.get(i).getY(), pos.getZ() + nodes.get(i).getZ())
-                    .color(r + gradientR, g + gradientG, b + gradientB, alpha)
-                    .endVertex();
+        if (enableGradients) {
+            float gradientR = ((size * redGradient - r) % 1.0f) / size;
+            float gradientG = ((size * greenGradient - g) % 1.0f) / size;
+            float gradientB = ((size * blueGradient - b) % 1.0f) / size;
 
-            if (enableGradients && (i + 1) % 2 == 0) {
-                gradientR += (float) redGradient;
-                gradientG += (float) greenGradient;
-                gradientB += (float) blueGradient;
+            for (int i = 0; i < size; i++) {
+                builder.pos(positionMatrix, pos.getX() + nodes.get(i).getX(), pos.getY() + nodes.get(i).getY(), pos.getZ() + nodes.get(i).getZ())
+                        .color((r + gradientR * i), (g + gradientG * i), (b + gradientB * i), alpha)
+                        .endVertex();
             }
+
+        } else {
+
+            for (Vector3f node : nodes) {
+                builder.pos(positionMatrix, pos.getX() + node.getX(), pos.getY() + node.getY(), pos.getZ() + node.getZ())
+                        .color((r), (g), (b), alpha)
+                        .endVertex();
+            }
+
         }
 
     }

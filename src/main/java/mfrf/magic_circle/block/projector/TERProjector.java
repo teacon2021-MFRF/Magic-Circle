@@ -25,22 +25,22 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
     public void render(TileProjector tileProjector, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
         ArrayList<BezierCurveObject> bezierCurveObjects = new ArrayList<>();
         ArrayList<CircleObject> circleObjects = new ArrayList<>();
-        bezierCurveObjects.add(new BezierCurveObject(
-                new Vector3f(1, 0, 1),
-                new Vector3f(1, 1, -1),
-                new Vector3f(-1, 2, -1),
-                new Vector3f(-1, 3, 1)
-        ));
-        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(1, 0, -1), new Vector3f(-1, 1, -1), new Vector3f(-1, 2, 1), new Vector3f(1, 3, 1)));
-        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(-1, 0, -1), new Vector3f(-1, 1, 1), new Vector3f(1, 2, 1), new Vector3f(1, 3, -1)));
-        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(-1, 0, 1), new Vector3f(1, 1, 1), new Vector3f(1, 2, -1), new Vector3f(-1, 3, -1)));
-        circleObjects.add(new CircleObject(1.414f, 0, 0, 0, 2));
-        circleObjects.add(new CircleObject(1.732f, 0, 0, 0, 4));
-        circleObjects.add(new CircleObject(2.236f, 0, 0, 0, 6));
+//        bezierCurveObjects.add(new BezierCurveObject(
+//                new Vector3f(1, 0, 1),
+//                new Vector3f(1, 1, -1),
+//                new Vector3f(-1, 2, -1),
+//                new Vector3f(-1, 3, 1)
+//        ));
+//        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(1, 0, -1), new Vector3f(-1, 1, -1), new Vector3f(-1, 2, 1), new Vector3f(1, 3, 1)));
+//        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(-1, 0, -1), new Vector3f(-1, 1, 1), new Vector3f(1, 2, 1), new Vector3f(1, 3, -1)));
+//        bezierCurveObjects.add(new BezierCurveObject(new Vector3f(-1, 0, 1), new Vector3f(1, 1, 1), new Vector3f(1, 2, -1), new Vector3f(-1, 3, -1)));
+//        circleObjects.add(new CircleObject(1.414f, 0, 0, 0, 2));
+//        circleObjects.add(new CircleObject(1.732f, 0, 0, 0, 4));
+//        circleObjects.add(new CircleObject(2.236f, 0, 0, 0, 6));
         circleObjects.add(new CircleObject(2.780f, 0, 0, 0, 8));
         MagicCircleObjectBase magicCircleObjectBase = new MagicCircleObjectBase(bezierCurveObjects, circleObjects, 0.5f, 0);
         BlockPos pos = tileProjector.getPos();
-        magicCircleObjectBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()), MathUtil.IDENTITY_MATRIX);
+        magicCircleObjectBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override

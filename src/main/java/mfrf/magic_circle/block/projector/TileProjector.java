@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 
 public class TileProjector extends TileEntity implements ITickableTileEntity {
     public float time = 0;
-    private float maxTime = 20 * 20;
+    private float maxTime = 20;
 
     public TileProjector() {
         super(TileEntities.PROJECTOR.get());

@@ -31,7 +31,7 @@ public class RenderMagicCircleBase extends EntityRenderer<EntityMagicCircleBase>
         Float progress = entityMagicCircleBase.getDataManager().get(EntityMagicCircleBase.PROGRESS);
         Vector3d lookVec = entityMagicCircleBase.getLookVec();
         BlockPos positionVec = entityMagicCircleBase.getPosition();
-        magicCircleObjectBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()), MathUtil.IDENTITY_MATRIX);
+        magicCircleObjectBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()));
     }
 
 }

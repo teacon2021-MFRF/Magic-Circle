@@ -155,7 +155,7 @@ public class BezierCurveObject extends MagicCircleComponentBase {
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition, Matrix4f transformMatrix) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         float v = time + trueTime;
         float timePassed = (v > 1.0f ? v % 1.0f : v);
         ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
@@ -171,7 +171,7 @@ public class BezierCurveObject extends MagicCircleComponentBase {
 
 //            curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), false, bezierPoints);
 //        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
-        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
+        curve(builder, matrix, actualPosition, (float) (time * redGradient)%1, (float) (time * greenGradient) % 1, (float) (time * blueGradient) % 1, 1, true, bezierPoints);
 
         matrixStackIn.pop();
 
