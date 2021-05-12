@@ -8,7 +8,7 @@ import mfrf.magic_circle.magicutil.MagicStream;
 import java.util.function.Predicate;
 
 public class ReduceNode extends MagicNodeBase {
-    //todo fixit
+    //todo complete it
 
     /**
      * @param strengthModify
