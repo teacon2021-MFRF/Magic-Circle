@@ -1,7 +1,6 @@
-package mfrf.magic_circle.magicutil;
+package mfrf.magic_circle.magicutil.datastructure;
 
 import mfrf.magic_circle.interfaces.MatrixObjectComponent;
-import org.ejml.EjmlParameters;
 
 public class ObjectMatrixNbyN {
     public MatrixObjectComponent[] data;
@@ -122,24 +121,11 @@ public class ObjectMatrixNbyN {
         return data[index] = data[index].plus(val);
     }
 
-
-    public MatrixObjectComponent plus(int index, double val) {
-        return data[index] = data[index].plus(val);
-    }
-
     public MatrixObjectComponent minus(int index, MatrixObjectComponent val) {
         return data[index] = data[index].minus(val);
     }
 
-    public MatrixObjectComponent minus(int index, double val) {
-        return data[index] = data[index].minus(val);
-    }
-
     public MatrixObjectComponent times(int index, MatrixObjectComponent val) {
-        return data[index] = data[index].times(val);
-    }
-
-    public MatrixObjectComponent times(int index, double val) {
         return data[index] = data[index].times(val);
     }
 
@@ -181,10 +167,6 @@ public class ObjectMatrixNbyN {
     }
 
     public MatrixObjectComponent div(int index, MatrixObjectComponent val) {
-        return data[index] = data[index].div(val);
-    }
-
-    public MatrixObjectComponent div(int index, double val) {
         return data[index] = data[index].div(val);
     }
 

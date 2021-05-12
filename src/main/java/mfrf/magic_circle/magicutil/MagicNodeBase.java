@@ -1,28 +1,35 @@
 package mfrf.magic_circle.magicutil;
 
+import mfrf.magic_circle.interfaces.MatrixObjectComponent;
+import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrix6By6;
+import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrixNByN;
+
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.function.Predicate;
 
-public abstract class MagicNodeBase {
+public abstract class MagicNodeBase implements MatrixObjectComponent {
     protected double strengthModify;
     protected int manaReviseAdd;
     protected double manaReviseMultiply;
     protected int complexityAdd;
     protected double complexityMultiply;
     protected int nestedLayer;
+    protected Color colors;
     protected DecimalMagicMatrix6By6 eigenMatrix;
     protected MagicNodeBase leftNode;
-    protected MagicNodeBase rightCondition;
-    protected Predicate<MagicModelBase> condition;
+    protected MagicNodeBase rightNode;
+    protected Predicate<MagicStream> condition;
 
     public MagicNodeBase getLeftNode() {
         return leftNode;
     }
 
-    public MagicNodeBase getRightCondition() {
-        return rightCondition;
+    public MagicNodeBase getRightNode() {
+        return rightNode;
     }
 
-    public Predicate<MagicModelBase> getCondition() {
+    public Predicate<MagicStream> getCondition() {
         return condition;
     }
 
@@ -38,7 +45,7 @@ public abstract class MagicNodeBase {
      * @param rightNode          Right node, could be null.
      *                           All node set to null means this node is the final node.
      */
-    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicModelBase> condition) {
+    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
         this.strengthModify = strengthModify;
         this.manaReviseAdd = manaReviseAdd;
         this.manaReviseMultiply = manaReviseMultiply;
@@ -47,21 +54,22 @@ public abstract class MagicNodeBase {
         this.nestedLayer = nestedLayer;
         this.eigenMatrix = eigenMatrix;
         this.leftNode = leftNode;
-        this.rightCondition = rightNode;
+        this.rightNode = rightNode;
         this.condition = condition;
     }
 
-    public abstract MagicModelBase apply(MagicModelBase magic);
+    public abstract MagicStream apply(MagicStream magic);
 
-    public MagicModelBase invoke(MagicModelBase magic) {
-        MagicModelBase apply = apply(magic);
-        if (condition.test(apply) && leftNode != null) {
-            return leftNode.invoke(apply);
-        } else if (rightCondition != null) {
-            return rightCondition.invoke(apply);
-        } else {
-            return magic;
+    public MagicStream invoke(MagicStream magic) {
+        MagicStream apply = apply(magic);
+        if (condition != null) {
+            if (condition.test(apply) && leftNode != null) {
+                return leftNode.invoke(apply);
+            } else if (rightNode != null) {
+                return rightNode.invoke(apply);
+            }
         }
+        return magic;
     }
 
     public double getStrengthModify() {
@@ -88,7 +96,50 @@ public abstract class MagicNodeBase {
         return nestedLayer;
     }
 
+    public Color getColors() {
+        return colors;
+    }
+
     public DecimalMagicMatrix6By6 getEigenMatrix() {
         return eigenMatrix;
     }
+
+    public int getEdges(int edge) {
+        if (this.leftNode != null) {
+            edge = leftNode.getEdges(edge);
+        }
+        if (this.rightNode != null) {
+            edge = rightNode.getEdges(edge);
+        }
+        return edge;
+    }
+
+    public ArrayList<MagicNodeBase> getNodes(ArrayList<MagicNodeBase> nodes) {
+        if (!nodes.contains(this)) {
+            nodes.add(this);
+        }
+        if (this.leftNode != null) {
+            leftNode.getNodes(nodes);
+        }
+        if (this.rightNode != null) {
+            rightNode.getNodes(nodes);
+        }
+        return nodes;
+    }
+
+    public void getConnectivityMatrix(DecimalMagicMatrixNByN decimalMagicMatrixNByN, final ArrayList<MagicNodeBase> nodeMaps) {
+        int i = nodeMaps.indexOf(this);
+        if (this.leftNode != null) {
+            int j = nodeMaps.indexOf(leftNode);
+            decimalMagicMatrixNByN.set(i, j, 1);
+            leftNode.getConnectivityMatrix(decimalMagicMatrixNByN, nodeMaps);
+        }
+        if (this.rightNode != null) {
+            int j = nodeMaps.indexOf(rightNode);
+            decimalMagicMatrixNByN.set(i, j, 1);
+            leftNode.getConnectivityMatrix(decimalMagicMatrixNByN, nodeMaps);
+        }
+    }
+
+
 }

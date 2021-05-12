@@ -1,4 +1,4 @@
-package mfrf.magic_circle.magicutil;
+package mfrf.magic_circle.magicutil.datastructure;
 
 public class DecimalMagicMatrix6By6 extends DecimalMagicMatrixNByN {
 

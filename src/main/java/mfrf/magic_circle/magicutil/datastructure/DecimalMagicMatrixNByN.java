@@ -1,4 +1,4 @@
-package mfrf.magic_circle.magicutil;
+package mfrf.magic_circle.magicutil.datastructure;
 
 import net.minecraft.nbt.CompoundNBT;
 import org.ejml.data.BlockMatrix64F;
