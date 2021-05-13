@@ -104,16 +104,6 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
         return eigenMatrix;
     }
 
-    public int getEdges(int edge) {
-        if (this.leftNode != null) {
-            edge = leftNode.getEdges(edge);
-        }
-        if (this.rightNode != null) {
-            edge = rightNode.getEdges(edge);
-        }
-        return edge;
-    }
-
     public ArrayList<MagicNodeBase> getNodes(ArrayList<MagicNodeBase> nodes) {
         if (!nodes.contains(this)) {
             nodes.add(this);

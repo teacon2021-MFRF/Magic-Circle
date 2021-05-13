@@ -3,6 +3,8 @@ package mfrf.magic_circle.magicutil.datastructure;
 import net.minecraft.nbt.CompoundNBT;
 import org.ejml.data.BlockMatrix64F;
 
+import java.util.Arrays;
+
 public class DecimalMagicMatrixNByN extends BlockMatrix64F {
 
     public DecimalMagicMatrixNByN(float[][] cr, int row, int col) {
@@ -39,6 +41,10 @@ public class DecimalMagicMatrixNByN extends BlockMatrix64F {
                 decimalMagicMatrixNByN.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
             }
         }
+    }
+
+    public double sumAll() {
+        return Arrays.stream(data).sum();
     }
 }
 

@@ -9,6 +9,7 @@ public class MagicModelBase {
     protected Invoker invoker = null;
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
+    private int edgeCounts = -1;
     private DecimalMagicMatrixNByN connectivityMatrix = null;
 
     public MagicModelBase(Receiver receiver, Invoker invoker, MagicNodeBase graph) {
@@ -18,7 +19,10 @@ public class MagicModelBase {
     }
 
     public int getEdges() {
-        return begin.getEdges(0);
+        if (edgeCounts == -1) {
+            edgeCounts = (int) getConnectivityMatrix().sumAll();
+        }
+        return edgeCounts;
     }
 
     public ArrayList<MagicNodeBase> getNodes() {

@@ -16,7 +16,7 @@ version = '1.0'
 group = 'mfrf' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'magic_circle'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(11) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(15) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
