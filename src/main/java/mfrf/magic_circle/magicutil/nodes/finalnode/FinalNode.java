@@ -1,4 +1,4 @@
-package mfrf.magic_circle.magicutil.nodes;
+package mfrf.magic_circle.magicutil.nodes.finalnode;
 
 import mfrf.magic_circle.interfaces.MatrixObjectComponent;
 import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrix6By6;
@@ -7,7 +7,7 @@ import mfrf.magic_circle.magicutil.MagicStream;
 
 import java.util.function.Predicate;
 
-public class ReduceNode extends MagicNodeBase {
+public class FinalNode extends MagicNodeBase {
     //todo complete it
 
     /**
@@ -22,9 +22,10 @@ public class ReduceNode extends MagicNodeBase {
      * @param rightNode          Right node, could be null.
      * @param condition          The logical condition to next node, true to left, false to right.
      */
-    public ReduceNode(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
-        super(strengthModify, manaReviseAdd, manaReviseMultiply, complexityAdd, complexityMultiply, nestedLayer, eigenMatrix, null, null, null);
+    public FinalNode(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, NodeType nodeType) {
+        super(strengthModify, manaReviseAdd, manaReviseMultiply, complexityAdd, complexityMultiply, nestedLayer, eigenMatrix, leftNode, rightNode, condition, nodeType);
     }
+
 
     @Override
     public MatrixObjectComponent times(MatrixObjectComponent matrixObjectComponent) {

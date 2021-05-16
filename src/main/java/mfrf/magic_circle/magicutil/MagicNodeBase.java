@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public abstract class MagicNodeBase implements MatrixObjectComponent {
+    private final NodeType nodeType;
     protected double strengthModify;
     protected int manaReviseAdd;
     protected double manaReviseMultiply;
@@ -45,7 +46,7 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
      * @param rightNode          Right node, could be null.
      *                           All node set to null means this node is the final node.
      */
-    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
+    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, NodeType nodeType) {
         this.strengthModify = strengthModify;
         this.manaReviseAdd = manaReviseAdd;
         this.manaReviseMultiply = manaReviseMultiply;
@@ -56,6 +57,7 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
         this.leftNode = leftNode;
         this.rightNode = rightNode;
         this.condition = condition;
+        this.nodeType = nodeType;
     }
 
     public abstract MagicStream apply(MagicStream magic);
@@ -96,6 +98,10 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
         return nestedLayer;
     }
 
+    public NodeType getNodeType() {
+        return nodeType;
+    }
+
     public Color getColors() {
         return colors;
     }
@@ -131,5 +137,7 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
         }
     }
 
-
+    public enum NodeType {
+        BEGIN, FINAL, BEHAVIOR, ADDITION, DECORATE, RESONANCE, EFFECT;
+    }
 }

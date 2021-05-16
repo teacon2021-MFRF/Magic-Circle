@@ -1,68 +1,36 @@
 package mfrf.magic_circle.magicutil;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class Invoker implements INBTSerializable<CompoundNBT> {
-    BlockPos pos;
-    ResourceLocation dimension;
-    ItemStack itemStack;
-    UUID player;
-    InvokerType invokerType;
+public class Invoker {
+    public BlockPos beginPos;
+    public ResourceLocation dimension;
+    public ItemStack invokerStack;
+    public UUID player;
+    public MagicStream lastMagicStream;
+    public World world;
+    public InvokerType type;
 
-    public Invoker(BlockPos pos, ResourceLocation dimension, ItemStack itemStack, UUID player, InvokerType invokerType) {
-        this.pos = pos;
+    public Invoker(BlockPos beginPos, ResourceLocation dimension, ItemStack invokerStack, UUID player, MagicStream lastMagicStream, World world, InvokerType type) {
+        this.beginPos = beginPos;
         this.dimension = dimension;
-        this.itemStack = itemStack;
+        this.invokerStack = invokerStack;
         this.player = player;
-        this.invokerType = invokerType;
-    }
-
-    @Override
-    public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = new CompoundNBT();
-        if (pos != null) {
-            compoundNBT.put("pos", NBTUtil.writeBlockPos(pos));
-        }
-        if (dimension != null) {
-            compoundNBT.putString("dimension", dimension.toString());
-        }
-        if (itemStack != null) {
-            compoundNBT.put("itemstack", itemStack.serializeNBT());
-        }
-        if (player != null) {
-            compoundNBT.putUniqueId("uuid", player);
-        }
-        compoundNBT.putString("invoker_type", invokerType.name());
-        return compoundNBT;
-
-    }
-
-    @Override
-    public void deserializeNBT(CompoundNBT compoundNBT) {
-        if (compoundNBT.contains("pos")) {
-            pos = NBTUtil.readBlockPos(compoundNBT.getCompound("pos"));
-        }
-        if (compoundNBT.contains("dimension")) {
-            dimension = ResourceLocation.tryCreate(compoundNBT.getString("dimension"));
-        }
-        if (compoundNBT.contains("itemstack")) {
-            itemStack = ItemStack.read(compoundNBT.getCompound("itemstack"));
-        }
-        if (compoundNBT.contains("uuid")) {
-            player = compoundNBT.getUniqueId("uuid");
-        }
-        invokerType = InvokerType.valueOf(compoundNBT.getString("invoker_type"));
+        this.lastMagicStream = lastMagicStream;
+        this.world = world;
+        this.type = type;
     }
 
     public enum InvokerType {
-        PLAYER, BLOCK, ITEMSTACK;
+        PLAYER, BLOCK, EQUIPMENT, CHAIN;
     }
 }
