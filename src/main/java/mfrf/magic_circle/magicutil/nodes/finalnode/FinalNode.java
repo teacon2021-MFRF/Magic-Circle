@@ -1,7 +1,7 @@
 package mfrf.magic_circle.magicutil.nodes.finalnode;
 
 import mfrf.magic_circle.interfaces.MatrixObjectComponent;
-import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrix6By6;
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
 
@@ -22,7 +22,7 @@ public class FinalNode extends MagicNodeBase {
      * @param rightNode          Right node, could be null.
      * @param condition          The logical condition to next node, true to left, false to right.
      */
-    public FinalNode(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, NodeType nodeType) {
+    public FinalNode(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, MagicNodePropertyMatrix8By8 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, NodeType nodeType) {
         super(strengthModify, manaReviseAdd, manaReviseMultiply, complexityAdd, complexityMultiply, nestedLayer, eigenMatrix, leftNode, rightNode, condition, nodeType);
     }
 
@@ -33,7 +33,7 @@ public class FinalNode extends MagicNodeBase {
     }
 
     @Override
-    public DecimalMagicMatrix6By6 times(DecimalMagicMatrix6By6 d) {
+    public MagicNodePropertyMatrix8By8 times(MagicNodePropertyMatrix8By8 d) {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class FinalNode extends MagicNodeBase {
     }
 
     @Override
-    public DecimalMagicMatrix6By6 plus(DecimalMagicMatrix6By6 d) {
+    public MagicNodePropertyMatrix8By8 plus(MagicNodePropertyMatrix8By8 d) {
         return null;
     }
 
@@ -55,7 +55,7 @@ public class FinalNode extends MagicNodeBase {
     }
 
     @Override
-    public DecimalMagicMatrix6By6 minus(DecimalMagicMatrix6By6 d) {
+    public MagicNodePropertyMatrix8By8 minus(MagicNodePropertyMatrix8By8 d) {
         return null;
     }
 
@@ -66,13 +66,13 @@ public class FinalNode extends MagicNodeBase {
     }
 
     @Override
-    public DecimalMagicMatrix6By6 div(DecimalMagicMatrix6By6 d) {
+    public MagicNodePropertyMatrix8By8 div(MagicNodePropertyMatrix8By8 d) {
         return null;
     }
 
 
     @Override
-    public DecimalMagicMatrix6By6 getEigenMatrix(MatrixObjectComponent matrixObjectComponent) {
+    public MagicNodePropertyMatrix8By8 getEigenMatrix(MatrixObjectComponent matrixObjectComponent) {
         return null;
     }
 

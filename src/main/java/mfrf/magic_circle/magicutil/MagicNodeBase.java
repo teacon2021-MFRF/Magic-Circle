@@ -1,7 +1,7 @@
 package mfrf.magic_circle.magicutil;
 
 import mfrf.magic_circle.interfaces.MatrixObjectComponent;
-import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrix6By6;
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrixNByN;
 
 import java.awt.*;
@@ -17,7 +17,7 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
     protected double complexityMultiply;
     protected int nestedLayer;
     protected Color colors;
-    protected DecimalMagicMatrix6By6 eigenMatrix;
+    protected MagicNodePropertyMatrix8By8 eigenMatrix;
     protected MagicNodeBase leftNode;
     protected MagicNodeBase rightNode;
     protected Predicate<MagicStream> condition;
@@ -46,7 +46,7 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
      * @param rightNode          Right node, could be null.
      *                           All node set to null means this node is the final node.
      */
-    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, DecimalMagicMatrix6By6 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, NodeType nodeType) {
+    public MagicNodeBase(double strengthModify, int manaReviseAdd, double manaReviseMultiply, int complexityAdd, double complexityMultiply, int nestedLayer, MagicNodePropertyMatrix8By8 eigenMatrix, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, NodeType nodeType) {
         this.strengthModify = strengthModify;
         this.manaReviseAdd = manaReviseAdd;
         this.manaReviseMultiply = manaReviseMultiply;
@@ -106,7 +106,7 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
         return colors;
     }
 
-    public DecimalMagicMatrix6By6 getEigenMatrix() {
+    public MagicNodePropertyMatrix8By8 getEigenMatrix() {
         return eigenMatrix;
     }
 
