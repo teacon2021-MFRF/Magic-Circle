@@ -5,9 +5,9 @@ import org.ejml.data.BlockMatrix64F;
 
 import java.util.Arrays;
 
-public class DecimalMagicMatrixNByN extends BlockMatrix64F {
+public class MagicStreamMatrixNByN extends BlockMatrix64F {
 
-    public DecimalMagicMatrixNByN(float[][] cr, int row, int col) {
+    public MagicStreamMatrixNByN(float[][] cr, int row, int col) {
         super(row, col);
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
@@ -16,7 +16,7 @@ public class DecimalMagicMatrixNByN extends BlockMatrix64F {
         }
     }
 
-    public DecimalMagicMatrixNByN(int numRows, int numCols) {
+    public MagicStreamMatrixNByN(int numRows, int numCols) {
         super(numRows, numCols);
     }
 
@@ -35,10 +35,10 @@ public class DecimalMagicMatrixNByN extends BlockMatrix64F {
     public static void deserializeNBT(CompoundNBT compoundNBT) {
         int row = compoundNBT.getInt("row");
         int col = compoundNBT.getInt("col");
-        DecimalMagicMatrixNByN decimalMagicMatrixNByN = new DecimalMagicMatrixNByN(row, col);
+        MagicStreamMatrixNByN magicStreamMatrixNByN = new MagicStreamMatrixNByN(row, col);
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
-                decimalMagicMatrixNByN.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
+                magicStreamMatrixNByN.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
             }
         }
     }

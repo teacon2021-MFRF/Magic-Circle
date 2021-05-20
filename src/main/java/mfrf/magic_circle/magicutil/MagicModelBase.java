@@ -1,6 +1,6 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.magicutil.datastructure.DecimalMagicMatrixNByN;
+import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class MagicModelBase {
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
     private int edgeCounts = -1;
-    private DecimalMagicMatrixNByN connectivityMatrix = null;
+    private MagicStreamMatrixNByN connectivityMatrix = null;
 
     public MagicModelBase(Receiver receiver, Invoker invoker, MagicNodeBase graph) {
         this.receiver = receiver;
@@ -31,11 +31,11 @@ public class MagicModelBase {
         return nodes;
     }
 
-    public DecimalMagicMatrixNByN getConnectivityMatrix() {
+    public MagicStreamMatrixNByN getConnectivityMatrix() {
         if (connectivityMatrix == null) {
             ArrayList<MagicNodeBase> nodes = getNodes();
             int nodeCounts = nodes.size();
-            connectivityMatrix = new DecimalMagicMatrixNByN(nodeCounts, nodeCounts);
+            connectivityMatrix = new MagicStreamMatrixNByN(nodeCounts, nodeCounts);
             for (int i = 0; i < nodeCounts; i++) {
                 connectivityMatrix.set(i, i, 1);
             }
