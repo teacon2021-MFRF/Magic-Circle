@@ -1,21 +1,20 @@
 package mfrf.magic_circle.magicutil;
 
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 
 import java.util.ArrayList;
 
-public class MagicModelBase {
-    protected Receiver receiver = null;
-    protected Invoker invoker = null;
+public class MagicModelBase extends MagicNodeBase {
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
     private int edgeCounts = -1;
     private MagicStreamMatrixNByN connectivityMatrix = null;
 
-    public MagicModelBase(Receiver receiver, Invoker invoker, MagicNodeBase graph) {
-        this.receiver = receiver;
-        this.invoker = invoker;
+    public MagicModelBase(MagicNodeBase graph) {
+        super(NodeType.MODEL, graph, null, magicStream -> true);
         this.begin = graph;
+        this.eigenMatrix = null;
     }
 
     public int getEdges() {
@@ -44,11 +43,20 @@ public class MagicModelBase {
         return connectivityMatrix;
     }
 
-    public Receiver getReceiver() {
-        return receiver;
+    @Override
+    public MagicNodePropertyMatrix8By8 getEigenMatrix() {
+        if (eigenMatrix == null) {
+            MagicNodePropertyMatrix8By8 eigen = MagicNodePropertyMatrix8By8.IDENTITY;
+            for (MagicNodeBase node : getNodes()) {
+                eigen = eigen.leftTimes(node.eigenMatrix);
+            }
+            this.eigenMatrix = eigen;
+        }
+        return super.getEigenMatrix();
     }
 
-    public Invoker getInvoker() {
-        return invoker;
+    @Override
+    public MagicStream apply(MagicStream magic) {
+        return null;
     }
 }

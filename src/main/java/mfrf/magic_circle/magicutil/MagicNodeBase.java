@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-public abstract class MagicNodeBase implements MatrixObjectComponent {
+public abstract class MagicNodeBase {
     private final NodeType nodeType;
 
     protected MagicNodePropertyMatrix8By8 eigenMatrix = new MagicNodePropertyMatrix8By8();
@@ -46,6 +46,13 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
         this.condition = condition;
     }
 
+    public MagicNodeBase(NodeType nodeType, MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
+        this.nodeType = nodeType;
+        this.leftNode = leftNode;
+        this.rightNode = rightNode;
+        this.condition = condition;
+    }
+
     public abstract MagicStream apply(MagicStream magic);
 
     public MagicStream invoke(MagicStream magic) {
@@ -67,6 +74,8 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
     public MagicNodePropertyMatrix8By8 getEigenMatrix() {
         return eigenMatrix;
     }
+
+
 
     public ArrayList<MagicNodeBase> getNodes(ArrayList<MagicNodeBase> nodes) {
         if (!nodes.contains(this)) {
@@ -96,6 +105,6 @@ public abstract class MagicNodeBase implements MatrixObjectComponent {
     }
 
     public enum NodeType {
-        BEGIN, FINAL, BEHAVIOR, ADDITION, DECORATE, RESONANCE, EFFECT;
+        BEGIN, FINAL, BEHAVIOR, ADDITION, DECORATE, RESONANCE, EFFECT, MODEL;
     }
 }

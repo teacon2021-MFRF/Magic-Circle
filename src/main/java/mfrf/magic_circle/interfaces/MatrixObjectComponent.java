@@ -20,6 +20,6 @@ public interface MatrixObjectComponent {
 //
 //    DecimalMagicMatrix6By6 div(DecimalMagicMatrix6By6 d);
 
-    MagicNodePropertyMatrix8By8 getEigenMatrix(MatrixObjectComponent matrixObjectComponent);
+//    MagicNodePropertyMatrix8By8 getEigenMatrix(MatrixObjectComponent matrixObjectComponent);
 
 }

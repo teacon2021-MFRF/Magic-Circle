@@ -7,9 +7,23 @@ import mfrf.magic_circle.magicutil.RGBA;
 import java.awt.*;
 
 public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
+    public static final MagicNodePropertyMatrix8By8 IDENTITY = new MagicNodePropertyMatrix8By8(new float[][]{
+            {1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1},
+    });
 
     public MagicNodePropertyMatrix8By8(float[][] cr) {
         super(cr, 8, 8);
+    }
+
+    public MagicNodePropertyMatrix8By8(double[] data, int cols, int rows) {
+        super(data, cols, rows);
     }
 
     public MagicNodePropertyMatrix8By8() {
@@ -56,7 +70,20 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
     }
 
     public void setBGMPreference(BGMPreferences bgmPreferences) {
+        set(INDEX.FREQUENCY, bgmPreferences.frequency());
+        set(INDEX.VALUE_RANGE, bgmPreferences.valueRange());
+        set(INDEX.TIME_DOMAIN, bgmPreferences.timeDomain());
+        set(INDEX.INTENSITY, bgmPreferences.intensity());
+    }
 
+    public MagicNodePropertyMatrix8By8 leftTimes(MagicNodePropertyMatrix8By8 magicNodePropertyMatrix8By8) {
+        MagicNodePropertyMatrix8By8 ret = new MagicNodePropertyMatrix8By8();
+        ret.setData(leftTimes(magicNodePropertyMatrix8By8).data);
+        return ret;
+    }
+
+    public MagicNodePropertyMatrix8By8 copy() {
+        return new MagicNodePropertyMatrix8By8(this.data, numRows, numCols);
     }
 
     public enum INDEX {

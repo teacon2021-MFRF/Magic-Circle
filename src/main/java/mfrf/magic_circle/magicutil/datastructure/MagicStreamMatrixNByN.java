@@ -16,6 +16,11 @@ public class MagicStreamMatrixNByN extends BlockMatrix64F {
         }
     }
 
+    protected MagicStreamMatrixNByN(double[] data, int cols, int rows) {
+        super(rows, cols);
+        this.setData(data);
+    }
+
     public MagicStreamMatrixNByN(int numRows, int numCols) {
         super(numRows, numCols);
     }
@@ -43,8 +48,71 @@ public class MagicStreamMatrixNByN extends BlockMatrix64F {
         }
     }
 
+    public MagicStreamMatrixNByN leftTimes(MagicStreamMatrixNByN magicStreamMatrixNByN) {
+
+        int index = this.numRows * magicStreamMatrixNByN.numCols;
+        double[] matrixObjectComponents = new double[index];
+
+        for (int i = 0; i < index; i++) {
+            Subscript subScript = getSubScript(i, magicStreamMatrixNByN.numCols);
+            double[] row = getRow(subScript.i);
+            double[] col = magicStreamMatrixNByN.getCol(subScript.j);
+
+            double matrixObjectComponent = row[0] * col[0];
+            if (row.length > col.length) {
+
+                for (int i1 = 1; i1 < col.length; i1++) {
+                    matrixObjectComponent += row[i1] * col[i1];
+                }
+
+            } else {
+
+                for (int i1 = 1; i1 < row.length; i1++) {
+                    matrixObjectComponent += row[i1] * col[i1];
+                }
+
+            }
+            matrixObjectComponents[i] = matrixObjectComponent;
+        }
+
+        return new MagicStreamMatrixNByN(matrixObjectComponents, this.numRows, magicStreamMatrixNByN.numCols);
+    }
+
+    public double[] getRow(int i) {
+        int begin = (i - 1) * numCols;
+        double[] matrixObjectComponents = new double[numCols];
+        if (numRows >= 0) System.arraycopy(data, begin, matrixObjectComponents, 0, numRows);
+        return matrixObjectComponents;
+    }
+
+    public double[] getCol(int j) {
+        double[] matrixObjectComponents = new double[numRows];
+        for (int i = 0; i < numRows; i++) {
+            matrixObjectComponents[i] = data[j + i * numCols];
+        }
+        return matrixObjectComponents;
+    }
+
+
+    public Subscript getSubScript(int index) {
+        int j = index % numCols;
+        int i = (index - j) / numCols;
+        return new Subscript(i, j);
+    }
+
+    public static Subscript getSubScript(int index, int columns) {
+        int j = index % columns;
+        int i = (index - j) / columns;
+        return new Subscript(i, j);
+    }
+
+
     public double sumAll() {
         return Arrays.stream(data).sum();
+    }
+
+
+    private record Subscript(int i, int j) {
     }
 }
 
