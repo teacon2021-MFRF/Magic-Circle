@@ -2,10 +2,12 @@ package mfrf.magic_circle.magicutil.datastructure;
 
 import net.minecraft.nbt.CompoundNBT;
 import org.ejml.data.BlockMatrix64F;
+import org.ejml.data.DenseMatrix64F;
+import org.ejml.ops.CommonOps;
 
 import java.util.Arrays;
 
-public class MagicStreamMatrixNByN extends BlockMatrix64F {
+public class MagicStreamMatrixNByN extends DenseMatrix64F {
 
     public MagicStreamMatrixNByN(float[][] cr, int row, int col) {
         super(row, col);
@@ -50,32 +52,35 @@ public class MagicStreamMatrixNByN extends BlockMatrix64F {
 
     public MagicStreamMatrixNByN leftTimes(MagicStreamMatrixNByN magicStreamMatrixNByN) {
 
-        int index = this.numRows * magicStreamMatrixNByN.numCols;
-        double[] matrixObjectComponents = new double[index];
-
-        for (int i = 0; i < index; i++) {
-            Subscript subScript = getSubScript(i, magicStreamMatrixNByN.numCols);
-            double[] row = getRow(subScript.i);
-            double[] col = magicStreamMatrixNByN.getCol(subScript.j);
-
-            double matrixObjectComponent = row[0] * col[0];
-            if (row.length > col.length) {
-
-                for (int i1 = 1; i1 < col.length; i1++) {
-                    matrixObjectComponent += row[i1] * col[i1];
-                }
-
-            } else {
-
-                for (int i1 = 1; i1 < row.length; i1++) {
-                    matrixObjectComponent += row[i1] * col[i1];
-                }
-
-            }
-            matrixObjectComponents[i] = matrixObjectComponent;
-        }
-
-        return new MagicStreamMatrixNByN(matrixObjectComponents, this.numRows, magicStreamMatrixNByN.numCols);
+//        int index = this.numRows * magicStreamMatrixNByN.numCols;
+//        double[] matrixObjectComponents = new double[index];
+//
+//        for (int i = 0; i < index; i++) {
+//            Subscript subScript = getSubScript(i, magicStreamMatrixNByN.numCols);
+//            double[] row = getRow(subScript.i);
+//            double[] col = magicStreamMatrixNByN.getCol(subScript.j);
+//
+//            double matrixObjectComponent = row[0] * col[0];
+//            if (row.length > col.length) {
+//
+//                for (int i1 = 1; i1 < col.length; i1++) {
+//                    matrixObjectComponent += row[i1] * col[i1];
+//                }
+//
+//            } else {
+//
+//                for (int i1 = 1; i1 < row.length; i1++) {
+//                    matrixObjectComponent += row[i1] * col[i1];
+//                }
+//
+//            }
+//            matrixObjectComponents[i] = matrixObjectComponent;
+//        }
+//
+//        return new MagicStreamMatrixNByN(matrixObjectComponents, this.numRows, magicStreamMatrixNByN.numCols);
+        MagicStreamMatrixNByN ret = new MagicStreamMatrixNByN(this.numRows, magicStreamMatrixNByN.numRows);
+        CommonOps.mult(this, magicStreamMatrixNByN, magicStreamMatrixNByN);
+        return ret;
     }
 
     public double[] getRow(int i) {
@@ -108,11 +113,37 @@ public class MagicStreamMatrixNByN extends BlockMatrix64F {
 
 
     public double sumAll() {
-        return Arrays.stream(data).sum();
+        return CommonOps.elementSum(this);
+    }
+
+    public double absSum() {
+        return CommonOps.elementSumAbs(this);
+    }
+
+    public MagicStreamMatrixNByN invert() {
+        MagicStreamMatrixNByN ret = new MagicStreamMatrixNByN(this.numRows, this.numCols);
+        CommonOps.pinv(this, ret);
+        return ret;
+    }
+
+    public boolean isSingular() {
+        if (numRows != numCols) {
+            return true;
+        } else {
+            return CommonOps.det(this) != 0;
+        }
+    }
+
+    public double det() {
+        if (isSingular()) {
+            return 0;
+        }
+        return CommonOps.det(this);
     }
 
 
     private record Subscript(int i, int j) {
     }
+
 }
 

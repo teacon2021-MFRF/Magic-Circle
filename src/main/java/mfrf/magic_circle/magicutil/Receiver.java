@@ -1,5 +1,6 @@
 package mfrf.magic_circle.magicutil;
 
+import mfrf.magic_circle.magicutil.nodes.beginnode.BeginNodeBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.loot.conditions.WeatherCheck;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class Receiver {
+public class Receiver{
     public Vector3f vector3f;
     public BlockPos pos;
     public ResourceLocation dimension;

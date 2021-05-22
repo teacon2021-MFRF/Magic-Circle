@@ -1,11 +1,8 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.interfaces.MatrixObjectComponent;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 
-import javax.sound.midi.VoiceStatus;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
@@ -37,7 +34,7 @@ public abstract class MagicNodeBase {
         eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.HEATUP, heatupModify);
         eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.WASTE, wasteModify);
         eigenMatrix.setEightDiragramsPrefer(prefer);
-        eigenMatrix.setColors(prefer.calculateRGB());
+        eigenMatrix.setColors(prefer.calculateColor());
         eigenMatrix.setBGMPreference(bgmPreferences);
         MagicNodePropertyMatrix8By8.initPauliElements(eigenMatrix);
 
@@ -57,6 +54,7 @@ public abstract class MagicNodeBase {
 
     public MagicStream invoke(MagicStream magic) {
         MagicStream apply = apply(magic);
+        apply.Matrixtimes(this.eigenMatrix);
         if (condition != null) {
             if (condition.test(apply) && leftNode != null) {
                 return leftNode.invoke(apply);
@@ -74,7 +72,6 @@ public abstract class MagicNodeBase {
     public MagicNodePropertyMatrix8By8 getEigenMatrix() {
         return eigenMatrix;
     }
-
 
 
     public ArrayList<MagicNodeBase> getNodes(ArrayList<MagicNodeBase> nodes) {
