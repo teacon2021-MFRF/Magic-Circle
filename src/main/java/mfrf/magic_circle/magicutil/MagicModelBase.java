@@ -10,9 +10,9 @@ public class MagicModelBase extends MagicNodeBase {
     private ArrayList<MagicNodeBase> nodes = null;
     private int edgeCounts = -1;
     private MagicStreamMatrixNByN connectivityMatrix = null;
-    protected final TYPE type;
+    protected final MagicModelBase.type type;
 
-    public MagicModelBase(MagicNodeBase graph, TYPE type) {
+    public MagicModelBase(MagicNodeBase graph, MagicModelBase.type type) {
         super(NodeType.MODEL, graph, null, magicStream -> true);
         this.begin = graph;
         this.type = type;
@@ -62,7 +62,7 @@ public class MagicModelBase extends MagicNodeBase {
         return begin.invoke(magic);
     }
 
-    public enum TYPE {
+    public enum type {
         PLAYER, BLOCK, EQUIPMENT, CHAIN, DIMENSION, ENTITY, DROP_ENTITY, WEATHER, TIME, AUTO;
     }
 }

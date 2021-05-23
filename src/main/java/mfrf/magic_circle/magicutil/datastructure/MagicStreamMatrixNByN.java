@@ -142,7 +142,13 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
     }
 
 
-    private record Subscript(int i, int j) {
+    private static class Subscript {
+        public int i;
+        public int j;
+
+        public Subscript(int i, int j) {
+
+        }
     }
 
 }

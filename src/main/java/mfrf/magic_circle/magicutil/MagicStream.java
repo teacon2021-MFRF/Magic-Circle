@@ -8,9 +8,7 @@ import java.util.LinkedList;
 import java.util.function.BiFunction;
 
 public class MagicStream {
-    public LinkedList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> PRIORITY_FIRST = new LinkedList<>();
-    public LinkedList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> PRIORITY_MIDDLE = new LinkedList<>();
-    public LinkedList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> PRIORITY_LAST = new LinkedList<>();
+    public LinkedList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new LinkedList<>();
 
     public MagicNodePropertyMatrix8By8 eigenMatrix;
     public final MagicStreamInfo info;
@@ -25,7 +23,10 @@ public class MagicStream {
         eigenMatrix = eigenMatrix.leftTimes(eigenMatrix);
     }
 
-    public static record MagicStreamInfo(Invoker invoker, MagicNodeBase lastNode, Receiver receiver) {
+    public static class MagicStreamInfo {
+        public Invoker invoker;
+        public MagicNodeBase lastNode;
+        public Receiver receiver;
     }
 
     public enum Priority {

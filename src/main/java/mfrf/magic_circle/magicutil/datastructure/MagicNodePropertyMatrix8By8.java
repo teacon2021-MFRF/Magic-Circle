@@ -2,6 +2,7 @@ package mfrf.magic_circle.magicutil.datastructure;
 
 import mfrf.magic_circle.magicutil.BGMPreferences;
 import mfrf.magic_circle.magicutil.EightDiragramsPrefer;
+import mfrf.magic_circle.magicutil.RGBA;
 
 import java.awt.*;
 
@@ -31,6 +32,42 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
 
     public void set(INDEX index, float value) {
         set(index.i, index.j, value);
+    }
+
+    public double get(INDEX index) {
+        return get(index.i, index.j);
+    }
+
+    public RGBA getRGBA() {
+        double r = get(INDEX.RED);
+        double g = get(INDEX.GREEN);
+        double b = get(INDEX.BLUE);
+        double alpha = get(INDEX.ALPHA);
+        return new RGBA(r, g, b, alpha);
+    }
+
+    public double getStrength() {
+        return get(MagicNodePropertyMatrix8By8.INDEX.STRENGTH) - get(MagicNodePropertyMatrix8By8.INDEX.WEAKNESS);
+    }
+
+    public double getRange() {
+        return get(MagicNodePropertyMatrix8By8.INDEX.RANGE) - get(MagicNodePropertyMatrix8By8.INDEX.SHRINK);
+    }
+
+    public double getDuration() {
+        return get(MagicNodePropertyMatrix8By8.INDEX.DURATION) - get(MagicNodePropertyMatrix8By8.INDEX.BREVITY);
+    }
+
+    public double getExecuteSpeed() {
+        return get(MagicNodePropertyMatrix8By8.INDEX.EXECUTE_SPEED) - get(MagicNodePropertyMatrix8By8.INDEX.RELAY);
+    }
+
+    public double getCoolDown() {
+        return get(MagicNodePropertyMatrix8By8.INDEX.COOLDOWN) - get(MagicNodePropertyMatrix8By8.INDEX.HEATUP);
+    }
+
+    public double getEfficient() {
+        return get(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT) - get(MagicNodePropertyMatrix8By8.INDEX.WASTE);
     }
 
     public static void initPauliElements(MagicNodePropertyMatrix8By8 magicNodePropertyMatrix8By8) {
@@ -71,10 +108,10 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
     }
 
     public void setBGMPreference(BGMPreferences bgmPreferences) {
-        set(INDEX.FREQUENCY, bgmPreferences.frequency());
-        set(INDEX.VALUE_RANGE, bgmPreferences.valueRange());
-        set(INDEX.TIME_DOMAIN, bgmPreferences.timeDomain());
-        set(INDEX.INTENSITY, bgmPreferences.intensity());
+        set(INDEX.FREQUENCY, bgmPreferences.frequency);
+        set(INDEX.VALUE_RANGE, bgmPreferences.valueRange);
+        set(INDEX.TIME_DOMAIN, bgmPreferences.timeDomain);
+        set(INDEX.INTENSITY, bgmPreferences.intensity);
     }
 
     public MagicNodePropertyMatrix8By8 leftTimes(MagicNodePropertyMatrix8By8 magicNodePropertyMatrix8By8) {

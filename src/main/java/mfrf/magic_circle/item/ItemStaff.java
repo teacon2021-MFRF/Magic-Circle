@@ -18,6 +18,8 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemStaff extends ItemBase {
 
     private final MagicalItemSimpleImplement implement;
@@ -35,11 +37,11 @@ public class ItemStaff extends ItemBase {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
-        ItemStack heldItem = p_77659_2_.getHeldItem(p_77659_3_);
-        if (!p_77659_1_.isRemote()) {
+    public ActionResult<ItemStack> use(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
+        ItemStack heldItem = p_77659_2_.getItemInHand(p_77659_3_);
+        if (!p_77659_1_.isClientSide()) {
             heldItem.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
-                p_77659_2_.sendMessage(new StringTextComponent(iMagicalItem.toString()), p_77659_2_.getUniqueID());
+                p_77659_2_.sendMessage(new StringTextComponent(iMagicalItem.toString()), p_77659_2_.getUUID());
             });
         }
         return new ActionResult<ItemStack>(ActionResultType.SUCCESS, heldItem);

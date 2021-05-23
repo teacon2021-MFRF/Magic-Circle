@@ -55,14 +55,14 @@ public class CircleObject extends MagicCircleComponentBase {
 
         ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0);
 
-        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
-        Matrix4f matrix = matrixStackIn.getLast().getMatrix();
+        Matrix4f matrix = matrixStackIn.last().pose();
 //        Matrix4f matrix = Matrix4f.makeScale(1, 1, 1);
 
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
 
-        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
 //        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), true, circleArcPoints);
@@ -70,11 +70,11 @@ public class CircleObject extends MagicCircleComponentBase {
         //todo fix gradient algorithm
         curve(builder, matrix, actualPosition, (float) (actualTime * redGradient * 10) % 1f, (float) (actualTime * greenGradient * 10) % 1f, (float) (actualTime * blueGradient * 10) % 1f, 1, false, circleArcPoints);
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
 
 
         RenderSystem.disableDepthTest();
-        buffer.finish(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
 
         if (actualLength == allLength) {
             return true;

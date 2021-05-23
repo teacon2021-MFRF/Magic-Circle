@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class Items {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MagicCircle.MOD_ID);
-    public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES);
-    public static final Item.Properties STAFF_PROPERTY = new Item.Properties().group(MagicCircle.MAGIC_CIRCLE_RESOURCES).maxStackSize(1).isImmuneToFire();
+    public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES);
+    public static final Item.Properties STAFF_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant();
 
     public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("magic_crystal,ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
     public static final RegistryObject<ItemStaff> CREATIVE_STAFF = ITEM_DEFERRED_REGISTER.register("creative_stuff", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(

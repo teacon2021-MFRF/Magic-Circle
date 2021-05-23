@@ -7,6 +7,8 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BlockProjector extends BlockBase {
     public BlockProjector(Properties p_i48440_1_) {
         super(p_i48440_1_);

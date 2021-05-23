@@ -40,10 +40,10 @@ public abstract class MagicCircleComponentBase {
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition);
 
     protected static void SingleLine(IVertexBuilder builder, Matrix4f positionMatrix, BlockPos pos, Vector3f positionBegin, Vector3f positionEnd, float r, float g, float b, float alpha) {
-        builder.pos(positionMatrix, pos.getX() + positionBegin.getX(), pos.getY() + positionBegin.getY(), pos.getZ() + positionBegin.getZ())
+        builder.vertex(positionMatrix, pos.getX() + positionBegin.x(), pos.getY() + positionBegin.y(), pos.getZ() + positionBegin.z())
                 .color(r, g, b, alpha)
                 .endVertex();
-        builder.pos(positionMatrix, pos.getX() + positionEnd.getX(), pos.getY() + positionEnd.getY(), pos.getZ() + positionEnd.getZ())
+        builder.vertex(positionMatrix, pos.getX() + positionEnd.x(), pos.getY() + positionEnd.y(), pos.getZ() + positionEnd.z())
                 .color(r, g, b, alpha)
                 .endVertex();
     }
@@ -57,7 +57,7 @@ public abstract class MagicCircleComponentBase {
             float gradientB = ((size * blueGradient - b) % 1.0f) / size;
 
             for (int i = 0; i < size; i++) {
-                builder.pos(positionMatrix, pos.getX() + nodes.get(i).getX(), pos.getY() + nodes.get(i).getY(), pos.getZ() + nodes.get(i).getZ())
+                builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
                         .color((r + gradientR * i), (g + gradientG * i), (b + gradientB * i), alpha)
                         .endVertex();
             }
@@ -65,7 +65,7 @@ public abstract class MagicCircleComponentBase {
         } else {
 
             for (Vector3f node : nodes) {
-                builder.pos(positionMatrix, pos.getX() + node.getX(), pos.getY() + node.getY(), pos.getZ() + node.getZ())
+                builder.vertex(positionMatrix, pos.x() + node.x(), pos.y() + node.y(), pos.z() + node.z())
                         .color((r), (g), (b), alpha)
                         .endVertex();
             }

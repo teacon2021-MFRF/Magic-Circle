@@ -8,6 +8,10 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.OptionalDouble;
 
+import net.minecraft.client.renderer.RenderState.LineState;
+
+import net.minecraft.client.renderer.RenderState.CullState;
+
 public class RenderTypes extends RenderType {
 
     public RenderTypes(String p_i225992_1_, VertexFormat p_i225992_2_, int p_i225992_3_, int p_i225992_4_, boolean p_i225992_5_, boolean p_i225992_6_, Runnable p_i225992_7_, Runnable p_i225992_8_) {
@@ -16,27 +20,27 @@ public class RenderTypes extends RenderType {
 
     private static final LineState LINE_1_0D = new LineState(OptionalDouble.of(3.0D));
 
-    public static final RenderType MAGIC_CIRCLE_LINES = makeType("magic_circle_lines",
+    public static final RenderType MAGIC_CIRCLE_LINES = create("magic_circle_lines",
             DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_STRIP, 256,
-            RenderType.State.getBuilder().line(LINE_1_0D)
-                    .layer(VIEW_OFFSET_Z_LAYERING)
-                    .transparency(TRANSLUCENT_TRANSPARENCY)
-                    .texture(NO_TEXTURE)
-                    .depthTest(RenderState.DEPTH_ALWAYS)
-                    .cull(CullState.CULL_DISABLED)
-                    .lightmap(RenderState.LIGHTMAP_DISABLED)
-                    .writeMask(COLOR_WRITE)
-                    .build(false));
+            RenderType.State.builder().setLineState(LINE_1_0D)
+                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setTextureState(NO_TEXTURE)
+                    .setDepthTestState(RenderState.NO_DEPTH_TEST)
+                    .setCullState(CullState.NO_CULL)
+                    .setLightmapState(RenderState.NO_LIGHTMAP)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .createCompositeState(false));
 
-    public static final RenderType MAGIC_CIRCLE_CLOSE_LINES = makeType("magic_circle_lines",
+    public static final RenderType MAGIC_CIRCLE_CLOSE_LINES = create("magic_circle_lines",
             DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_LOOP, 256,
-            RenderType.State.getBuilder().line(LINE_1_0D)
-                    .layer(VIEW_OFFSET_Z_LAYERING)
-                    .transparency(TRANSLUCENT_TRANSPARENCY)
-                    .texture(NO_TEXTURE)
-                    .depthTest(RenderState.DEPTH_ALWAYS)
-                    .cull(CullState.CULL_DISABLED)
-                    .lightmap(RenderState.LIGHTMAP_DISABLED)
-                    .writeMask(COLOR_WRITE)
-                    .build(false));
+            RenderType.State.builder().setLineState(LINE_1_0D)
+                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setTextureState(NO_TEXTURE)
+                    .setDepthTestState(RenderState.NO_DEPTH_TEST)
+                    .setCullState(CullState.NO_CULL)
+                    .setLightmapState(RenderState.NO_LIGHTMAP)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .createCompositeState(false));
 }

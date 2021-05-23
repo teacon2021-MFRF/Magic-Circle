@@ -45,7 +45,7 @@ public class EffectiveItemContainer implements Cloneable, IItemHandler {
         for (int i = 0; i < slot_count; i++) {
             CompoundNBT compound = compoundNBT.getCompound("slot" + i);
             int max_complexity = compound.getInt("max_complexity");
-            ItemStack itemstack = ItemStack.read(compound.getCompound("itemstack"));
+            ItemStack itemstack = ItemStack.of(compound.getCompound("itemstack"));
             Slots[i] = new Slot(max_complexity, itemstack);
         }
     }

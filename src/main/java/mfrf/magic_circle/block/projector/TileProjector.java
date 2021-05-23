@@ -22,12 +22,11 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
     @Override
     public void tick() {
 //        if (!world.isRemote()) {
-            if (time >= maxTime) {
-                time = 0;
-            }
-            time += 0.05f;
-            markDirty();
-
+        if (time >= maxTime) {
+            time = 0;
+        }
+        time += 0.05f;
+        setChanged();
 //        }
 //        getUpdatePacket();
     }
@@ -48,12 +47,12 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(pos, 1, getUpdateTag());
+        return new SUpdateTileEntityPacket(worldPosition, 1, getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+        handleUpdateTag(level.getBlockState(pkt.getPos()), pkt.getTag());
     }
 
     @Override

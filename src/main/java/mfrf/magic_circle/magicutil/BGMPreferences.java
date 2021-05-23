@@ -1,9 +1,8 @@
 package mfrf.magic_circle.magicutil;
 
-public record BGMPreferences(
-        float frequency,
-        float valueRange,
-        float timeDomain,
-        float intensity
-) {
+public class BGMPreferences {
+    public float frequency;
+    public float valueRange;
+    public float timeDomain;
+    public float intensity;
 }

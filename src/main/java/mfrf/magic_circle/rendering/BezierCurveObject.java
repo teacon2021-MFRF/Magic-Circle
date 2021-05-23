@@ -54,9 +54,9 @@ public class BezierCurveObject extends MagicCircleComponentBase {
 
         for (int j = 0; it.hasNext(); j++) {
             Vector3f q = it.next();
-            p[j][0] = q.getX();
-            p[j][1] = q.getY();
-            p[j][2] = q.getZ();
+            p[j][0] = q.x();
+            p[j][1] = q.y();
+            p[j][2] = q.z();
         }
 
         float x0 = p[0][0];
@@ -129,9 +129,9 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         for (int i = 0; i < points.size(); i++) {
             CompoundNBT point = new CompoundNBT();
             Vector3f vector3f = points.get(i);
-            point.putFloat("x", vector3f.getX());
-            point.putFloat("y", vector3f.getY());
-            point.putFloat("z", vector3f.getZ());
+            point.putFloat("x", vector3f.x());
+            point.putFloat("y", vector3f.y());
+            point.putFloat("z", vector3f.z());
             pointList.add(i, point);
         }
         compoundNBT.put("points", pointList);
@@ -160,24 +160,24 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         float timePassed = (v > 1.0f ? v % 1.0f : v);
         ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
 
-        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-        Matrix4f matrix = matrixStackIn.getLast().getMatrix();
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        Matrix4f matrix = matrixStackIn.last().pose();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
 
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
 
-        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
 //            curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), false, bezierPoints);
 //        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
         curve(builder, matrix, actualPosition, (float) (time * redGradient)%1, (float) (time * greenGradient) % 1, (float) (time * blueGradient) % 1, 1, true, bezierPoints);
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
 
 
         RenderSystem.disableDepthTest();
-        buffer.finish(RenderTypes.MAGIC_CIRCLE_LINES);
+        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
 
         return timePassed == 1.0f;
     }

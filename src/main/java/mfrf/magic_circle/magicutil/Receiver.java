@@ -1,18 +1,11 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.magicutil.nodes.beginnode.BeginNodeBase;
-import net.minecraft.entity.Entity;
-import net.minecraft.loot.conditions.WeatherCheck;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.INBTSerializable;
 
-public class Receiver{
+public class Receiver {
     public Vector3f vector3f;
     public BlockPos pos;
     public ResourceLocation dimension;
@@ -37,7 +30,9 @@ public class Receiver{
         this.world = world;
     }
 
-    public record WeatherType(int rainLevel, int thunderLevel) {
+    public class WeatherType {
+        public int rainLevel;
+        public int thunderLevel;
     }
 
     public enum RangeType {

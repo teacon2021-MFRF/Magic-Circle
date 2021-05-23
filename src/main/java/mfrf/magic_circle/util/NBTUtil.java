@@ -6,9 +6,9 @@ import net.minecraft.util.math.vector.Vector3f;
 public class NBTUtil {
     public static CompoundNBT writeVEC3f(Vector3f vector3f) {
         CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putFloat("x", vector3f.getX());
-        compoundNBT.putFloat("y", vector3f.getY());
-        compoundNBT.putFloat("z", vector3f.getZ());
+        compoundNBT.putFloat("x", vector3f.x());
+        compoundNBT.putFloat("y", vector3f.y());
+        compoundNBT.putFloat("z", vector3f.z());
         return compoundNBT;
     }
 
