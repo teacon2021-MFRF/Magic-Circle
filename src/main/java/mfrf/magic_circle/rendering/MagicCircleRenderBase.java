@@ -5,27 +5,25 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 
-public class MagicCircleObjectBase extends MagicCircleComponentBase {
+public class MagicCircleRenderBase extends MagicCircleComponentBase {
     public float progressAdditionPerTick;
     protected ArrayList<BezierCurveObject> curves;
     protected ArrayList<CircleObject> circles;
 
-    public MagicCircleObjectBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, float progressAdditionPerTick, float delay) {
+    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, float progressAdditionPerTick, float delay) {
         super(delay);
         this.curves = curves;
         this.circles = circles;
         this.progressAdditionPerTick = progressAdditionPerTick;
     }
 
-    public MagicCircleObjectBase() {
+    public MagicCircleRenderBase() {
         super();
         curves = new ArrayList<>();
         circles = new ArrayList<>();
@@ -62,7 +60,7 @@ public class MagicCircleObjectBase extends MagicCircleComponentBase {
         return compoundNBT;
     }
 
-    public static MagicCircleObjectBase deserializeNBT(CompoundNBT compoundNBT) {
+    public static MagicCircleRenderBase deserializeNBT(CompoundNBT compoundNBT) {
         if (compoundNBT.contains("pgpt") && compoundNBT.contains("curves") && compoundNBT.contains("circles") && compoundNBT.contains("delay")) {
             ListNBT curvesNBT = compoundNBT.getList("curves", Constants.NBT.TAG_COMPOUND);
             ListNBT circlesNBT = compoundNBT.getList("circles", Constants.NBT.TAG_COMPOUND);
@@ -74,9 +72,9 @@ public class MagicCircleObjectBase extends MagicCircleComponentBase {
             for (INBT inbt : circlesNBT) {
                 circleObjects.add(CircleObject.deserializeNBT((CompoundNBT) inbt));
             }
-            return new MagicCircleObjectBase(bezierCurveObjects, circleObjects, compoundNBT.getFloat("pgpt"), compoundNBT.getFloat("delay"));
+            return new MagicCircleRenderBase(bezierCurveObjects, circleObjects, compoundNBT.getFloat("pgpt"), compoundNBT.getFloat("delay"));
         }
-        return new MagicCircleObjectBase();
+        return new MagicCircleRenderBase();
     }
 
 }

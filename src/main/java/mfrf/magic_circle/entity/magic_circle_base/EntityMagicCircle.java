@@ -1,6 +1,6 @@
 package mfrf.magic_circle.entity.magic_circle_base;
 
-import mfrf.magic_circle.rendering.MagicCircleObjectBase;
+import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -20,7 +20,7 @@ public class EntityMagicCircle extends Entity {
         super(entityTypeIn, p_i48580_2_);
     }
 
-    public EntityMagicCircle setMagicCircleObject(MagicCircleObjectBase magicCircleObject) {
+    public EntityMagicCircle setMagicCircleObject(MagicCircleRenderBase magicCircleObject) {
         this.getEntityData().set(MAGIC_CIRCLE_OBJECT, magicCircleObject.serializeNBT());
         return this;
     }

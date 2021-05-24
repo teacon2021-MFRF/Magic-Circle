@@ -8,17 +8,16 @@ import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.registry_lists.Entities;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import org.apache.commons.lang3.RandomUtils;
 
 import java.util.function.Predicate;
 
 public class ThrowBehaviorNode extends BehaviorNodeBase {
-    protected boolean needExpression = false;
+    protected boolean expressionModified = false;
+    protected PositionExpression positionExpression = new PositionExpression();
 
     public ThrowBehaviorNode(MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
         super(leftNode, rightNode, condition, BehaviorType.THROW);
@@ -29,49 +28,49 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
     public MagicStream apply(MagicStream magic) {
         MagicNodeBase lastNode = magic.info.lastNode;
 
-        switch (lastNode.getNodeType()) {
-            case BEGIN -> {
+        magic.functions.add((magicStream, magicStreamInfo) -> {
 
-                break;
-            }
-            case FINAL -> {
+            Invoker invoker = magicStreamInfo.invoker;
+            Receiver receiver = magicStreamInfo.receiver;
+            Vector3f targetVec = receiver.vector3f;
+            World world = magicStreamInfo.receiver.world;
+            MagicNodePropertyMatrix8By8 streamEigenMatrix = magicStream.eigenMatrix;
+            double strength = streamEigenMatrix.getStrength();
+            double range = streamEigenMatrix.getRange();
+            double duration = streamEigenMatrix.getDuration();
+            double execute_speed = streamEigenMatrix.getExecuteSpeed();
+            double cooldown = streamEigenMatrix.getCoolDown();
+            double efficient = streamEigenMatrix.getEfficient();
 
-                break;
-            }
-            case MODEL -> {
+            switch (lastNode.getNodeType()) {
+                case BEGIN -> {
 
-                break;
-            }
-            case EFFECT -> {
+                    break;
+                }
+                case FINAL -> {
 
-                break;
-            }
-            case ADDITION -> {
+                    break;
+                }
+                case MODEL -> {
 
-                break;
-            }
-            case BEHAVIOR -> {
+                    break;
+                }
+                case EFFECT -> {
 
-                break;
-            }
-            case DECORATE -> {
-                DecorateNodeBase decorateNode = (DecorateNodeBase) lastNode;
-                switch (decorateNode.decorateType) {
-                    case POWER -> {
-                        needExpression = true;
+                    break;
+                }
+                case ADDITION -> {
 
-                        magic.functions.add((magicStream, magicStreamInfo) -> {
-                            Invoker invoker = magicStreamInfo.invoker;
-                            Receiver receiver = magicStreamInfo.receiver;
-                            Vector3f vector3f = receiver.vector3f;
-                            World world = magicStreamInfo.receiver.world;
-                            MagicNodePropertyMatrix8By8 streamEigenMatrix = magicStream.eigenMatrix;
-                            double strength = streamEigenMatrix.getStrength();
-                            double range = streamEigenMatrix.getRange();
-                            double duration = streamEigenMatrix.getDuration();
-                            double execute_speed = streamEigenMatrix.getExecuteSpeed();
-                            double cooldown = streamEigenMatrix.getCoolDown();
-                            double efficient = streamEigenMatrix.getEfficient();
+                    break;
+                }
+                case BEHAVIOR -> {
+
+                    break;
+                }
+                case DECORATE -> {
+                    DecorateNodeBase decorateNode = (DecorateNodeBase) lastNode;
+                    switch (decorateNode.decorateType) {
+                        case POWER -> {
                             int count = (int) Math.min((execute_speed - cooldown) * strength / 20, 50);
                             double splitArgument = cooldown / execute_speed;
                             long countPerShoot = Math.round(count / (splitArgument < 1 ? 1 : splitArgument));
@@ -81,48 +80,81 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                                 for (int i = 0; i <= duration; i += cooldown) {
                                     for (long l = 0; l < countPerShoot; l++) {
                                         DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
-                                        //todo initialize arguments
+                                        if (spawn != null) {
+                                            double v = (range / strength) * 1.2;
+                                            spawn.setSpeedScale(v >= 20 ? 20 : (float) v);
+                                            spawn.setRGBA(streamEigenMatrix.getRGBA());
+                                            spawn.setTargetVec(targetVec);
+                                            spawn.setRequiredVariables((float) (strength * 1.2f), ((float) duration));
+                                            spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
+                                        }
                                     }
                                 }
 
                             }
 
                             return magicStream;
-                        });
-                    }
-                    case INVERT -> {
+                        }
+                        case INVERT -> {
+
+                        }
+                        case STRENGTH -> {
+
+                        }
+                        case EXPANSION -> {
+
+                        }
+                        case CONTINUOUS -> {
+
+                        }
+                        case DIAGONALIZE -> {
+
+                        }
 
                     }
-                    case STRENGTH -> {
 
-                    }
-                    case EXPANSION -> {
-
-                    }
-                    case CONTINUOUS -> {
-
-                    }
-                    case DIAGONALIZE -> {
-
-                    }
-
+                    break;
                 }
+                case RESONANCE -> {
 
-                break;
+                    break;
+                }
             }
-            case RESONANCE -> {
 
-                break;
-            }
-        }
-
+            return magic;
+        });
         return magic;
     }
 
+    public boolean setPositionExpression(PositionExpression expression) {
+        this.positionExpression = expression;
+        return (expressionModified = true);
+    }
+
+    public void resetPositionExpression() {
+        this.positionExpression = new PositionExpression();
+        expressionModified = false;
+    }
+
     public class PositionExpression {
-        public String x;
-        public String y;
-        public String z;
+        public String x = "0";
+        public String y = "0";
+        public String z = "0";
+
+        public PositionExpression(String x, String y, String z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public PositionExpression(Vector3f vector3f) {
+            this.x = Float.toString(vector3f.x());
+            this.y = Float.toString(vector3f.y());
+            this.z = Float.toString(vector3f.z());
+        }
+
+        public PositionExpression() {
+        }
     }
 
 }

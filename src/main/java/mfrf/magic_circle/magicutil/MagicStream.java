@@ -1,14 +1,14 @@
 package mfrf.magic_circle.magicutil;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-import net.minecraft.util.math.vector.Vector3f;
+import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.function.BiFunction;
 
 public class MagicStream {
-    public LinkedList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new LinkedList<>();
+    public ArrayList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new ArrayList<>();
+    public ArrayList<MagicCircleRenderBase> renderingProgress = new ArrayList<>();
 
     public MagicNodePropertyMatrix8By8 eigenMatrix;
     public final MagicStreamInfo info;
@@ -28,6 +28,8 @@ public class MagicStream {
         public MagicNodeBase lastNode;
         public Receiver receiver;
     }
+
+    //multiThread rendering
 
     public enum Priority {
         FIRST, MIDDLE, LAST;
