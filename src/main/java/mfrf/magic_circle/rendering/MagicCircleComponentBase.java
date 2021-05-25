@@ -20,14 +20,37 @@ public abstract class MagicCircleComponentBase {
     protected static final float blueGradient = 0.025f;
     protected static final float alphaGradient = 0.016f;
     protected static final double renderingSpeed = Config.POLYGONS_RENDERING_SPEED.get();
-    protected float delay;
 
-    public MagicCircleComponentBase(float delay) {
-        this.delay = delay;
-    }
+    protected float delay;
+    protected float xRotateSpeedRadius;
+    protected float yRotateSpeedRadius;
+    protected float zRotateSpeedRadius;
 
     public MagicCircleComponentBase() {
+        xRotateSpeedRadius = 0;
+        yRotateSpeedRadius = 0;
+        zRotateSpeedRadius = 0;
         delay = 0;
+    }
+
+    public MagicCircleComponentBase(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius) {
+
+    }
+
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = new CompoundNBT();
+        compoundNBT.putFloat("delay", delay);
+        compoundNBT.putFloat("xrot", xRotateSpeedRadius);
+        compoundNBT.putFloat("yrot", yRotateSpeedRadius);
+        compoundNBT.putFloat("zrot", zRotateSpeedRadius);
+        return compoundNBT;
+    }
+
+    public void deserializeNBT(CompoundNBT compoundNBT) {
+        this.delay = compoundNBT.getFloat("delay");
+        this.xRotateSpeedRadius = compoundNBT.getFloat("xrot");
+        this.yRotateSpeedRadius = compoundNBT.getFloat("yrot");
+        this.zRotateSpeedRadius = compoundNBT.getFloat("zrot");
     }
 
     public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {

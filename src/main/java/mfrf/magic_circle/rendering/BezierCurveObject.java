@@ -21,16 +21,16 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BezierCurveObject extends MagicCircleComponentBase {
-    private final List<Vector3f> points;
+    private ArrayList<Vector3f> points;
 
-    public BezierCurveObject(float delay, Vector3f... points) {
-        super(delay);
-        this.points = List.of(points);
+    public BezierCurveObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, Vector3f... points) {
+        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius);
+        this.points = new ArrayList<>(Arrays.asList(points));
     }
 
-    public BezierCurveObject(Vector3f... points) {
+    public BezierCurveObject() {
         super();
-        this.points = Arrays.asList(points);
+        this.points = new ArrayList<>();
     }
 
     /**
@@ -139,19 +139,18 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         return compoundNBT;
     }
 
-    public static BezierCurveObject deserializeNBT(CompoundNBT nbt) {
-        if (nbt.contains("count") && nbt.contains("points") && nbt.contains("delay")) {
-            int count = nbt.getInt("count");
-            float delay = nbt.getFloat("delay");
-            Vector3f[] vector3fArray = new Vector3f[count];
-            ListNBT points = nbt.getList("points", Constants.NBT.TAG_COMPOUND);
+    @Override
+    public void deserializeNBT(CompoundNBT compoundNBT) {
+        if (compoundNBT.contains("count") && compoundNBT.contains("points") && compoundNBT.contains("delay")) {
+            super.deserializeNBT(compoundNBT);
+            int count = compoundNBT.getInt("count");
+            ListNBT points = compoundNBT.getList("points", Constants.NBT.TAG_COMPOUND);
             for (int i = 0; i < count; i++) {
                 CompoundNBT compoundPoint = (CompoundNBT) points.get(i);
-                vector3fArray[i] = new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z"));
+                this.points.add(new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z")));
+                //todo fix rotation
             }
-            return new BezierCurveObject(delay, vector3fArray);
         }
-        return new BezierCurveObject();
     }
 
     @Override
@@ -171,7 +170,7 @@ public class BezierCurveObject extends MagicCircleComponentBase {
 
 //            curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), false, bezierPoints);
 //        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
-        curve(builder, matrix, actualPosition, (float) (time * redGradient)%1, (float) (time * greenGradient) % 1, (float) (time * blueGradient) % 1, 1, true, bezierPoints);
+        curve(builder, matrix, actualPosition, (float) (time * redGradient) % 1, (float) (time * greenGradient) % 1, (float) (time * blueGradient) % 1, 1, true, bezierPoints);
 
         matrixStackIn.popPose();
 

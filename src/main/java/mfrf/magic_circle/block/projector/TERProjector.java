@@ -35,14 +35,14 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
 //        circleObjects.add(new CircleObject(1.732f, 0, 0, 0, 4));
 //        circleObjects.add(new CircleObject(2.236f, 0, 0, 0, 6));
         circleObjects.add(new CircleObject(2.780f, 0, 0, 0, 8));
-        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, 0.5f, 0);
+        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, 1, 100, 0);
         BlockPos pos = tileProjector.getBlockPos();
         magicCircleRenderBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override
     public boolean shouldRenderOffScreen(TileProjector p_188185_1_) {
-       return true;
+        return true;
     }
 
 }

@@ -30,8 +30,4 @@ public class MagicStream {
     }
 
     //multiThread rendering
-
-    public enum Priority {
-        FIRST, MIDDLE, LAST;
-    }
 }
