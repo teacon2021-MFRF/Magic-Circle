@@ -18,8 +18,8 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
     protected ArrayList<BezierCurveObject> curves;
     protected ArrayList<CircleObject> circles;
 
-    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, int progressAdditionPerTick, int maxProgress, float delay) {
-        super(delay);
+    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, int progressAdditionPerTick, int maxProgress, float delay, float xrot, float yrot, float zrot) {
+        super(delay, xrot, yrot, zrot);
         this.curves = curves;
         this.circles = circles;
         this.progressAdditionPerTick = progressAdditionPerTick;
@@ -51,6 +51,7 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
     }
 
     public CompoundNBT serializeNBT() {
+        super.serializeNBT();
         CompoundNBT compoundNBT = new CompoundNBT();
         compoundNBT.putInt("pgpt", progressAdditionPerTick);
         compoundNBT.putInt("max_progress", maxProgress);
@@ -69,21 +70,27 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
         return compoundNBT;
     }
 
-    public static MagicCircleRenderBase deserializeNBT(CompoundNBT compoundNBT) {
+    @Override
+    public void deserializeNBT(CompoundNBT compoundNBT) {
         if (compoundNBT.contains("pgpt") && compoundNBT.contains("curves") && compoundNBT.contains("circles") && compoundNBT.contains("delay")) {
+            super.deserializeNBT(compoundNBT);
             ListNBT curvesNBT = compoundNBT.getList("curves", Constants.NBT.TAG_COMPOUND);
             ListNBT circlesNBT = compoundNBT.getList("circles", Constants.NBT.TAG_COMPOUND);
-            ArrayList<BezierCurveObject> bezierCurveObjects = new ArrayList<>();
             for (INBT inbt : curvesNBT) {
-                bezierCurveObjects.add(BezierCurveObject.deserializeNBT((CompoundNBT) inbt));
+                BezierCurveObject bezierCurveObject = new BezierCurveObject();
+                bezierCurveObject.deserializeNBT((CompoundNBT) inbt);
+                this.curves.add(bezierCurveObject);
             }
-            ArrayList<CircleObject> circleObjects = new ArrayList<>();
             for (INBT inbt : circlesNBT) {
-                circleObjects.add(CircleObject.deserializeNBT((CompoundNBT) inbt));
+                CircleObject circleObject = new CircleObject();
+                circleObject.deserializeNBT((CompoundNBT) inbt);
+                this.circles.add(circleObject);
             }
-            return new MagicCircleRenderBase(bezierCurveObjects, circleObjects, compoundNBT.getInt("pgpt"), compoundNBT.getInt("max_progress"), compoundNBT.getInt("delay"));
+            progressAdditionPerTick = compoundNBT.getInt("pgpt");
+            this.maxProgress = compoundNBT.getInt("max_progress");
+            this.currentProgress = compoundNBT.getInt("current_progress");
+            this.delay = compoundNBT.getInt("delay");
         }
-        return new MagicCircleRenderBase();
     }
 
 }
