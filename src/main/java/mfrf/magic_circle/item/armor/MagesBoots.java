@@ -1,4 +1,9 @@
 package mfrf.magic_circle.item.armor;
 
-public class MagesBoots {
+import net.minecraft.inventory.EquipmentSlotType;
+
+public class MagesBoots extends MagesArmorBase{
+    public MagesBoots(EquipmentSlotType p_i48534_2_, Properties p_i48534_3_) {
+        super(p_i48534_2_, p_i48534_3_);
+    }
 }

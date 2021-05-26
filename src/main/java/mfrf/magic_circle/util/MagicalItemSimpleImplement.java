@@ -18,15 +18,15 @@ import javax.annotation.Nullable;
 public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializable<CompoundNBT>, ICapabilityProvider {
 
     private EffectiveItemContainer effectiveItemContainer = new EffectiveItemContainer();
-    private int manaCapacity;
+    private float manaCapacity;
     private double scaleCapacityIFPrimed;
     private int manaCurrent;
-    private int manaRecover;
+    private float manaRecover;
     private double scaleRecoverIfPrimed;
     boolean hasPrimed = false;
     private ItemStack stack;
 
-    public MagicalItemSimpleImplement(EffectiveItemContainer container, int manaCapacity, double scaleCapacityIFPrimed, int manaCurrent, int manaRecover, double scaleRecoverIfPrimed, ItemStack stack) {
+    public MagicalItemSimpleImplement(EffectiveItemContainer container, float manaCapacity, double scaleCapacityIFPrimed, int manaCurrent, float manaRecover, double scaleRecoverIfPrimed, ItemStack stack) {
         this.effectiveItemContainer = container;
         this.manaCapacity = manaCapacity;
         this.scaleCapacityIFPrimed = scaleCapacityIFPrimed;
@@ -40,12 +40,12 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     }
 
     @Override
-    public int getManaCapacity() {
+    public float getManaCapacity() {
         return manaCapacity;
     }
 
     @Override
-    public void setManaCapacity(int value) {
+    public void setManaCapacity(float value) {
         manaCapacity = value;
     }
 
@@ -60,12 +60,12 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     }
 
     @Override
-    public int getManaRecover() {
+    public float getManaRecovery() {
         return manaRecover;
     }
 
     @Override
-    public void setManaRecover(int value) {
+    public void setManaRecovery(float value) {
         manaRecover = value;
     }
 
@@ -107,8 +107,8 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     @Override
     public void onPriming(World world, BlockPos pos) {
         setHasPrimed(true);
-        setManaCapacity((int) Math.round(getManaCapacity() * scaleCapacityIFPrimed));
-        setManaRecover((int) Math.round(getManaRecover() * scaleRecoverIfPrimed));
+        setManaCapacity((float) (getManaCapacity() * scaleCapacityIFPrimed));
+        setManaRecovery((float) (getManaRecovery() * scaleRecoverIfPrimed));
     }
 
     public MagicalItemSimpleImplement copy(ItemStack stack) {
@@ -119,8 +119,8 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();
         compoundNBT.put("effect_container", effectiveItemContainer.serializeNBT());
-        compoundNBT.putInt("current_capacity", manaCapacity);
-        compoundNBT.putInt("current_recover", manaRecover);
+        compoundNBT.putFloat("current_capacity", manaCapacity);
+        compoundNBT.putFloat("current_recover", manaRecover);
         compoundNBT.putBoolean("primed", hasPrimed);
         compoundNBT.putDouble("scale_capacity_if_primed", scaleCapacityIFPrimed);
         compoundNBT.putDouble("scale_recover_if_primed", scaleRecoverIfPrimed);

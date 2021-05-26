@@ -6,17 +6,17 @@ import net.minecraft.world.World;
 
 public interface IMagicalItem {
 
-    int getManaCapacity();
+    float getManaCapacity();
 
-    void setManaCapacity(int value);
+    void setManaCapacity(float value);
 
     int getMana();
 
     void setMana(int value);
 
-    int getManaRecover();
+    float getManaRecovery();
 
-    void setManaRecover(int value);
+    void setManaRecovery(float value);
 
     boolean hasPrimed();
 

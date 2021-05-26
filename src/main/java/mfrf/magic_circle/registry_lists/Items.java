@@ -3,6 +3,7 @@ package mfrf.magic_circle.registry_lists;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.item.ItemBase;
 import mfrf.magic_circle.item.ItemStaff;
+import mfrf.magic_circle.item.resources.ItemMagicCrystal;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import mfrf.magic_circle.util.EffectiveItemContainer;
 import net.minecraft.item.Item;
@@ -19,7 +20,10 @@ public class Items {
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES);
     public static final Item.Properties STAFF_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant();
 
-    public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("magic_crystal,ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
+    public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
+    public static final RegistryObject<Item> MAGIC_CRYSTAL = registerObject(new ItemMagicCrystal(DEFAULT_ITEM_PROPERTY), "magic_crystal");
+
+    //staff===============================================================================================================================================================================================
     public static final RegistryObject<ItemStaff> CREATIVE_STAFF = ITEM_DEFERRED_REGISTER.register("creative_stuff", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(
             new EffectiveItemContainer(
                     new EffectiveItemContainer.Slot[]{
