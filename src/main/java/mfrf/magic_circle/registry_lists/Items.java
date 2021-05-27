@@ -1,8 +1,13 @@
 package mfrf.magic_circle.registry_lists;
 
+import mfrf.magic_circle.Config;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.item.ItemBase;
 import mfrf.magic_circle.item.ItemStaff;
+import mfrf.magic_circle.item.armor.MagesBoots;
+import mfrf.magic_circle.item.armor.MagesCloak;
+import mfrf.magic_circle.item.armor.MagesCrown;
+import mfrf.magic_circle.item.armor.MagesGaiters;
 import mfrf.magic_circle.item.resources.ItemMagicCrystal;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import mfrf.magic_circle.util.EffectiveItemContainer;
@@ -22,6 +27,14 @@ public class Items {
 
     public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
     public static final RegistryObject<Item> MAGIC_CRYSTAL = registerObject(new ItemMagicCrystal(DEFAULT_ITEM_PROPERTY), "magic_crystal");
+
+    //Mage's Armor===============================================================================================================================================================================================
+    public static final RegistryObject<MagesBoots> MAGES_BOOTS = ITEM_DEFERRED_REGISTER.register("mages_boots", () -> new MagesBoots(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant().durability(Config.DURABILITY_OF_MAGES_ARMOR.get()), EffectiveItemContainer.Slot.createArray(Config.GEM_SLOT_OF_MAGES_BOOTS.get(),)));
+    public static final RegistryObject<MagesGaiters> MAGES_GAITERS = ITEM_DEFERRED_REGISTER.register("mages_gaiters", () -> new MagesGaiters(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant().durability(Config.DURABILITY_OF_MAGES_ARMOR.get()), EffectiveItemContainer.Slot.createArray(Config.GEM_SLOT_OF_MAGES_BOOTS.get())));
+    public static final RegistryObject<MagesCloak> MAGES_CLOAK = ITEM_DEFERRED_REGISTER.register("mages_cloak", () -> new MagesCloak(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant().durability(Config.DURABILITY_OF_MAGES_ARMOR.get()), EffectiveItemContainer.Slot.createArray(Config.GEM_SLOT_OF_MAGES_BOOTS.get())));
+    public static final RegistryObject<MagesCrown> MAGES_CROWN = ITEM_DEFERRED_REGISTER.register("mages_crown", () -> new MagesCrown(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant().durability(Config.DURABILITY_OF_MAGES_ARMOR.get()), EffectiveItemContainer.Slot.createArray(Config.GEM_SLOT_OF_MAGES_BOOTS.get())));
+    //todo fixme
+    //Mage's Armor===============================================================================================================================================================================================
 
     //staff===============================================================================================================================================================================================
     public static final RegistryObject<ItemStaff> CREATIVE_STAFF = ITEM_DEFERRED_REGISTER.register("creative_stuff", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(
@@ -60,6 +73,7 @@ public class Items {
             ),
             400, 1.2, 400, 50, 2, null
     )));
+    //staff===============================================================================================================================================================================================
 
     public static RegistryObject<Item> registerObject(Item item, String name) {
         return ITEM_DEFERRED_REGISTER.register(name, () -> item);

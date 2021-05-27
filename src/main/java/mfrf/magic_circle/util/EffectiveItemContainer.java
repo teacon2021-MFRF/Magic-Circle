@@ -124,6 +124,15 @@ public class EffectiveItemContainer implements Cloneable, IItemHandler {
             return maxComplexity;
         }
 
+
+        public static Slot[] createArray(int count, int maxComplexity) {
+            Slot[] slots = new Slot[count];
+            for (int i = 0; i < count; i++) {
+                slots[i] = new Slot(maxComplexity[i], ItemStack.EMPTY);
+            }
+            return slots;
+        }
+
         @Override
         protected Slot clone() {
             return new Slot(maxComplexity, itemStack.copy());

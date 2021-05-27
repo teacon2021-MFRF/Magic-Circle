@@ -111,8 +111,12 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
         setManaRecovery((float) (getManaRecovery() * scaleRecoverIfPrimed));
     }
 
-    public MagicalItemSimpleImplement copy(ItemStack stack) {
-        return new MagicalItemSimpleImplement(effectiveItemContainer.clone(), manaCapacity, scaleCapacityIFPrimed, manaCurrent, manaRecover, scaleRecoverIfPrimed, stack);
+    public MagicalItemSimpleImplement copy(ItemStack stack, CompoundNBT nbt) {
+        MagicalItemSimpleImplement implement = new MagicalItemSimpleImplement(effectiveItemContainer.clone(), manaCapacity, scaleCapacityIFPrimed, manaCurrent, manaRecover, scaleRecoverIfPrimed, stack);
+        if (nbt != null && nbt.contains("magical_item_implement")) {
+            implement.deserializeNBT(nbt.getCompound("magical_item_implement"));
+        }
+        return implement;
     }
 
     @Override

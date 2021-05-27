@@ -14,6 +14,15 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Float> MANA_RECOVERY_SCALE_OF_PRIMED_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Float> TOUGHNESS_OF_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Float> KNOCKBACK_RESISTANCE_OF_MAGES_ARMOR;
+    public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_CROWN;
+    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_CROWN;
+    public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_CLOAK;
+    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_CLOAK;
+    public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_GAITERS;
+    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_GAITERS;
+    public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_BOOTS;
+    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_BOOTS;
+    public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTMENTS_ABILITY_OF_MAGES_ARMOR;
 
     static {
         ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
@@ -54,14 +63,23 @@ public class Config {
 
         CONFIG_BUILDER.comment("Armor settings").push("armor");
 
-        DURABILITY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Durability of Mage 's Armor", "Integer").define("durability_of_mages_armor", 240);
-        MANA_CAPACITY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana capacity of Mage 's Armor", "Rational number").define("mana_capacity_of_mages_armor", 200f);
-        COMPLEXITY_CEILING_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Complexity celling of Mage 's Armor", "Integer").define("complexity_celling_of_mages_armor", 30);
-        MANA_RECOVERY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana recovery of Mage 's Armor", "Rational number").define("mana_recovery_of_mages_armor", 15.0f);
+        DURABILITY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Durability of Mage's Armor", "Integer number").define("durability_of_mages_armor", 240);
+        MANA_CAPACITY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana capacity of Mage's Armor", "Rational number").define("mana_capacity_of_mages_armor", 200f);
+        COMPLEXITY_CEILING_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Complexity celling of Mage's Armor", "Integer number").define("complexity_celling_of_mages_armor", 30);
+        MANA_RECOVERY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana recovery of Mage's Armor", "Rational number").define("mana_recovery_of_mages_armor", 15.0f);
         MANA_CAPACITY_SCALE_OF_PRIMED_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana capacity scale of primed Mage 's Armor", "Rational number").define("mana_capacity_scale_of_primed_mages_armor", 1.8f);
-        MANA_RECOVERY_SCALE_OF_PRIMED_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana recovery scale of Mage 's Armor", "Rational number").define("mana_recovery_scale_of_primed_mages_armor", 2.0f);
+        MANA_RECOVERY_SCALE_OF_PRIMED_MAGES_ARMOR = CONFIG_BUILDER.comment("Mana recovery scale of Mage's Armor", "Rational number").define("mana_recovery_scale_of_primed_mages_armor", 2.0f);
         TOUGHNESS_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Toughness of Mage 's Armor", "Rational number").define("Toughness_of_mages_armor", 1.0f);
-        KNOCKBACK_RESISTANCE_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Knockback resistance of Mage 's Armor", "Rational number").define("knockback_resistance_of_mages_armor", 1.0f);
+        KNOCKBACK_RESISTANCE_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Knockback resistance of Mage's Armor", "Rational number").define("knockback_resistance_of_mages_armor", 1.0f);
+        DEFENSE_OF_MAGES_CROWN = CONFIG_BUILDER.comment("Defense of Mage's Crown", "Integer number").define("defense_of_mages_armor", 2);
+        GEM_SLOT_OF_MAGES_CROWN = CONFIG_BUILDER.comment("Gem slot of Mage's Crown", "Integer number").define("slot_of_mages_armor", 2);
+        DEFENSE_OF_MAGES_CLOAK = CONFIG_BUILDER.comment("Defense of Mage's Cloak", "Integer number").define("defense_of_mages_armor", 6);
+        GEM_SLOT_OF_MAGES_CLOAK = CONFIG_BUILDER.comment("Gem slot of Mage's Cloak", "Integer number").define("slot_of_mages_armor", 2);
+        DEFENSE_OF_MAGES_GAITERS = CONFIG_BUILDER.comment("Defense of Mage's Gaiters", "Integer number").define("defense_of_mages_armor", 5);
+        GEM_SLOT_OF_MAGES_GAITERS = CONFIG_BUILDER.comment("Gem slot of Mage's Gaiters", "Integer number").define("slot_of_mages_armor", 2);
+        DEFENSE_OF_MAGES_BOOTS = CONFIG_BUILDER.comment("Defense of Mage's Boots", "Integer number").define("defense_of_mages_armor", 2);
+        GEM_SLOT_OF_MAGES_BOOTS = CONFIG_BUILDER.comment("Gem slot of Mage's Boots", "Integer number").define("slot_of_mages_armor", 2);
+        ENCHANTMENTS_ABILITY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Enchantments of Mage's Armor", "Integer number").define("slot_of_mages_armor", 25);
 
         CONFIG_BUILDER.pop();
 

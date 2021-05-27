@@ -15,6 +15,9 @@ public interface ItemMagicArmorMatrial extends IArmorMaterial {
     int getDefenseForSlot(EquipmentSlotType equipmentSlotType);
 
     @Override
+    int getEnchantmentValue();
+
+    @Override
     SoundEvent getEquipSound();
 
     @Override
