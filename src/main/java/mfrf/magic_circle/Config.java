@@ -15,13 +15,9 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Float> TOUGHNESS_OF_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Float> KNOCKBACK_RESISTANCE_OF_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_CROWN;
-    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_CROWN;
     public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_CLOAK;
-    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_CLOAK;
     public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_GAITERS;
-    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_GAITERS;
     public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_BOOTS;
-    public static ForgeConfigSpec.ConfigValue<Integer> GEM_SLOT_OF_MAGES_BOOTS;
     public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTMENTS_ABILITY_OF_MAGES_ARMOR;
 
     static {
@@ -72,13 +68,9 @@ public class Config {
         TOUGHNESS_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Toughness of Mage 's Armor", "Rational number").define("Toughness_of_mages_armor", 1.0f);
         KNOCKBACK_RESISTANCE_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Knockback resistance of Mage's Armor", "Rational number").define("knockback_resistance_of_mages_armor", 1.0f);
         DEFENSE_OF_MAGES_CROWN = CONFIG_BUILDER.comment("Defense of Mage's Crown", "Integer number").define("defense_of_mages_armor", 2);
-        GEM_SLOT_OF_MAGES_CROWN = CONFIG_BUILDER.comment("Gem slot of Mage's Crown", "Integer number").define("slot_of_mages_armor", 2);
         DEFENSE_OF_MAGES_CLOAK = CONFIG_BUILDER.comment("Defense of Mage's Cloak", "Integer number").define("defense_of_mages_armor", 6);
-        GEM_SLOT_OF_MAGES_CLOAK = CONFIG_BUILDER.comment("Gem slot of Mage's Cloak", "Integer number").define("slot_of_mages_armor", 2);
         DEFENSE_OF_MAGES_GAITERS = CONFIG_BUILDER.comment("Defense of Mage's Gaiters", "Integer number").define("defense_of_mages_armor", 5);
-        GEM_SLOT_OF_MAGES_GAITERS = CONFIG_BUILDER.comment("Gem slot of Mage's Gaiters", "Integer number").define("slot_of_mages_armor", 2);
         DEFENSE_OF_MAGES_BOOTS = CONFIG_BUILDER.comment("Defense of Mage's Boots", "Integer number").define("defense_of_mages_armor", 2);
-        GEM_SLOT_OF_MAGES_BOOTS = CONFIG_BUILDER.comment("Gem slot of Mage's Boots", "Integer number").define("slot_of_mages_armor", 2);
         ENCHANTMENTS_ABILITY_OF_MAGES_ARMOR = CONFIG_BUILDER.comment("Enchantments of Mage's Armor", "Integer number").define("slot_of_mages_armor", 25);
 
         CONFIG_BUILDER.pop();
