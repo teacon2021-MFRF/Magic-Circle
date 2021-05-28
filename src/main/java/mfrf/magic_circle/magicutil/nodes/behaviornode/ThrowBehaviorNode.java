@@ -1,5 +1,7 @@
 package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
+import java.util.function.Predicate;
+
 import mfrf.magic_circle.entity.barrage.DanmakuEntity;
 import mfrf.magic_circle.magicutil.Invoker;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
@@ -12,8 +14,6 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.function.Predicate;
 
 public class ThrowBehaviorNode extends BehaviorNodeBase {
     protected boolean expressionModified = false;

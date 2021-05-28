@@ -1,6 +1,7 @@
 package mfrf.magic_circle.entity.magic_circle_base;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;

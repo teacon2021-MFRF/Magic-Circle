@@ -1,11 +1,6 @@
 package mfrf.magic_circle.util;
 
-import mfrf.magic_circle.magicutil.EightDiragramsPrefer;
-
-import java.awt.*;
-import java.util.ArrayList;
-
-import static java.awt.Color.WHITE;
+import java.awt.Color;
 
 public enum Colors {
     YIN(255, 255, 255),

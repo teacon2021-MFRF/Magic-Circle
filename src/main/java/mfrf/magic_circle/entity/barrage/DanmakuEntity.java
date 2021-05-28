@@ -1,11 +1,16 @@
 package mfrf.magic_circle.entity.barrage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.googlecode.aviator.AviatorEvaluator;
+
+import org.apache.commons.lang3.RandomUtils;
+
 import mfrf.magic_circle.magicutil.RGBA;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
@@ -14,11 +19,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import org.apache.commons.lang3.RandomUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 public class DanmakuEntity extends Entity {
     public static final DataParameter<Float> DAMAGE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
@@ -71,8 +71,7 @@ public class DanmakuEntity extends Entity {
         this.entityData.set(SPEED_SCALE, scale);
         return this;
     }
-//todo collision box etc.
-
+    // todo collision box etc.
 
     @Override
     protected void defineSynchedData() {
@@ -155,7 +154,6 @@ public class DanmakuEntity extends Entity {
             env.put("random", RandomUtils.nextFloat(0, 1));
             this.moveTo((Float) AviatorEvaluator.execute(xFormula, env) * speed_scale, (Float) AviatorEvaluator.execute(yFormula, env) * speed_scale, (Float) AviatorEvaluator.execute(zFormula, env) * speed_scale);
         }
-
 
     }
 }

@@ -17,7 +17,6 @@ public class ClientEventHandler {
     public static void onClientEvent(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(Entities.ENTITY_MAGIC_CIRCLE_BASE.get(), RenderMagicCircle::new);
 
-
         event.enqueueWork(() -> {
             ClientRegistry.bindTileEntityRenderer(TileEntities.PROJECTOR.get(), TERProjector::new);
         });

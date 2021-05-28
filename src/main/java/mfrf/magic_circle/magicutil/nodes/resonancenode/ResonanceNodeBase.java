@@ -1,11 +1,9 @@
 package mfrf.magic_circle.magicutil.nodes.resonancenode;
 
-import mfrf.magic_circle.magicutil.MagicNodeBase;
-import mfrf.magic_circle.magicutil.MagicStream;
-
 import java.util.function.Predicate;
 
-import mfrf.magic_circle.magicutil.MagicNodeBase.NodeType;
+import mfrf.magic_circle.magicutil.MagicNodeBase;
+import mfrf.magic_circle.magicutil.MagicStream;
 
 public abstract class ResonanceNodeBase extends MagicNodeBase {
 

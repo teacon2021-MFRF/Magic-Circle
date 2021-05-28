@@ -1,13 +1,14 @@
 package mfrf.magic_circle.util;
 
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.Tag;
 import net.minecraftforge.items.IItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.Map;
 
 public class EffectiveItemContainer implements Cloneable, IItemHandler {
     private int slotCount;
@@ -125,7 +126,8 @@ public class EffectiveItemContainer implements Cloneable, IItemHandler {
         }
 
 
-        public static Slot[] createArray(int count, int maxComplexity) {
+        public static Slot[] createArray(int... maxComplexity) {
+            int count = maxComplexity.length;
             Slot[] slots = new Slot[count];
             for (int i = 0; i < count; i++) {
                 slots[i] = new Slot(maxComplexity[i], ItemStack.EMPTY);

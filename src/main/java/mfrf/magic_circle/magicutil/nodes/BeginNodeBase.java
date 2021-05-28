@@ -1,10 +1,10 @@
 package mfrf.magic_circle.magicutil.nodes;
 
-import mfrf.magic_circle.magicutil.*;
-
 import java.util.function.Predicate;
 
-import mfrf.magic_circle.magicutil.MagicNodeBase.NodeType;
+import mfrf.magic_circle.magicutil.MagicModelBase;
+import mfrf.magic_circle.magicutil.MagicNodeBase;
+import mfrf.magic_circle.magicutil.MagicStream;
 
 public class BeginNodeBase extends MagicNodeBase {
     public MagicModelBase.type invokerType;

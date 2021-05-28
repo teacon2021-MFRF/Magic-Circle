@@ -1,14 +1,9 @@
 package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
-import mfrf.magic_circle.magicutil.MagicNodeBase;
-import mfrf.magic_circle.magicutil.MagicStream;
-import net.minecraft.util.math.vector.Vector3f;
-
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
-import mfrf.magic_circle.magicutil.MagicNodeBase.NodeType;
+import mfrf.magic_circle.magicutil.MagicNodeBase;
+import mfrf.magic_circle.magicutil.MagicStream;
 
 public abstract class BehaviorNodeBase extends MagicNodeBase {
 

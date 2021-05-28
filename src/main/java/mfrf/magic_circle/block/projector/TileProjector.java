@@ -1,5 +1,7 @@
 package mfrf.magic_circle.block.projector;
 
+import javax.annotation.Nullable;
+
 import mfrf.magic_circle.registry_lists.TileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -7,9 +9,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-
-import javax.annotation.Nullable;
 
 public class TileProjector extends TileEntity implements ITickableTileEntity {
     public float time = 0;
@@ -21,14 +20,14 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-//        if (!world.isRemote()) {
+        // if (!world.isRemote()) {
         if (time >= maxTime) {
             time = 0;
         }
         time += 0.05f;
         setChanged();
-//        }
-//        getUpdatePacket();
+        // }
+        // getUpdatePacket();
     }
 
     @Override

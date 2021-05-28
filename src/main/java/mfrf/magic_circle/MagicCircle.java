@@ -1,5 +1,9 @@
 package mfrf.magic_circle;
 
+import static mfrf.magic_circle.MagicCircle.MOD_ID;
+
+import javax.annotation.Nullable;
+
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.Blocks;
 import mfrf.magic_circle.registry_lists.Entities;
@@ -14,10 +18,6 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import javax.annotation.Nullable;
-
-import static mfrf.magic_circle.MagicCircle.MOD_ID;
 
 @Mod(MOD_ID)
 public class MagicCircle {

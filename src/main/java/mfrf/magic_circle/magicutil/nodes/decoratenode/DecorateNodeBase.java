@@ -1,13 +1,11 @@
 package mfrf.magic_circle.magicutil.nodes.decoratenode;
 
+import java.util.function.Predicate;
+
 import mfrf.magic_circle.magicutil.BGMPreferences;
 import mfrf.magic_circle.magicutil.EightDiragramsPrefer;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
-
-import java.util.function.Predicate;
-
-import mfrf.magic_circle.magicutil.MagicNodeBase.NodeType;
 
 public abstract class DecorateNodeBase extends MagicNodeBase {
     public final DecorateType decorateType;

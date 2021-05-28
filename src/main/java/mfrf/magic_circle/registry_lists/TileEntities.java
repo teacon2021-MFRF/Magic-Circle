@@ -9,5 +9,5 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class TileEntities {
     public static final DeferredRegister<TileEntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, MagicCircle.MOD_ID);
-    public static final RegistryObject<TileEntityType<TileProjector>> PROJECTOR = REGISTER.register("projector",()->TileEntityType.Builder.of(TileProjector::new,Blocks.PROJECTOR.get()).build(null));
+    public static final RegistryObject<TileEntityType<TileProjector>> PROJECTOR = REGISTER.register("projector", () -> TileEntityType.Builder.of(TileProjector::new, Blocks.PROJECTOR.get()).build(null));
 }

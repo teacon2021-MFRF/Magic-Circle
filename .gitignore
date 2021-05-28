@@ -5,6 +5,14 @@
 *.ipr
 *.iws
 
+#VSCode
+.vscode/
+bin/
+eclipse-formatter.xml
+.project
+.classpath
+.settings/
+
 # IntelliJ
 out/
 # mpeltonen/sbt-idea plugin

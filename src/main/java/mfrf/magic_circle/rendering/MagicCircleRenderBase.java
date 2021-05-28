@@ -1,6 +1,9 @@
 package mfrf.magic_circle.rendering;
 
+import java.util.ArrayList;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -8,8 +11,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.ArrayList;
 
 public class MagicCircleRenderBase extends MagicCircleComponentBase {
     public int progressAdditionPerTick;

@@ -1,6 +1,9 @@
 package mfrf.magic_circle.block.projector;
 
+import java.util.ArrayList;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import mfrf.magic_circle.rendering.BezierCurveObject;
 import mfrf.magic_circle.rendering.CircleObject;
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
@@ -10,8 +13,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
-
-import java.util.ArrayList;
 
 public class TERProjector extends TileEntityRenderer<TileProjector> {
     public TERProjector(TileEntityRendererDispatcher p_i226006_1_) {

@@ -1,11 +1,9 @@
 package mfrf.magic_circle.magicutil.datastructure;
 
-import net.minecraft.nbt.CompoundNBT;
-import org.ejml.data.BlockMatrix64F;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
 
-import java.util.Arrays;
+import net.minecraft.nbt.CompoundNBT;
 
 public class MagicStreamMatrixNByN extends DenseMatrix64F {
 
@@ -52,32 +50,33 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
 
     public MagicStreamMatrixNByN leftTimes(MagicStreamMatrixNByN magicStreamMatrixNByN) {
 
-//        int index = this.numRows * magicStreamMatrixNByN.numCols;
-//        double[] matrixObjectComponents = new double[index];
-//
-//        for (int i = 0; i < index; i++) {
-//            Subscript subScript = getSubScript(i, magicStreamMatrixNByN.numCols);
-//            double[] row = getRow(subScript.i);
-//            double[] col = magicStreamMatrixNByN.getCol(subScript.j);
-//
-//            double matrixObjectComponent = row[0] * col[0];
-//            if (row.length > col.length) {
-//
-//                for (int i1 = 1; i1 < col.length; i1++) {
-//                    matrixObjectComponent += row[i1] * col[i1];
-//                }
-//
-//            } else {
-//
-//                for (int i1 = 1; i1 < row.length; i1++) {
-//                    matrixObjectComponent += row[i1] * col[i1];
-//                }
-//
-//            }
-//            matrixObjectComponents[i] = matrixObjectComponent;
-//        }
-//
-//        return new MagicStreamMatrixNByN(matrixObjectComponents, this.numRows, magicStreamMatrixNByN.numCols);
+        // int index = this.numRows * magicStreamMatrixNByN.numCols;
+        // double[] matrixObjectComponents = new double[index];
+        //
+        // for (int i = 0; i < index; i++) {
+        // Subscript subScript = getSubScript(i, magicStreamMatrixNByN.numCols);
+        // double[] row = getRow(subScript.i);
+        // double[] col = magicStreamMatrixNByN.getCol(subScript.j);
+        //
+        // double matrixObjectComponent = row[0] * col[0];
+        // if (row.length > col.length) {
+        //
+        // for (int i1 = 1; i1 < col.length; i1++) {
+        // matrixObjectComponent += row[i1] * col[i1];
+        // }
+        //
+        // } else {
+        //
+        // for (int i1 = 1; i1 < row.length; i1++) {
+        // matrixObjectComponent += row[i1] * col[i1];
+        // }
+        //
+        // }
+        // matrixObjectComponents[i] = matrixObjectComponent;
+        // }
+        //
+        // return new MagicStreamMatrixNByN(matrixObjectComponents, this.numRows,
+        // magicStreamMatrixNByN.numCols);
         MagicStreamMatrixNByN ret = new MagicStreamMatrixNByN(this.numRows, magicStreamMatrixNByN.numRows);
         CommonOps.mult(this, magicStreamMatrixNByN, magicStreamMatrixNByN);
         return ret;
@@ -86,7 +85,8 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
     public double[] getRow(int i) {
         int begin = (i - 1) * numCols;
         double[] matrixObjectComponents = new double[numCols];
-        if (numRows >= 0) System.arraycopy(data, begin, matrixObjectComponents, 0, numRows);
+        if (numRows >= 0)
+            System.arraycopy(data, begin, matrixObjectComponents, 0, numRows);
         return matrixObjectComponents;
     }
 
@@ -97,7 +97,6 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
         }
         return matrixObjectComponents;
     }
-
 
     public Subscript getSubScript(int index) {
         int j = index % numCols;
@@ -110,7 +109,6 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
         int i = (index - j) / columns;
         return new Subscript(i, j);
     }
-
 
     public double sumAll() {
         return CommonOps.elementSum(this);
@@ -141,7 +139,6 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
         return CommonOps.det(this);
     }
 
-
     private static class Subscript {
         public int i;
         public int j;
@@ -152,4 +149,3 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
     }
 
 }
-

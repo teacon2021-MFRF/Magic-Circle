@@ -1,10 +1,10 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
-
 import java.util.ArrayList;
 import java.util.function.Predicate;
+
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
+import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 
 public abstract class MagicNodeBase {
     private final NodeType nodeType;

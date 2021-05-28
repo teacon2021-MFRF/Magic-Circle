@@ -1,8 +1,8 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.util.Colors;
+import java.awt.Color;
 
-import java.awt.*;
+import mfrf.magic_circle.util.Colors;
 
 public class EightDiragramsPrefer {
     public final float drysky;

@@ -1,15 +1,11 @@
 package mfrf.magic_circle.magicutil;
 
+import java.util.UUID;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.INBTSerializable;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class Invoker {
     public BlockPos beginPos;

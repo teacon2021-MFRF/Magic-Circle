@@ -1,7 +1,5 @@
 package mfrf.magic_circle.interfaces;
 
-import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-
 public interface MatrixObjectComponent {
 
 //    MatrixObjectComponent times(MatrixObjectComponent matrixObjectComponent);

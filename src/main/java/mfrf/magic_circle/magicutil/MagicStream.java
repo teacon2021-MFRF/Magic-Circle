@@ -1,10 +1,10 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-import mfrf.magic_circle.rendering.MagicCircleRenderBase;
-
 import java.util.ArrayList;
 import java.util.function.BiFunction;
+
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
+import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 
 public class MagicStream {
     public ArrayList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new ArrayList<>();

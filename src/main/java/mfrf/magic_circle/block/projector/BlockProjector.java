@@ -1,13 +1,11 @@
 package mfrf.magic_circle.block.projector;
 
+import javax.annotation.Nullable;
+
 import mfrf.magic_circle.block.BlockBase;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class BlockProjector extends BlockBase {
     public BlockProjector(Properties p_i48440_1_) {

@@ -1,17 +1,19 @@
 package mfrf.magic_circle.rendering;
 
+import java.util.ArrayList;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import mfrf.magic_circle.Config;
-import mfrf.magic_circle.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.vector.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class CircleObject extends MagicCircleComponentBase {
     private float radius;

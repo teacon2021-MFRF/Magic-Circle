@@ -1,16 +1,13 @@
 package mfrf.magic_circle.rendering;
 
+import java.util.OptionalDouble;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import org.lwjgl.opengl.GL11;
-
-import java.util.OptionalDouble;
-
-import net.minecraft.client.renderer.RenderState.LineState;
-
-import net.minecraft.client.renderer.RenderState.CullState;
 
 public class RenderTypes extends RenderType {
 

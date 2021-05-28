@@ -1,9 +1,9 @@
 package mfrf.magic_circle.magicutil;
 
+import java.util.ArrayList;
+
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
-
-import java.util.ArrayList;
 
 public class MagicModelBase extends MagicNodeBase {
     protected MagicNodeBase begin;

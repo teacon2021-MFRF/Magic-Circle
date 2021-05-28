@@ -9,7 +9,6 @@ public class CreativeTab extends ItemGroup {
         super("magic_circle_resources");
     }
 
-
     @Override
     public ItemStack makeIcon() {
         return new ItemStack(Items.CREATIVE_STAFF.get());

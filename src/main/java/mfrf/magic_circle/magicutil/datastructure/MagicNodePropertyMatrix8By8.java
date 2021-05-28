@@ -1,10 +1,10 @@
 package mfrf.magic_circle.magicutil.datastructure;
 
+import java.awt.Color;
+
 import mfrf.magic_circle.magicutil.BGMPreferences;
 import mfrf.magic_circle.magicutil.EightDiragramsPrefer;
 import mfrf.magic_circle.magicutil.RGBA;
-
-import java.awt.*;
 
 public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
     public static final MagicNodePropertyMatrix8By8 IDENTITY = new MagicNodePropertyMatrix8By8(new float[][]{
