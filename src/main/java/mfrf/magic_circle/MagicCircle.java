@@ -8,6 +8,7 @@ import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.Blocks;
 import mfrf.magic_circle.registry_lists.Entities;
 import mfrf.magic_circle.registry_lists.Items;
+import mfrf.magic_circle.registry_lists.JsonConfigs;
 import mfrf.magic_circle.registry_lists.TileEntities;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.INBT;
@@ -30,33 +31,34 @@ public class MagicCircle {
         Blocks.BLOCK_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         TileEntities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         Entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+        JsonConfigs.JSONCONFIG_S_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     public static void onSetUpEvent(FMLCommonSetupEvent event) {
-        //----------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------------
         event.enqueueWork(() -> {
             CapabilityManager.INSTANCE.register(IMagicalItem.class, new Capability.IStorage<IMagicalItem>() {
-                        @Nullable
-                        @Override
-                        public INBT writeNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side) {
-//                    if (instance instanceof MagicalItemSimpleImplement) {
-//                        return ((MagicalItemSimpleImplement) instance).serializeNBT();
-//                    }
-                            return null;
-                        }
+                @Nullable
+                @Override
+                public INBT writeNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side) {
+                    // if (instance instanceof MagicalItemSimpleImplement) {
+                    // return ((MagicalItemSimpleImplement) instance).serializeNBT();
+                    // }
+                    return null;
+                }
 
-                        @Override
-                        public void readNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side, INBT nbt) {
-//                    if (instance instanceof MagicalItemSimpleImplement && nbt instanceof CompoundNBT) {
-//                        ((MagicalItemSimpleImplement) instance).deserializeNBT((CompoundNBT) nbt);
-//                    }
-                        }
-                    },
-//                    MagicalItemSimpleImplement::new
-                    () -> null
-            );
+                @Override
+                public void readNBT(Capability<IMagicalItem> capability, IMagicalItem instance, Direction side, INBT nbt) {
+                    // if (instance instanceof MagicalItemSimpleImplement && nbt instanceof
+                    // CompoundNBT) {
+                    // ((MagicalItemSimpleImplement) instance).deserializeNBT((CompoundNBT) nbt);
+                    // }
+                }
+            },
+                    // MagicalItemSimpleImplement::new
+                    () -> null);
         });
-        //----------------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------------
     }
 
 }
