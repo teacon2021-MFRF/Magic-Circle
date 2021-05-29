@@ -1,0 +1,13 @@
+{
+  "type": "magic_circle:gem_effect",
+
+  "item_or_tag": "minecraft:dimanond",
+  "mana_recovery_scale": 0.9,
+  "mana_capacity_scale": 1.1,
+  "strength": 1.1,
+  "execute_speed": -1.2,
+  "red": 255,
+  "green": 255,
+  "blue": 255,
+  "relay": 7.0
+}
