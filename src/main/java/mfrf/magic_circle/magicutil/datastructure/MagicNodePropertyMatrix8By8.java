@@ -121,7 +121,7 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
     }
 
     public MagicNodePropertyMatrix8By8 copy() {
-        return new MagicNodePropertyMatrix8By8(this.data, numRows, numCols);
+        return new MagicNodePropertyMatrix8By8(this.data);
     }
 
     public enum INDEX {
