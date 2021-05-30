@@ -1,21 +1,21 @@
 package mfrf.magic_circle.magicutil.datastructure;
 
-import java.awt.Color;
-
 import mfrf.magic_circle.magicutil.BGMPreferences;
-import mfrf.magic_circle.magicutil.EightDiragramsPrefer;
+import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.magicutil.RGBA;
 
+import java.awt.*;
+
 public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
-    public static final MagicNodePropertyMatrix8By8 IDENTITY = new MagicNodePropertyMatrix8By8(new float[][] {
-            { 1, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 1, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 1, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 1, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 1, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 1, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 1, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 1 },
+    public static final MagicNodePropertyMatrix8By8 IDENTITY = new MagicNodePropertyMatrix8By8(new float[][]{
+            {1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1},
     });
 
     public MagicNodePropertyMatrix8By8(float[][] cr) {
@@ -87,7 +87,7 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
         magicNodePropertyMatrix8By8.set(7, 5, 0);
     }
 
-    public void setEightDiragramsPrefer(EightDiragramsPrefer prefer) {
+    public void setBaguaPrefer(BaguaPrefer prefer) {
         set(INDEX.DRYSKY, prefer.drysky);
         set(INDEX.KUNDI, prefer.kundi);
         set(INDEX.THUNDER, prefer.thunder);

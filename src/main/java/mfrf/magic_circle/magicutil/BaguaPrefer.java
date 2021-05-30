@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import mfrf.magic_circle.util.Colors;
 
-public class EightDiragramsPrefer {
+public class BaguaPrefer {
     public final float drysky;
     public final float sundae;
     public final float kanshui;
@@ -17,7 +17,7 @@ public class EightDiragramsPrefer {
     public final float yang;
     private Color colorPrefer;
 
-    public EightDiragramsPrefer(float drysky, float sundae, float kanshui, float genshan, float kundi, float thunder, float lihuo, float duize) {
+    public BaguaPrefer(float drysky, float sundae, float kanshui, float genshan, float kundi, float thunder, float lihuo, float duize) {
         this.drysky = drysky;
         this.sundae = sundae;
         this.kanshui = kanshui;

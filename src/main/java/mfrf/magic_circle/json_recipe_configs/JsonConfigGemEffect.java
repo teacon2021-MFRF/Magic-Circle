@@ -57,6 +57,8 @@ public class JsonConfigGemEffect extends JsonConfigBase {
                 String name = index.name().toLowerCase();
                 if (p_199425_2_.has(name)) {
                     eigenMatrix.set(index, p_199425_2_.get(name).getAsFloat());
+                } else {
+                    eigenMatrix.set(index, index == INDEX.RED || index == INDEX.GREEN || index == INDEX.BLUE ? 0 : 1);
                 }
             }
 

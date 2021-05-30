@@ -18,7 +18,7 @@ public abstract class MagicNodeBase {
     public MagicNodeBase(NodeType nodeType, float strengthModify, float rangeModify, float durationModify,
                          float executeSpeedModify, float coolDownModify, float efficientModify, float weaknessModify,
                          float shrinkModify, float brevityModify, float relayModify, float heatupModify, float wasteModify,
-                         EightDiragramsPrefer prefer, BGMPreferences bgmPreferences, MagicNodeBase leftNode,
+                         BaguaPrefer prefer, BGMPreferences bgmPreferences, MagicNodeBase leftNode,
                          MagicNodeBase rightNode, Predicate<MagicStream> condition) {
         this.nodeType = nodeType;
         eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, strengthModify);
@@ -33,7 +33,7 @@ public abstract class MagicNodeBase {
         eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.RELAY, relayModify);
         eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.HEATUP, heatupModify);
         eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.WASTE, wasteModify);
-        eigenMatrix.setEightDiragramsPrefer(prefer);
+        eigenMatrix.setBaguaPrefer(prefer);
         eigenMatrix.setColors(prefer.calculateColor());
         eigenMatrix.setBGMPreference(bgmPreferences);
         MagicNodePropertyMatrix8By8.initPauliElements(eigenMatrix);

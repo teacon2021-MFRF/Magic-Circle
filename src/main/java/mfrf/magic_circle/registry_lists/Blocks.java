@@ -15,9 +15,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class Blocks {
     public static final DeferredRegister<Block> BLOCK_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, MagicCircle.MOD_ID);
 
+    // decorate blocks
     public static final RegistryObject<Block> BLOCK_MAGIC_CRYSTAL = registryObject(new BlockBase(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "block_magic_crystal");
-    public static final RegistryObject<Block> MAGIC_MEDIUM = registryObject(new BlockBase(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "magic_medium");
+    public static final RegistryObject<Block> MAGIC_CRYSTAL_TUNNEL = registryObject(new BlockBase(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "magic_crystal_tunnel");
 
+    // tileentities
     public static final RegistryObject<Block> PROJECTOR = registryObject(new BlockProjector(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "projector");
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
