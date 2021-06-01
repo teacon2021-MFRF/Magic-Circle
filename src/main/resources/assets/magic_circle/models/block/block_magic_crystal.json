@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "magic_circle:blocks/block_magic_crystal"
+	}
+}
