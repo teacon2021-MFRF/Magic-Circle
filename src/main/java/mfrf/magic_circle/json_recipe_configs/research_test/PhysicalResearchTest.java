@@ -1,6 +1,5 @@
 package mfrf.magic_circle.json_recipe_configs.research_test;
 
-import com.google.common.base.Charsets;
 import com.google.gson.JsonObject;
 import mfrf.magic_circle.registry_lists.JsonConfigs;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -10,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 
-public class MathResearchTest extends ResearchTestBase {
+public class PhysicalResearchTest extends ResearchTestBase {
 
-    public MathResearchTest(ResourceLocation id, AbstractSerializer.DataContainer container) {
+    public PhysicalResearchTest(ResourceLocation id, AbstractSerializer.DataContainer container) {
         super(id, container);
     }
 
@@ -23,26 +22,26 @@ public class MathResearchTest extends ResearchTestBase {
 
     @Override
     public IRecipeType<?> getType() {
-        return JsonConfigs.Type.MATH_RESEARCH_TEST_JSONCONFIG_TYPE;
+        return JsonConfigs.Type.PHYSICAL_RESEARCH_TEST_JSONCONFIG_TYPE;
     }
 
-    public static class Serializer extends AbstractSerializer<MathResearchTest> {
+    public static class Serializer extends AbstractSerializer<PhysicalResearchTest> {
 
         @Override
-        public MathResearchTest fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
+        public PhysicalResearchTest fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
             DataContainer dataContainer = new DataContainer(jsonObject);
-            return new MathResearchTest(resourceLocation, dataContainer);
+            return new PhysicalResearchTest(resourceLocation, dataContainer);
         }
 
         @Nullable
         @Override
-        public MathResearchTest fromNetwork(ResourceLocation resourceLocation, PacketBuffer packetBuffer) {
+        public PhysicalResearchTest fromNetwork(ResourceLocation resourceLocation, PacketBuffer packetBuffer) {
             DataContainer dataContainer = new DataContainer(packetBuffer);
-            return new MathResearchTest(resourceLocation, dataContainer);
+            return new PhysicalResearchTest(resourceLocation, dataContainer);
         }
 
         @Override
-        public void toNetwork(PacketBuffer packetBuffer, MathResearchTest researchTestBase) {
+        public void toNetwork(PacketBuffer packetBuffer, PhysicalResearchTest researchTestBase) {
             super.toNetwork(packetBuffer, researchTestBase);
         }
     }

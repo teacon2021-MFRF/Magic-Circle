@@ -1,0 +1,7 @@
+{
+  "type": "magic_circle:physical_research_test",
+  "difficulty": 0.2,
+  "description": "these matrix <bmatrix:3x3:[1 2 3;4 5 6;7 8 9]> is a matrix,\n and this is a image <image:216x123:xxxxx\\xxxxx.png>,try to solve this problem",
+  "answer": "answer",
+  "research": ""
+}
