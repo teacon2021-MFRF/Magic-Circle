@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8.INDEX;
+import mfrf.magic_circle.registry_lists.JsonConfigs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
@@ -34,14 +35,12 @@ public class JsonConfigGemEffect extends JsonConfigBase {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        // TODO Auto-generated method stub
-        return null;
+        return new Searlizer();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        // TODO Auto-generated method stub
-        return null;
+        return JsonConfigs.Type.GEN_EFFECT_JSONCONFIG_TYPE;
     }
 
     public static class Searlizer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<JsonConfigGemEffect> {

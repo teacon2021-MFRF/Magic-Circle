@@ -12,13 +12,15 @@ import java.util.function.Consumer;
 
 public abstract class ResearchBase<T extends PlayerEvent> {
     protected final String name;
+    protected final float difficulty;
     protected final String[] preKnowledesNeed;
     protected final boolean repeatAble;
     private final BiPredicate<T, PlayerKnowledges> canUnlock;
     private final Consumer<PlayerKnowledges> onUnlock;
 
-    protected ResearchBase(String name, String[] preKnowledesNeed, boolean repeatAble, BiPredicate<T, PlayerKnowledges> canUnlock, Consumer<PlayerKnowledges> onUnlock) {
+    protected ResearchBase(String name, float difficulty, String[] preKnowledesNeed, boolean repeatAble, BiPredicate<T, PlayerKnowledges> canUnlock, Consumer<PlayerKnowledges> onUnlock) {
         this.name = name;
+        this.difficulty = difficulty;
         this.preKnowledesNeed = preKnowledesNeed;
         this.repeatAble = repeatAble;
         this.canUnlock = canUnlock;
@@ -30,7 +32,7 @@ public abstract class ResearchBase<T extends PlayerEvent> {
         PlayerEntity player = event.getPlayer();
         UUID uuid = player.getUUID();
         World level = player.level;
-        if (!level.isClientSide()) {
+        if (level.getRandom().nextFloat() >= difficulty && !level.isClientSide()) {
             PlayerKnowledge playerKnowledge = PlayerKnowledge.get(level);
             PlayerKnowledges playerKnowledges = playerKnowledge.get(uuid);
             if (canUnlock(event, playerKnowledges)) {
