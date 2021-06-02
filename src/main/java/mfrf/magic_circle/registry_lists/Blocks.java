@@ -3,6 +3,7 @@ package mfrf.magic_circle.registry_lists;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.BlockBase;
 import mfrf.magic_circle.block.projector.BlockProjector;
+import mfrf.magic_circle.block.research_table.ResearchTable;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,6 +22,7 @@ public class Blocks {
 
     // tileentities
     public static final RegistryObject<Block> PROJECTOR = registryObject(new BlockProjector(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "projector");
+    public static final RegistryObject<Block> RESEARCH_TABLE = registryObject(new ResearchTable(AbstractBlock.Properties.of(Material.WOOD)), Items.DEFAULT_ITEM_PROPERTY, "research_table");
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
         Items.registerObject(new BlockItem(block, itemProperties), name);

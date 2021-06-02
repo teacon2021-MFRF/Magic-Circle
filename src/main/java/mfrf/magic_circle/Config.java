@@ -19,7 +19,7 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_GAITERS;
     public static ForgeConfigSpec.ConfigValue<Integer> DEFENSE_OF_MAGES_BOOTS;
     public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTMENTS_ABILITY_OF_MAGES_ARMOR;
-    public static ForgeConfigSpec.ConfigValue<Integer> MAX_CAPACITY_INK_BOTTLE;
+    public static ForgeConfigSpec.ConfigValue<Integer> MAX_USE_PEN_AND_INK;
 
     static {
         ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
@@ -77,7 +77,7 @@ public class Config {
 
         CONFIG_BUILDER.comment("Tool settings").push("tools");
 
-        MAX_CAPACITY_INK_BOTTLE = CONFIG_BUILDER.comment("Max capacity of Ink Bottle", "count by character", "Integer number").define("max_capacity_of_ink_bottle", 5000);
+        MAX_USE_PEN_AND_INK = CONFIG_BUILDER.comment("Max use of Pen and Ink", "1/character,10/node", "Integer number").define("max_capacity_of_ink_bottle", 5000);
 
         CONFIG_BUILDER.pop();
 

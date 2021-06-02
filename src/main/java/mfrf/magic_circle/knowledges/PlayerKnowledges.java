@@ -2,6 +2,8 @@ package mfrf.magic_circle.knowledges;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minecraft.nbt.CompoundNBT;
 
@@ -11,6 +13,7 @@ public class PlayerKnowledges {
     private int bagua;
     private int physical;
     private HashSet<String> unlockedResearchs = new HashSet<>();
+    private HashSet<String> analysedItem = new HashSet<>();
 
     public PlayerKnowledges() {
         this.math = 0;
@@ -19,12 +22,13 @@ public class PlayerKnowledges {
         this.physical = 0;
     }
 
-    public PlayerKnowledges(int math, int mystery, int bagua, int physical, String... researches) {
+    public PlayerKnowledges(int math, int mystery, int bagua, int physical, List<String> researches, List<String> items) {
         this.math = math;
         this.mystery = mystery;
         this.bagua = bagua;
         this.physical = physical;
-        unlockedResearchs.addAll(Arrays.asList(researches));
+        unlockedResearchs.addAll(researches);
+        analysedItem.addAll(items);
     }
 
     public int getMath() {
@@ -49,12 +53,26 @@ public class PlayerKnowledges {
         }
     }
 
-    public boolean hasAllUnlocked(String[] name){
+    public boolean hasAllUnlocked(String[] name) {
         return unlockedResearchs.containsAll(Arrays.asList(name));
     }
 
-    public boolean hasUnlocked(String name){
+    public boolean hasUnlocked(String name) {
         return unlockedResearchs.contains(name);
+    }
+
+    public void unlockItem(String name) {
+        if (!analysedItem.contains(name)) {
+            analysedItem.add(name);
+        }
+    }
+
+    public boolean hasAllItemUnlocked(String[] name) {
+        return analysedItem.containsAll(Arrays.asList(name));
+    }
+
+    public boolean hasItemUnlocked(String name) {
+        return analysedItem.contains(name);
     }
 
     public void addMath(int math) {
@@ -80,10 +98,15 @@ public class PlayerKnowledges {
         compoundNBT.putInt("bagua", bagua);
         compoundNBT.putInt("physical", physical);
         StringBuilder researches = new StringBuilder();
+        StringBuilder items = new StringBuilder();
         for (String name : unlockedResearchs) {
             researches.append("|").append(name);
         }
+        for (String name : analysedItem) {
+            items.append("|").append(name);
+        }
         compoundNBT.putString("researches", researches.toString());
+        compoundNBT.putString("items", items.toString());
         return compoundNBT;
     }
 
@@ -92,7 +115,8 @@ public class PlayerKnowledges {
         int mystery = nbt.getInt("mystery");
         int eightDiragrams = nbt.getInt("bagua");
         int physical = nbt.getInt("physical");
-        String[] researches = nbt.getString("researches").split("\\|");
-        return new PlayerKnowledges(math, mystery, eightDiragrams, physical, researches);
+        List<String> researches = Arrays.stream(nbt.getString("researches").split("\\|")).collect(Collectors.toList());
+        List<String> items = Arrays.stream(nbt.getString("items").split("\\|")).collect(Collectors.toList());
+        return new PlayerKnowledges(math, mystery, eightDiragrams, physical, researches, items);
     }
 }
