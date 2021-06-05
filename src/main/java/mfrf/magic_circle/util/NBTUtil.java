@@ -1,14 +1,15 @@
 package mfrf.magic_circle.util;
 
+import icyllis.modernui.math.Vector3;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class NBTUtil {
-    public static CompoundNBT writeVEC3f(Vector3f vector3f) {
+    public static CompoundNBT writeVEC3(Vector3 vector3) {
         CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putFloat("x", vector3f.x());
-        compoundNBT.putFloat("y", vector3f.y());
-        compoundNBT.putFloat("z", vector3f.z());
+        compoundNBT.putFloat("x", vector3.x);
+        compoundNBT.putFloat("y", vector3.y);
+        compoundNBT.putFloat("z", vector3.z);
         return compoundNBT;
     }
 

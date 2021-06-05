@@ -2,6 +2,7 @@ package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
 import java.util.function.Predicate;
 
+import icyllis.modernui.math.Vector3;
 import mfrf.magic_circle.entity.barrage.DanmakuEntity;
 import mfrf.magic_circle.magicutil.Invoker;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
@@ -10,8 +11,8 @@ import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.registry_lists.Entities;
+import mfrf.magic_circle.util.MathUtil;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -32,7 +33,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
             Invoker invoker = magicStreamInfo.invoker;
             Receiver receiver = magicStreamInfo.receiver;
-            Vector3f targetVec = receiver.vector3f;
+            Vector3 targetVec = receiver.vector3;
             World world = magicStreamInfo.receiver.world;
             MagicNodePropertyMatrix8By8 streamEigenMatrix = magicStream.eigenMatrix;
             double strength = streamEigenMatrix.getStrength();
@@ -147,10 +148,10 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             this.z = z;
         }
 
-        public PositionExpression(Vector3f vector3f) {
-            this.x = Float.toString(vector3f.x());
-            this.y = Float.toString(vector3f.y());
-            this.z = Float.toString(vector3f.z());
+        public PositionExpression(Vector3 vector3f) {
+            this.x = Float.toString(vector3f.x);
+            this.y = Float.toString(vector3f.y);
+            this.z = Float.toString(vector3f.z);
         }
 
         public PositionExpression() {
