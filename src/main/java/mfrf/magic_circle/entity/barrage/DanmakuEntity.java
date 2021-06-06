@@ -5,7 +5,8 @@ import java.util.Map;
 
 import com.googlecode.aviator.AviatorEvaluator;
 
-import icyllis.modernui.math.Vector3;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import org.apache.commons.lang3.RandomUtils;
 
 import mfrf.magic_circle.magicutil.RGBA;
@@ -40,10 +41,10 @@ public class DanmakuEntity extends Entity {
         super(p_i48580_1_, p_i48580_2_);
     }
 
-    public DanmakuEntity setTargetVec(Vector3 targetVec) {
-        this.entityData.set(X_TARGET, targetVec.x);
-        this.entityData.set(Y_TARGET, targetVec.y);
-        this.entityData.set(Z_TARGET, targetVec.z);
+    public DanmakuEntity setTargetVec(Vector3f targetVec) {
+        this.entityData.set(X_TARGET, targetVec.x());
+        this.entityData.set(Y_TARGET, targetVec.y());
+        this.entityData.set(Z_TARGET, targetVec.z());
         return this;
     }
 

@@ -2,8 +2,11 @@ package mfrf.magic_circle.util;
 
 import mfrf.magic_circle.block.projector.TERProjector;
 import mfrf.magic_circle.entity.magic_circle_base.RenderMagicCircle;
+import mfrf.magic_circle.gui.research_table.ResearchTableScreen;
 import mfrf.magic_circle.registry_lists.Entities;
+import mfrf.magic_circle.registry_lists.GuiContainers;
 import mfrf.magic_circle.registry_lists.TileEntities;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -21,5 +24,10 @@ public class ClientEventHandler {
             ClientRegistry.bindTileEntityRenderer(TileEntities.PROJECTOR.get(), TERProjector::new);
         });
 
+        event.enqueueWork(() -> {
+            ScreenManager.register(GuiContainers.RESEARCH_TABLE_CONTAINER.get(), ResearchTableScreen::new);
+        });
+
     }
+
 }

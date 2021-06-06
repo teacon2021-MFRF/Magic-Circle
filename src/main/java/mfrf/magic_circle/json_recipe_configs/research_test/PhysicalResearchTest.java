@@ -40,10 +40,6 @@ public class PhysicalResearchTest extends ResearchTestBase {
             return new PhysicalResearchTest(resourceLocation, dataContainer);
         }
 
-        @Override
-        public void toNetwork(PacketBuffer packetBuffer, PhysicalResearchTest researchTestBase) {
-            super.toNetwork(packetBuffer, researchTestBase);
-        }
     }
 
 }

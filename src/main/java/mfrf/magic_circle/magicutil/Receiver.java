@@ -1,13 +1,12 @@
 package mfrf.magic_circle.magicutil;
 
-import icyllis.modernui.math.Vector3;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 
 public class Receiver {
-    public Vector3 vector3;
+    public Vector3f vector3;
     public BlockPos pos;
     public ResourceLocation dimension;
     public WeatherType weatherType;
@@ -18,7 +17,7 @@ public class Receiver {
     public float radius;
     public World world;
 
-    public Receiver(Vector3 vector3f, BlockPos pos, ResourceLocation dimension, WeatherType weatherType, RangeType rangeType, float rangeX, float rangeY, float rangeZ, float radius, World world) {
+    public Receiver(Vector3f vector3f, BlockPos pos, ResourceLocation dimension, WeatherType weatherType, RangeType rangeType, float rangeX, float rangeY, float rangeZ, float radius, World world) {
         this.vector3 = vector3f;
         this.pos = pos;
         this.dimension = dimension;

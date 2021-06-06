@@ -6,9 +6,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import icyllis.modernui.math.Vector3;
 import mfrf.magic_circle.Config;
-import mfrf.magic_circle.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
@@ -32,7 +30,7 @@ public class CircleObject extends MagicCircleComponentBase {
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3 actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         float allLength = (float) (Math.PI * radius * 2);
         double renderingTimeSum = allLength * renderingSpeed;
         float actualTime = trueTime + time;
@@ -40,7 +38,7 @@ public class CircleObject extends MagicCircleComponentBase {
         float actualLength = (v >= 1 ? allLength : (allLength * v));
 
 
-        ArrayList<Vector3> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0);
+        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
@@ -66,16 +64,16 @@ public class CircleObject extends MagicCircleComponentBase {
         return false;
     }
 
-    public ArrayList<Vector3> getCircle(float length, float timePassed, boolean rotate) {
-        ArrayList<Vector3> points = new ArrayList<>();
+    public ArrayList<Vector3f> getCircle(float length, float timePassed, boolean rotate) {
+        ArrayList<Vector3f> points = new ArrayList<>();
         float v = Config.CURVE_PRECISION.get() / length;
 
 
         for (float i = 0; i <= length; i += v) {
-            Vector3 pos = new Vector3((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
+            Vector3f pos = new Vector3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
 
             if (rotate) {
-                pos.transform(icyllis.modernui.math.Quaternion.makeEulerAngles(xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed));
+                pos.transform(new Quaternion(xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed, true));
             }
 
             points.add(pos);

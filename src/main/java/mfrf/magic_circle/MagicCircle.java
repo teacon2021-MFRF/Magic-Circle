@@ -24,6 +24,7 @@ public class MagicCircle {
         TileEntities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         Entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         JsonConfigs.JSONCONFIG_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+        GuiContainers.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     public static void onSetUpEvent(FMLCommonSetupEvent event) {

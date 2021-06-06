@@ -71,10 +71,10 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     maven { url = "https://maven.theillusivec4.top/" }
     maven { url 'https://maven.blamejared.com' }
-    maven {
-        name 'IzzelAliz Maven'
-        url 'https://maven.izzel.io/releases'
-    }
+//    maven {
+//        name 'IzzelAliz Maven'
+//        url 'https://maven.izzel.io/releases'
+//    }
 }
 
 dependencies {
@@ -87,9 +87,8 @@ dependencies {
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}:api")
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51")
-    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
-    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}@pom")
-    //todo try to use
+//    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
+//    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}@pom")
 //    compile fg.deobf("com.youbenzi:MDTool:1.2.4")
 //    compileOnly fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
 //    runtimeOnly fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")

@@ -1,10 +1,6 @@
 package mfrf.magic_circle.block.projector;
 
-import java.util.ArrayList;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
-import icyllis.modernui.math.Vector3;
 import mfrf.magic_circle.rendering.BezierCurveObject;
 import mfrf.magic_circle.rendering.CircleObject;
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
@@ -13,6 +9,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+
+import java.util.ArrayList;
 
 public class TERProjector extends TileEntityRenderer<TileProjector> {
     public TERProjector(TileEntityRendererDispatcher p_i226006_1_) {
@@ -26,7 +24,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         circleObjects.add(new CircleObject(2.780f, 0, 0, 0, 8));
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, 1, 100, 0, 0, 0, 0);
         BlockPos pos = tileProjector.getBlockPos();
-        magicCircleRenderBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3(pos.getX(), pos.getY(), pos.getZ()));
+        magicCircleRenderBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3d(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override

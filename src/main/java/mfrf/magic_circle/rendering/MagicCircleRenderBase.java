@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import icyllis.modernui.math.Vector3;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
 public class MagicCircleRenderBase extends MagicCircleComponentBase {
@@ -37,7 +37,7 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
      * @return if returnValue == true, whitch means all rendering progress has complete(include progress of instance).
      */
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3 actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         currentProgress += progressAdditionPerTick;
         boolean flag = true;
         for (BezierCurveObject curve : curves) {

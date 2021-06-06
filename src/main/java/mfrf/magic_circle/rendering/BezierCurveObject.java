@@ -8,21 +8,20 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import icyllis.modernui.math.Vector3;
 import mfrf.magic_circle.Config;
-import mfrf.magic_circle.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
 public class BezierCurveObject extends MagicCircleComponentBase {
-    private ArrayList<Vector3> points;
+    private ArrayList<Vector3f> points;
 
-    public BezierCurveObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, Vector3... points) {
+    public BezierCurveObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, Vector3f... points) {
         super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius);
         this.points = new ArrayList<>(Arrays.asList(points));
     }
@@ -40,9 +39,9 @@ public class BezierCurveObject extends MagicCircleComponentBase {
      * @param time current time of rendering
      * @return a list of point in bezier curve
      */
-    public ArrayList<Vector3> getBezierPoints(float time) {
-        ArrayList<Vector3> bezierPointList = new ArrayList<>();
-        Iterator<Vector3> it = points.iterator();
+    public ArrayList<Vector3f> getBezierPoints(float time) {
+        ArrayList<Vector3f> bezierPointList = new ArrayList<>();
+        Iterator<Vector3f> it = points.iterator();
         Float precision = Config.CURVE_PRECISION.get();
 
         int si = points.size();
@@ -52,10 +51,10 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         float v = precision <= 0 ? 0.05f : precision;
 
         for (int j = 0; it.hasNext(); j++) {
-            Vector3 q = it.next();
-            p[j][0] = q.x;
-            p[j][1] = q.y;
-            p[j][2] = q.z;
+            Vector3f q = it.next();
+            p[j][0] = q.x();
+            p[j][1] = q.y();
+            p[j][2] = q.z();
         }
 
         float x0 = p[0][0];
@@ -88,7 +87,7 @@ public class BezierCurveObject extends MagicCircleComponentBase {
             x1 = (float) xt;
             y1 = (float) yt;
             z1 = (float) zt;
-            bezierPointList.add(new Vector3(x0, y0, z0));
+            bezierPointList.add(new Vector3f(x0, y0, z0));
             x0 = x1;
             y0 = y1;
             z0 = z1;
@@ -127,10 +126,10 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         compoundNBT.putFloat("delay", delay);
         for (int i = 0; i < points.size(); i++) {
             CompoundNBT point = new CompoundNBT();
-            Vector3 vector3f = points.get(i);
-            point.putFloat("x", vector3f.x);
-            point.putFloat("y", vector3f.y);
-            point.putFloat("z", vector3f.z);
+            Vector3f vector3f = points.get(i);
+            point.putFloat("x", vector3f.x());
+            point.putFloat("y", vector3f.y());
+            point.putFloat("z", vector3f.z());
             pointList.add(i, point);
         }
         compoundNBT.put("points", pointList);
@@ -146,17 +145,17 @@ public class BezierCurveObject extends MagicCircleComponentBase {
             ListNBT points = compoundNBT.getList("points", Constants.NBT.TAG_COMPOUND);
             for (int i = 0; i < count; i++) {
                 CompoundNBT compoundPoint = (CompoundNBT) points.get(i);
-                this.points.add(new Vector3(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z")));
+                this.points.add(new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z")));
                 //todo fix rotation
             }
         }
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3 actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         float v = time + trueTime;
         float timePassed = (v > 1.0f ? v % 1.0f : v);
-        ArrayList<Vector3> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Matrix4f matrix = matrixStackIn.last().pose();

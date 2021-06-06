@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import icyllis.modernui.math.Vector3;
 import mfrf.magic_circle.Config;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 public abstract class MagicCircleComponentBase {
     protected static final float PRECISION = Config.CURVE_PRECISION.get();
@@ -53,7 +53,7 @@ public abstract class MagicCircleComponentBase {
         this.zRotateSpeedRadius = compoundNBT.getFloat("zrot");
     }
 
-    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3 actualPosition) {
+    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
         if (trueTime + time - delay <= 0) {
             return false;
         } else {
@@ -61,18 +61,18 @@ public abstract class MagicCircleComponentBase {
         }
     }
 
-    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3 actualPosition);
+    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition);
 
-    protected static void SingleLine(IVertexBuilder builder, Matrix4f positionMatrix, BlockPos pos, Vector3 positionBegin, Vector3 positionEnd, float r, float g, float b, float alpha) {
-        builder.vertex(positionMatrix, pos.getX() + positionBegin.x, pos.getY() + positionBegin.y, pos.getZ() + positionBegin.z)
+    protected static void SingleLine(IVertexBuilder builder, Matrix4f positionMatrix, BlockPos pos, Vector3f positionBegin, Vector3f positionEnd, float r, float g, float b, float alpha) {
+        builder.vertex(positionMatrix, pos.getX() + positionBegin.x(), pos.getY() + positionBegin.y(), pos.getZ() + positionBegin.z())
                 .color(r, g, b, alpha)
                 .endVertex();
-        builder.vertex(positionMatrix, pos.getX() + positionEnd.x, pos.getY() + positionEnd.y, pos.getZ() + positionEnd.z)
+        builder.vertex(positionMatrix, pos.getX() + positionEnd.x(), pos.getY() + positionEnd.y(), pos.getZ() + positionEnd.z())
                 .color(r, g, b, alpha)
                 .endVertex();
     }
 
-    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3 pos, float r, float g, float b, float alpha, boolean enableGradients, ArrayList<Vector3> nodes) {
+    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, float r, float g, float b, float alpha, boolean enableGradients, ArrayList<Vector3f> nodes) {
         int size = nodes.size();
 
         if (enableGradients) {
@@ -81,15 +81,15 @@ public abstract class MagicCircleComponentBase {
             float gradientB = ((size * blueGradient - b) % 1.0f) / size;
 
             for (int i = 0; i < size; i++) {
-                builder.vertex(positionMatrix, pos.x + nodes.get(i).x, pos.y + nodes.get(i).y, pos.z + nodes.get(i).z)
+                builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
                         .color((r + gradientR * i), (g + gradientG * i), (b + gradientB * i), alpha)
                         .endVertex();
             }
 
         } else {
 
-            for (Vector3 node : nodes) {
-                builder.vertex(positionMatrix, pos.x + node.x, pos.y + node.y, pos.z + node.z)
+            for (Vector3f node : nodes) {
+                builder.vertex(positionMatrix, pos.x() + node.x(), pos.y() + node.y(), pos.z() + node.z())
                         .color((r), (g), (b), alpha)
                         .endVertex();
             }
