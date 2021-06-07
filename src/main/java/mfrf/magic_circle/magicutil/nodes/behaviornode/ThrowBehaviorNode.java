@@ -45,34 +45,34 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             double efficient = streamEigenMatrix.getEfficient();
 
             switch (lastNode.getNodeType()) {
-                case BEGIN -> {
+                case BEGIN : {
 
                     break;
                 }
-                case FINAL -> {
+                case FINAL : {
 
                     break;
                 }
-                case MODEL -> {
+                case MODEL : {
 
                     break;
                 }
-                case EFFECT -> {
+                case EFFECT : {
 
                     break;
                 }
-                case ADDITION -> {
+                case ADDITION : {
 
                     break;
                 }
-                case BEHAVIOR -> {
+                case BEHAVIOR : {
 
                     break;
                 }
-                case DECORATE -> {
+                case DECORATE : {
                     DecorateNodeBase decorateNode = (DecorateNodeBase) lastNode;
                     switch (decorateNode.decorateType) {
-                        case POWER -> {
+                        case POWER : {
                             int count = (int) Math.min((execute_speed - cooldown) * strength / 20, 50);
                             double splitArgument = cooldown / execute_speed;
                             long countPerShoot = Math.round(count / (splitArgument < 1 ? 1 : splitArgument));
@@ -97,19 +97,19 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
                             return magicStream;
                         }
-                        case INVERT -> {
+                        case INVERT : {
 
                         }
-                        case STRENGTH -> {
+                        case STRENGTH : {
 
                         }
-                        case EXPANSION -> {
+                        case EXPANSION : {
 
                         }
-                        case CONTINUOUS -> {
+                        case CONTINUOUS : {
 
                         }
-                        case DIAGONALIZE -> {
+                        case DIAGONALIZE : {
 
                         }
 
@@ -117,7 +117,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
                     break;
                 }
-                case RESONANCE -> {
+                case RESONANCE : {
 
                     break;
                 }

@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import mfrf.magic_circle.Config;
+import mfrf.magic_circle.util.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
@@ -50,7 +51,17 @@ public class CircleObject extends MagicCircleComponentBase {
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
         //todo fix gradient algorithm
-        curve(builder, matrix, actualPosition, (float) (actualTime * redGradient * 10) % 1f, (float) (actualTime * greenGradient * 10) % 1f, (float) (actualTime * blueGradient * 10) % 1f, 1, false, circleArcPoints);
+
+        Colors add = color;
+        if (enableRGBGradient) {
+            add = color.add(
+                    (int) ((time * redGradient) % 255f),
+                    (int) ((time * greenGradient) % 255f),
+                    (int) ((time * blueGradient) % 255f)
+            );
+        }
+
+        curve(builder, matrix, actualPosition, add.toAWT(), enableRGBGradient, enableAlphaGradient, circleArcPoints);
 
         matrixStackIn.popPose();
 
@@ -73,9 +84,12 @@ public class CircleObject extends MagicCircleComponentBase {
             Vector3f pos = new Vector3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
 
             if (rotate) {
-                pos.transform(new Quaternion(xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed, true));
+                Quaternion copy = rotation.copy();
+                copy.mul(new Quaternion(xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed, true));
+                pos.transform(copy);
             }
 
+            pos.add(positionOffset);
             points.add(pos);
         }
         return points;

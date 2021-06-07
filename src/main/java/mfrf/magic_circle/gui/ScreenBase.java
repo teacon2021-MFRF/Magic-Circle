@@ -18,7 +18,12 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         this.renderBackground(matrixStack);
-        this.minecraft.getTextureManager().getTexture(getTexture());
+
+        ResourceLocation texture = getTexture();
+
+        if (texture != null) {
+            this.minecraft.getTextureManager().getTexture(texture);
+        }
         int i = (this.width - this.getXSize()) / 2;
         int j = (this.height - this.getYSize()) / 2;
         blit(matrixStack, i, j, 0, 0, getXSize(), getYSize(), imageWidth, imageHeight);

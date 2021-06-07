@@ -1,15 +1,18 @@
 package mfrf.magic_circle.rendering;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import mfrf.magic_circle.Config;
+import mfrf.magic_circle.util.Colors;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -25,6 +28,42 @@ public abstract class MagicCircleComponentBase {
     protected float xRotateSpeedRadius;
     protected float yRotateSpeedRadius;
     protected float zRotateSpeedRadius;
+    protected Vector3f positionOffset = new Vector3f(0, 0, 0);
+    protected Quaternion rotation = Quaternion.ONE;
+    protected boolean enableAlphaGradient = false;
+    protected int defaultAlpha = 255;
+    protected boolean enableRGBGradient = false;
+    protected Colors color = Colors.YANG;
+
+    public <T extends MagicCircleComponentBase> T setPositionOffset(Vector3f positionOffset) {
+        this.positionOffset = positionOffset;
+        return (T) this;
+    }
+
+    public <T extends MagicCircleComponentBase> T setRotation(Quaternion rotation) {
+        this.rotation = rotation;
+        return (T) this;
+    }
+
+    public <T extends MagicCircleComponentBase> T setAlpha(int alpha) {
+        this.defaultAlpha = alpha;
+        return (T) this;
+    }
+
+    public <T extends MagicCircleComponentBase> T enableAlphaGradient() {
+        enableAlphaGradient = true;
+        return (T) this;
+    }
+
+    public <T extends MagicCircleComponentBase> T enableRGBGradient() {
+        enableRGBGradient = true;
+        return (T) this;
+    }
+
+    public <T extends MagicCircleComponentBase> T setColor(Colors color) {
+        this.color = color;
+        return (T) this;
+    }
 
     public MagicCircleComponentBase() {
         xRotateSpeedRadius = 0;
@@ -72,29 +111,33 @@ public abstract class MagicCircleComponentBase {
                 .endVertex();
     }
 
-    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, float r, float g, float b, float alpha, boolean enableGradients, ArrayList<Vector3f> nodes) {
+    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, Color color, boolean enableRGBGradients, boolean enableAlphaGradients, ArrayList<Vector3f> nodes) {
         int size = nodes.size();
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        int alpha = color.getAlpha();
 
-        if (enableGradients) {
-            float gradientR = ((size * redGradient - r) % 1.0f) / size;
-            float gradientG = ((size * greenGradient - g) % 1.0f) / size;
-            float gradientB = ((size * blueGradient - b) % 1.0f) / size;
+        float gradientR = 0;
+        float gradientG = 0;
+        float gradientB = 0;
+        float alphaGradients = 0;
+
+        if (enableRGBGradients) {
+            gradientR = ((size * redGradient - r) % 255f) / size;
+            gradientG = ((size * greenGradient - g) % 255f) / size;
+            gradientB = ((size * blueGradient - b) % 255f) / size;
+        }
+
+        if (enableAlphaGradients) {
+            alphaGradients = ((size * alphaGradient - b) % 255f);
+        }
 
             for (int i = 0; i < size; i++) {
                 builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
-                        .color((r + gradientR * i), (g + gradientG * i), (b + gradientB * i), alpha)
+                        .color((int) (r + gradientR * i), (int) (g + gradientG * i), (int) (b + gradientB * i), (int) (alpha + alphaGradients * i))
                         .endVertex();
             }
-
-        } else {
-
-            for (Vector3f node : nodes) {
-                builder.vertex(positionMatrix, pos.x() + node.x(), pos.y() + node.y(), pos.z() + node.z())
-                        .color((r), (g), (b), alpha)
-                        .endVertex();
-            }
-
-        }
 
     }
 

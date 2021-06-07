@@ -1,5 +1,6 @@
 package mfrf.magic_circle.rendering;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import mfrf.magic_circle.Config;
+import mfrf.magic_circle.util.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
@@ -87,7 +89,10 @@ public class BezierCurveObject extends MagicCircleComponentBase {
             x1 = (float) xt;
             y1 = (float) yt;
             z1 = (float) zt;
-            bezierPointList.add(new Vector3f(x0, y0, z0));
+
+            Vector3f vector3f = new Vector3f(x0, y0, z0);
+            vector3f.add(positionOffset);
+            bezierPointList.add(vector3f);
             x0 = x1;
             y0 = y1;
             z0 = z1;
@@ -153,9 +158,13 @@ public class BezierCurveObject extends MagicCircleComponentBase {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
-        float v = time + trueTime;
-        float timePassed = (v > 1.0f ? v % 1.0f : v);
+//        float v = time / 10f + trueTime;
+        float v = time / 10f + trueTime;
+//        float v = trueTime;
+        float timePassed = (Math.min(v, 1.0f));
+        //todo calculate rendering speed
         ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
+//        ArrayList<Vector3f> bezierPoints = getBezierPoints(v >= 1 ? 1 : v);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Matrix4f matrix = matrixStackIn.last().pose();
@@ -166,9 +175,17 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
-//            curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), (float) (time * alphaGradient), false, bezierPoints);
-//        curve(builder, matrix, actualPosition, (float) (time * redGradient), (float) (time * greenGradient), (float) (time * blueGradient), 1, true, bezierPoints);
-        curve(builder, matrix, actualPosition, (float) (time * redGradient) % 1, (float) (time * greenGradient) % 1, (float) (time * blueGradient) % 1, 1, true, bezierPoints);
+
+        Colors add = color;
+        if (enableRGBGradient) {
+            add = color.add(
+                    (int) ((time * redGradient) % 255f),
+                    (int) ((time * greenGradient) % 255f),
+                    (int) ((time * blueGradient) % 255f)
+            );
+        }
+
+        curve(builder, matrix, actualPosition, add.toAWT(), enableRGBGradient, enableAlphaGradient, bezierPoints);
 
         matrixStackIn.popPose();
 
@@ -176,6 +193,6 @@ public class BezierCurveObject extends MagicCircleComponentBase {
         RenderSystem.disableDepthTest();
         buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
 
-        return timePassed == 1.0f;
+        return v >= 1.0f;
     }
 }

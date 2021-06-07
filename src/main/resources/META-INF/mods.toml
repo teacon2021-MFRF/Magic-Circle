@@ -23,13 +23,6 @@ description='''
    side="BOTH"
 
 [[dependencies.magic_circle]] #optional
-   modId="modernui"
-   mandatory=true
-   versionRange="[2.5.2.87,)"
-   ordering="NONE"
-   side="BOTH"
-
-[[dependencies.magic_circle]] #optional
    modId="patchouli"
    mandatory=true
    versionRange="[1.16.4-51,)"

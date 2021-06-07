@@ -1,7 +1,6 @@
 package mfrf.magic_circle.entity.magic_circle_base;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -9,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class RenderMagicCircle extends EntityRenderer<EntityMagicCircle> {
     public RenderMagicCircle(EntityRendererManager p_i46179_1_) {
@@ -28,7 +28,7 @@ public class RenderMagicCircle extends EntityRenderer<EntityMagicCircle> {
         Float progress = entityMagicCircle.getEntityData().get(EntityMagicCircle.PROGRESS);
         Vector3d lookVec = entityMagicCircle.getLookAngle();
         BlockPos positionVec = entityMagicCircle.blockPosition();
-        magicCircleRenderBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3d(positionVec.getX(), positionVec.getY(), positionVec.getZ()));
+        magicCircleRenderBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()));
     }
 
 }

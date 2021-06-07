@@ -2,17 +2,17 @@ package mfrf.magic_circle.util;
 
 import java.awt.Color;
 
-public enum Colors {
-    YIN(255, 255, 255),
-    YANG(0, 0, 0),
-    LIHUO(255, 0, 0),
-    KANSHUI(0, 0, 255),
-    DRYSKY(0, 255, 255),
-    KUNDI(0, 255, 0),
-    SUNDAE(255, 255, 0),
-    THUNDER(160, 165, 255),
-    GENSHAN(255, 0, 255),
-    DUIZE(226, 255, 66);
+public class Colors {
+    public static final Colors YIN = new Colors(255, 255, 255);
+    public static final Colors YANG = new Colors(0, 0, 0);
+    public static final Colors LIHUO = new Colors(255, 0, 0);
+    public static final Colors KANSHUI = new Colors(0, 0, 255);
+    public static final Colors DRYSKY = new Colors(0, 255, 255);
+    public static final Colors KUNDI = new Colors(0, 255, 0);
+    public static final Colors SUNDAE = new Colors(255, 255, 0);
+    public static final Colors THUNDER = new Colors(160, 165, 255);
+    public static final Colors GENSHAN = new Colors(255, 0, 255);
+    public static final Colors DUIZE = new Colors(226, 255, 66);
 
 
     private final Color color;
@@ -45,5 +45,16 @@ public enum Colors {
         int green = Math.round(DRYSKY.color.getGreen() * drysky + SUNDAE.color.getGreen() * sundae + KANSHUI.color.getGreen() * kanshui + GENSHAN.color.getGreen() * genshan + KUNDI.color.getGreen() * kundi + THUNDER.color.getGreen() * thunder + LIHUO.color.getGreen() * lihuo + DUIZE.color.getGreen() * duize + YIN.color.getGreen() * yin + YANG.color.getGreen() * yang) % 255;
         int blue = Math.round(DRYSKY.color.getBlue() * drysky + SUNDAE.color.getBlue() * sundae + KANSHUI.color.getBlue() * kanshui + GENSHAN.color.getBlue() * genshan + KUNDI.color.getBlue() * kundi + THUNDER.color.getBlue() * thunder + LIHUO.color.getBlue() * lihuo + DUIZE.color.getBlue() * duize + YIN.color.getBlue() * yin + YANG.color.getBlue() * yang) % 255;
         return new Color(red, green, blue);
+    }
+
+    public Colors add(int r, int g, int b) {
+        int red = (color.getRed() + r) % 255;
+        int green = (color.getGreen() + r) % 255;
+        int blue = (color.getBlue() + r) % 255;
+        return new Colors(red, green, blue);
+    }
+
+    public Color toAWT() {
+        return color;
     }
 }

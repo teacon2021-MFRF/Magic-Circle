@@ -25,13 +25,24 @@ public class ItemMagicCrystal extends ItemBase implements ItemMagicArmorMatrial 
 
     @Override
     public int getDefenseForSlot(EquipmentSlotType equipmentSlotType) {
-        return switch (equipmentSlotType) {
-        case FEET -> Config.DEFENSE_OF_MAGES_BOOTS.get();
-        case HEAD -> Config.DEFENSE_OF_MAGES_CROWN.get();
-        case CHEST -> Config.DEFENSE_OF_MAGES_CLOAK.get();
-        case LEGS -> Config.DEFENSE_OF_MAGES_GAITERS.get();
-        default -> 0;
-        };
+        int i = 0;
+        switch (equipmentSlotType) {
+            case FEET:
+                i = Config.DEFENSE_OF_MAGES_BOOTS.get();
+                break;
+            case HEAD:
+                i = Config.DEFENSE_OF_MAGES_CROWN.get();
+                break;
+            case CHEST:
+                i = Config.DEFENSE_OF_MAGES_CLOAK.get();
+                break;
+            case LEGS:
+                i = Config.DEFENSE_OF_MAGES_GAITERS.get();
+                break;
+            default:
+                i = 0;
+        }
+        return i;
     }
 
     @Override
