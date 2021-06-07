@@ -52,16 +52,7 @@ public class CircleObject extends MagicCircleComponentBase {
 
         //todo fix gradient algorithm
 
-        Colors add = color;
-        if (enableRGBGradient) {
-            add = color.add(
-                    (int) ((time * redGradient) % 255f),
-                    (int) ((time * greenGradient) % 255f),
-                    (int) ((time * blueGradient) % 255f)
-            );
-        }
-
-        curve(builder, matrix, actualPosition, add.toAWT(), enableRGBGradient, enableAlphaGradient, circleArcPoints);
+        curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, circleArcPoints);
 
         matrixStackIn.popPose();
 

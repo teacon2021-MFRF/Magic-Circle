@@ -73,7 +73,10 @@ public abstract class MagicCircleComponentBase {
     }
 
     public MagicCircleComponentBase(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius) {
-
+        this.delay = delay;
+        this.xRotateSpeedRadius = xRotateSpeedRadius;
+        this.yRotateSpeedRadius = yRotateSpeedRadius;
+        this.zRotateSpeedRadius = zRotateSpeedRadius;
     }
 
     public CompoundNBT serializeNBT() {
@@ -101,6 +104,19 @@ public abstract class MagicCircleComponentBase {
     }
 
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition);
+
+    protected Colors getColorsAdd(float time) {
+        Colors add = color;
+        if (enableRGBGradient) {
+            add = color.add(
+                    (int) ((time * redGradient) % 255f),
+                    (int) ((time * greenGradient) % 255f),
+                    (int) ((time * blueGradient) % 255f)
+            );
+        }
+        return add;
+    }
+
 
     protected static void SingleLine(IVertexBuilder builder, Matrix4f positionMatrix, BlockPos pos, Vector3f positionBegin, Vector3f positionEnd, float r, float g, float b, float alpha) {
         builder.vertex(positionMatrix, pos.getX() + positionBegin.x(), pos.getY() + positionBegin.y(), pos.getZ() + positionBegin.z())
@@ -133,12 +149,30 @@ public abstract class MagicCircleComponentBase {
             alphaGradients = ((size * alphaGradient - b) % 255f);
         }
 
-            for (int i = 0; i < size; i++) {
-                builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
-                        .color((int) (r + gradientR * i), (int) (g + gradientG * i), (int) (b + gradientB * i), (int) (alpha + alphaGradients * i))
-                        .endVertex();
-            }
+        for (int i = 0; i < size; i++) {
+            builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
+                    .color((int) (r + gradientR * i), (int) (g + gradientG * i), (int) (b + gradientB * i), (int) (alpha + alphaGradients * i))
+                    .endVertex();
+        }
 
+    }
+
+    protected static ArrayList<Vector3f> linearInsert(Vector3f p1, Vector3f p2) {
+        Vector3f vecOffset = p2.copy();
+        vecOffset.sub(p1);
+
+        vecOffset.mul(PRECISION);
+        ArrayList<Vector3f> insertedPoints = new ArrayList<>();
+
+        for (int i = 1; i < 1 / PRECISION; i++) {
+            Vector3f copy = p1.copy();
+            Vector3f offsetCurrent = vecOffset.copy();
+            offsetCurrent.mul(i);
+            copy.add(offsetCurrent);
+            insertedPoints.add(copy);
+        }
+
+        return insertedPoints;
     }
 
     protected static void picture() {

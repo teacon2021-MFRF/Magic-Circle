@@ -23,7 +23,7 @@ public class RenderTypes extends RenderType {
                     .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setTextureState(NO_TEXTURE)
-                    .setDepthTestState(RenderState.NO_DEPTH_TEST)
+                    .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
                     .setCullState(CullState.NO_CULL)
                     .setLightmapState(RenderState.NO_LIGHTMAP)
                     .setWriteMaskState(COLOR_WRITE)
@@ -35,9 +35,10 @@ public class RenderTypes extends RenderType {
                     .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setTextureState(NO_TEXTURE)
-                    .setDepthTestState(RenderState.NO_DEPTH_TEST)
+                    .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
                     .setCullState(CullState.NO_CULL)
                     .setLightmapState(RenderState.NO_LIGHTMAP)
                     .setWriteMaskState(COLOR_WRITE)
                     .createCompositeState(false));
+
 }

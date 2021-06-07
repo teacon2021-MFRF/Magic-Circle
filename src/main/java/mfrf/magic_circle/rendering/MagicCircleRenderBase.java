@@ -13,18 +13,18 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
 public class MagicCircleRenderBase extends MagicCircleComponentBase {
-    public int progressAdditionPerTick;
     public int currentProgress = 0;
     public int maxProgress = 0;
     protected ArrayList<BezierCurveObject> curves;
     protected ArrayList<CircleObject> circles;
+    protected ArrayList<LineObject> lineObjects;
 
-    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, int progressAdditionPerTick, int maxProgress, float delay, float xrot, float yrot, float zrot) {
+    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, ArrayList<LineObject> lines, int maxProgress, float delay, float xrot, float yrot, float zrot) {
         super(delay, xrot, yrot, zrot);
         this.curves = curves;
         this.circles = circles;
-        this.progressAdditionPerTick = progressAdditionPerTick;
         this.maxProgress = maxProgress;
+        this.lineObjects = lines;
     }
 
     public MagicCircleRenderBase() {
@@ -38,7 +38,7 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
      */
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
-        currentProgress += progressAdditionPerTick;
+        currentProgress += 1;
         boolean flag = true;
         for (BezierCurveObject curve : curves) {
             boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
@@ -48,13 +48,16 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
             boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
             flag = flag && b;
         }
+        for (LineObject lineObject : lineObjects) {
+            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            flag = flag && b;
+        }
         return flag && (maxProgress == currentProgress);
     }
 
     public CompoundNBT serializeNBT() {
         super.serializeNBT();
         CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putInt("pgpt", progressAdditionPerTick);
         compoundNBT.putInt("max_progress", maxProgress);
         compoundNBT.putInt("current_progress", currentProgress);
         compoundNBT.putFloat("delay", delay);
@@ -73,7 +76,7 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
 
     @Override
     public void deserializeNBT(CompoundNBT compoundNBT) {
-        if (compoundNBT.contains("pgpt") && compoundNBT.contains("curves") && compoundNBT.contains("circles") && compoundNBT.contains("delay")) {
+        if (compoundNBT.contains("curves") && compoundNBT.contains("circles") && compoundNBT.contains("delay")) {
             super.deserializeNBT(compoundNBT);
             ListNBT curvesNBT = compoundNBT.getList("curves", Constants.NBT.TAG_COMPOUND);
             ListNBT circlesNBT = compoundNBT.getList("circles", Constants.NBT.TAG_COMPOUND);
@@ -87,7 +90,6 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
                 circleObject.deserializeNBT((CompoundNBT) inbt);
                 this.circles.add(circleObject);
             }
-            progressAdditionPerTick = compoundNBT.getInt("pgpt");
             this.maxProgress = compoundNBT.getInt("max_progress");
             this.currentProgress = compoundNBT.getInt("current_progress");
             this.delay = compoundNBT.getInt("delay");
