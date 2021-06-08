@@ -40,7 +40,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, lineObjects, 100, 0, 0, 0, 0);
         BlockPos pos = tileProjector.getBlockPos();
 //        magicCircleRenderBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
-        magicCircleRenderBase.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, 0.5f, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
+        magicCircleRenderBase.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, 0.5f, new Vector3d(1, 1, 1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     @Override

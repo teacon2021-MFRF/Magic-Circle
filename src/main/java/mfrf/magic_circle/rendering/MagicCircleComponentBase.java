@@ -16,7 +16,7 @@ import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
-public abstract class MagicCircleComponentBase {
+public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBase> {
     protected static final float PRECISION = Config.CURVE_PRECISION.get();
     protected static final float redGradient = 0.031f;
     protected static final float greenGradient = 0.023f;
@@ -35,32 +35,32 @@ public abstract class MagicCircleComponentBase {
     protected boolean enableRGBGradient = false;
     protected Colors color = Colors.YANG;
 
-    public <T extends MagicCircleComponentBase> T setPositionOffset(Vector3f positionOffset) {
+    public T setPositionOffset(Vector3f positionOffset) {
         this.positionOffset = positionOffset;
         return (T) this;
     }
 
-    public <T extends MagicCircleComponentBase> T setRotation(Quaternion rotation) {
+    public T setRotation(Quaternion rotation) {
         this.rotation = rotation;
         return (T) this;
     }
 
-    public <T extends MagicCircleComponentBase> T setAlpha(int alpha) {
+    public T setAlpha(int alpha) {
         this.defaultAlpha = alpha;
         return (T) this;
     }
 
-    public <T extends MagicCircleComponentBase> T enableAlphaGradient() {
+    public T enableAlphaGradient() {
         enableAlphaGradient = true;
         return (T) this;
     }
 
-    public <T extends MagicCircleComponentBase> T enableRGBGradient() {
+    public T enableRGBGradient() {
         enableRGBGradient = true;
         return (T) this;
     }
 
-    public <T extends MagicCircleComponentBase> T setColor(Colors color) {
+    public T setColor(Colors color) {
         this.color = color;
         return (T) this;
     }
@@ -178,4 +178,5 @@ public abstract class MagicCircleComponentBase {
     protected static void picture() {
 
     }
+
 }

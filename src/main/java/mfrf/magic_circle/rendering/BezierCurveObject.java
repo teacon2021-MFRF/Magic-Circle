@@ -20,7 +20,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
-public class BezierCurveObject extends MagicCircleComponentBase {
+public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObject> {
     private ArrayList<Vector3f> points;
 
     public BezierCurveObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, Vector3f... points) {
