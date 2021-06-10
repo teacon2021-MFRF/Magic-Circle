@@ -41,7 +41,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
      * @param time current time of rendering
      * @return a list of point in bezier curve
      */
-    public ArrayList<Vector3f> getBezierPoints(float time) {
+    public ArrayList<Vector3f> getBezierPoints(float time, Vector3f lookVec) {
         ArrayList<Vector3f> bezierPointList = new ArrayList<>();
         Iterator<Vector3f> it = points.iterator();
         Float precision = Config.CURVE_PRECISION.get();
@@ -91,6 +91,9 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
             z1 = (float) zt;
 
             Vector3f vector3f = new Vector3f(x0, y0, z0);
+            if (rotateWithLookVec) {
+                vector3f = getLookVecTransform(vector3f, lookVec);
+            }
             vector3f.add(positionOffset);
             bezierPointList.add(vector3f);
             x0 = x1;
@@ -158,11 +161,12 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
-        float globalTime = getBezierPoints(1).size() / 15f;
+        Vector3f lookVecF = new Vector3f(lookVec);
+        float globalTime = getBezierPoints(1, lookVecF).size() / 15f;
         float v = Math.max(0, time + trueTime - delay);
         float timePassed = Math.min(v / globalTime, 1);
         //todo calculate rendering speed
-        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed);
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed, lookVecF);
 
 //        ArrayList<Vector3f> bezierPoints = getBezierPoints(v >= 1 ? 1 : v);
 

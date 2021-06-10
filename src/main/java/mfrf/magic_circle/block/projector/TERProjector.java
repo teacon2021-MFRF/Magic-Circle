@@ -1,6 +1,7 @@
 package mfrf.magic_circle.block.projector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import icyllis.modernui.graphics.Canvas;
 import mfrf.magic_circle.rendering.BezierCurveObject;
 import mfrf.magic_circle.rendering.CircleObject;
 import mfrf.magic_circle.rendering.LineObject;
@@ -26,16 +27,17 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         ArrayList<CircleObject> circleObjects = new ArrayList<>();
         ArrayList<LineObject> lineObjects = new ArrayList<>();
 
-        circleObjects.add(new CircleObject(2.780f, 0, 0, 0, 8).setAlpha(255).setColor(Colors.DRYSKY).setPositionOffset(new Vector3f(1, 2, 3)));
+        circleObjects.add(new CircleObject(2.780f, 0, 0, 0, 8).setAlpha(255).setColor(Colors.DRYSKY).setPositionOffset(new Vector3f(0, 2, 0)));
 
-        bezierCurveObjects.add(new BezierCurveObject(0, 0, 0, 0, new Vector3f(1.1f, 1.2f, 1.3f), new Vector3f(1.3f, 2.4f, 1.5f), new Vector3f(1.6f, 3.7f, 1.8f)).setAlpha(255));
+//        bezierCurveObjects.add(new BezierCurveObject(0, 0, 0, 0, new Vector3f(1.1f, 1.2f, 1.3f), new Vector3f(1.3f, 2.4f, 1.5f), new Vector3f(1.6f, 3.7f, 1.8f)).setAlpha(255));
 
-        LineObject l1 = new LineObject(2, 1, 0, 0, 5).setPositionOffset(new Vector3f(1, 0, 0));
-        LineObject l2 = new LineObject(4, 1, 0, 0, 5).setPositionOffset(new Vector3f(0, 1, 0));
-        LineObject l3 = new LineObject(6, 1, 0, 0, 5).setPositionOffset(new Vector3f(0, 0, 1));
+        LineObject l1 = new LineObject(2, 0, 0, 0, 5).setPositionOffset(new Vector3f(1, 0, 0));
+        LineObject l2 = new LineObject(4, 0, 0, 0, 5).setPositionOffset(new Vector3f(1, 0, 1));
+        LineObject l3 = new LineObject(6, 0, 0, 0, 5).setPositionOffset(new Vector3f(0, 0, 1));
         lineObjects.add(l1.point(0, 0, 0).point(1, 0, 0).point(1, 0, 1).point(0, 0, 1).close());
         lineObjects.add(l2.point(0, 0, 0).point(1, 0, 0).point(1, 0, 1).point(0, 0, 1).close());
         lineObjects.add(l3.point(0, 0, 0).point(1, 0, 0).point(1, 0, 1).point(0, 0, 1).close());
+        lineObjects.add(new LineObject(0,0,0,0,2).point(0,-2,0).point(0,2,0));
 
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, lineObjects, 100, 0, 0, 0, 0);
         BlockPos pos = tileProjector.getBlockPos();

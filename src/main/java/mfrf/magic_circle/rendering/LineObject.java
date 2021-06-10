@@ -14,7 +14,6 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LineObject extends MagicCircleComponentBase<LineObject> {
     private float actualRenderTick = 0;
@@ -103,6 +102,9 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             for (Vector3f point : actualPoints) {
                 Vector3f copy = point.copy();
                 copy.transform(rot);
+                if (rotateWithLookVec) {
+                    copy = getLookVecTransform(copy, new Vector3f(lookVec));
+                }
                 points.add(copy);
             }
 

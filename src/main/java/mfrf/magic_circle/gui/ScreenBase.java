@@ -23,10 +23,10 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
 
         if (texture != null) {
             this.minecraft.getTextureManager().getTexture(texture);
+            int i = (this.width - this.getXSize()) / 2;
+            int j = (this.height - this.getYSize()) / 2;
+            blit(matrixStack, i, j, 0, 0, getXSize(), getYSize(), imageWidth, imageHeight);
         }
-        int i = (this.width - this.getXSize()) / 2;
-        int j = (this.height - this.getYSize()) / 2;
-        blit(matrixStack, i, j, 0, 0, getXSize(), getYSize(), imageWidth, imageHeight);
     }
 
     protected abstract ResourceLocation getTexture();

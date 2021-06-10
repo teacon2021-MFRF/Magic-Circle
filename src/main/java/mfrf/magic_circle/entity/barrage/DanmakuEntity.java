@@ -1,16 +1,8 @@
 package mfrf.magic_circle.entity.barrage;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.googlecode.aviator.AviatorEvaluator;
-
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
-import org.apache.commons.lang3.RandomUtils;
-
 import mfrf.magic_circle.magicutil.RGBA;
-import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
+import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,8 +10,13 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.apache.commons.lang3.RandomUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DanmakuEntity extends Entity {
     public static final DataParameter<Float> DAMAGE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
@@ -48,7 +45,7 @@ public class DanmakuEntity extends Entity {
         return this;
     }
 
-    public DanmakuEntity setPositionExpression(ThrowBehaviorNode.PositionExpression expression) {
+    public DanmakuEntity setPositionExpression(PositionExpression expression) {
         this.entityData.set(VELOCITY_X_FORMULA, expression.x);
         this.entityData.set(VELOCITY_Y_FORMULA, expression.y);
         this.entityData.set(VELOCITY_Z_FORMULA, expression.z);

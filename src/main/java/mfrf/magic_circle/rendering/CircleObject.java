@@ -11,15 +11,11 @@ import mfrf.magic_circle.util.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.*;
 import org.ejml.ops.CommonOps;
 
 public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     private float radius;
-    private boolean layDown = false;
 
 
     public CircleObject(float radius, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, float delay) {
@@ -30,11 +26,6 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     public CircleObject() {
         super();
         radius = 0;
-    }
-
-    public CircleObject setLayDown() {
-        layDown = true;
-        return this;
     }
 
     @Override
@@ -77,26 +68,20 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         ArrayList<Vector3f> points = new ArrayList<>();
         float v = Config.CURVE_PRECISION.get() / length;
 
-        Vector3f beta_1 = direction.copy();
-        beta_1.add(beta_1.x(), 2 * beta_1.y(), 3 * beta_1.z());
-        Vector3f proj = direction.copy();
-        proj.mul(beta_1.dot(direction) / direction.dot(direction));
-        beta_1.sub(proj);
-        beta_1.normalize();
-        //this cound get the "error" of projection
-        Vector3f beta_2 = direction.copy();
-        beta_2.cross(beta_1);
-        beta_2.normalize();
-        //get another perpendicular vector
-
 
         for (float i = 0; i <= length; i += v) {
 
-            float x = layDown ? (float) (radius * Math.cos(i)) : positionOffset.x() + (float) (radius * Math.cos(i)) * beta_1.x() + (float) (radius * Math.sin(i)) * beta_2.x();
-            float y = layDown ? 0 : positionOffset.y() + (float) (radius * Math.cos(i)) * beta_1.y() + (float) (radius * Math.sin(i)) * beta_2.y();
-            float z = layDown ? (float) (radius * Math.sin(i)) : positionOffset.z() + (float) (radius * Math.cos(i)) * beta_1.z() + (float) (radius * Math.sin(i)) * beta_2.z();
+            float x = (float) (radius * Math.cos(i));
+            float y = 0;
+            float z = (float) (radius * Math.sin(i));
 
-            Vector3f pos = new Vector3f(x, y, z);
+            if (rotateWithLookVec) {
+                Vector3f lookVecTransform = getLookVecTransform(x, y, z, direction);
+                x = lookVecTransform.x();
+                y = lookVecTransform.y();
+                z = lookVecTransform.z();
+            }
+            Vector3f pos = new Vector3f(positionOffset.x() + x, positionOffset.y() + y, positionOffset.z() + z);
 
             if (rotate) {
                 Quaternion copy = rotation.copy();
@@ -111,12 +96,8 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     }
 
     public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putFloat("r", radius);
-        compoundNBT.putFloat("xrot", xRotateSpeedRadius);
-        compoundNBT.putFloat("yrot", yRotateSpeedRadius);
-        compoundNBT.putFloat("zrot", zRotateSpeedRadius);
-        compoundNBT.putBoolean("lay_down", layDown);
+        CompoundNBT compoundNBT = super.serializeNBT();
+        compoundNBT.putFloat("radius", radius);
         return compoundNBT;
     }
 
@@ -125,7 +106,6 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         if (compoundNBT.contains("delay") && compoundNBT.contains("radius") && compoundNBT.contains("xrot") && compoundNBT.contains("yrot") && compoundNBT.contains("zrot") && compoundNBT.contains("lay_down")) {
             super.deserializeNBT(compoundNBT);
             this.radius = compoundNBT.getFloat("radius");
-            layDown = compoundNBT.getBoolean("lay_down");
         }
     }
 

@@ -11,6 +11,7 @@ import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.registry_lists.Entities;
 import mfrf.magic_circle.util.MathUtil;
+import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -138,25 +139,6 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
         expressionModified = false;
     }
 
-    public class PositionExpression {
-        public String x = "0";
-        public String y = "0";
-        public String z = "0";
 
-        public PositionExpression(String x, String y, String z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        public PositionExpression(Vector3f vector3f) {
-            this.x = Float.toString(vector3f.x());
-            this.y = Float.toString(vector3f.y());
-            this.z = Float.toString(vector3f.z());
-        }
-
-        public PositionExpression() {
-        }
-    }
 
 }
