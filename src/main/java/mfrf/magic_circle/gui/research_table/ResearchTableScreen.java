@@ -3,7 +3,6 @@ package mfrf.magic_circle.gui.research_table;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import icyllis.modernui.graphics.Canvas;
 import icyllis.modernui.graphics.Paint;
-import mfrf.magic_circle.gui.ContainerBase;
 import mfrf.magic_circle.gui.ScreenBase;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;

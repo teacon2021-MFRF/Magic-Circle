@@ -29,6 +29,18 @@ public class RenderTypes extends RenderType {
                     .setWriteMaskState(COLOR_WRITE)
                     .createCompositeState(false));
 
+    public static final RenderType TWO_POINT_LINES = create("magic_circle_lines",
+            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
+            RenderType.State.builder().setLineState(LINE_1_0D)
+                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setTextureState(NO_TEXTURE)
+                    .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
+                    .setCullState(CullState.NO_CULL)
+                    .setLightmapState(RenderState.NO_LIGHTMAP)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .createCompositeState(false));
+
     public static final RenderType MAGIC_CIRCLE_CLOSE_LINES = create("magic_circle_lines",
             DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_LOOP, 256,
             RenderType.State.builder().setLineState(LINE_1_0D)

@@ -2,18 +2,18 @@ package mfrf.magic_circle.rendering;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.function.Function;
+import java.util.List;
 
-import com.googlecode.aviator.AviatorEvaluator;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import mfrf.magic_circle.Config;
-import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
 import mfrf.magic_circle.util.Colors;
 import mfrf.magic_circle.util.PositionExpression;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.*;
@@ -128,6 +128,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         beta_2.cross(beta_1);
         beta_2.normalize();
         //get another perpendicular vector
+        //todo make it be more comfortable
 
 
         float vecX = beta_1.x() * x + lookVec.x() * y + beta_2.x() * z;
@@ -165,7 +166,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
                 .endVertex();
     }
 
-    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, Color color, boolean enableRGBGradients, boolean enableAlphaGradients, ArrayList<Vector3f> nodes) {
+    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, Color color, boolean enableRGBGradients, boolean enableAlphaGradients, List<Vector3f> nodes) {
         int size = nodes.size();
         int r = color.getRed();
         int g = color.getGreen();
@@ -215,6 +216,38 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
     protected static void picture() {
 
+    }
+
+    protected static void doRender(MatrixStack matrixStack, Vector3f pos, Color color, boolean enableRGBGradient, boolean enableAlphaGradient, List<Vector3f> points, RenderType renderType) {
+        if (!points.isEmpty()) {
+            IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            Matrix4f matrix = matrixStack.last().pose();
+
+            matrixStack.pushPose();
+
+            Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+            matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
+            IVertexBuilder builder = buffer.getBuffer(renderType);
+            curve(builder, matrix, pos, color, enableRGBGradient, enableAlphaGradient, points);
+
+            matrixStack.popPose();
+
+            RenderSystem.disableDepthTest();
+            buffer.endBatch(renderType);
+        }
+    }
+
+    protected static void renderALotAxisLabels(MatrixStack matrixStack, Vector3f pos, Color color, boolean enableRGBGradient, boolean enableAlphaGradient, ArrayList<Vector3f> points) {
+        for (int i = 0; i < points.size(); i += 2) {
+            doRender(matrixStack, pos, color, enableRGBGradient, enableAlphaGradient, points.subList(i, i + 2), RenderType.LINES);
+        }
+    }
+
+    protected Quaternion makeRotate(float time) {
+        Quaternion baseRot = new Quaternion(time * xRotateSpeedRadius, time * yRotateSpeedRadius, time * zRotateSpeedRadius, true);
+        baseRot.mul(rotation);
+        return baseRot;
     }
 
     public interface ISequenceRenderings {
@@ -285,8 +318,19 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         public ArrayList<Vector3f> getPoints(float percent) {
             ArrayList<Vector3f> points = line.getPoints(percent);
             if (percent >= 1) {
-                points.addAll(arrowHead.getPoints(1));
-                float fromCount = line.from / labelDistance;
+                Vector3f offsetArrow = points.get(points.size() - 1);
+                ArrayList<Vector3f> arrowHeadPoints = arrowHead.getPoints(1);
+                arrowHeadPoints.forEach(vector3f -> vector3f.add(offsetArrow));
+                points.addAll(arrowHeadPoints);
+            }
+            direction.rotateVectors(points);
+            return points;
+        }
+
+        private ArrayList<Vector3f> getLabels(float percent) {
+            ArrayList<Vector3f> points = new ArrayList<>();
+            if (percent >= 1) {
+                float fromCount = -line.from / labelDistance;
                 for (int i = 0; i < fromCount; i++) {
                     points.add(new Vector3f(-labelDistance * i, 0.5f, 0));
                     points.add(new Vector3f(-labelDistance * i, -0.5f, 0));
@@ -295,16 +339,16 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
                 }
                 float toCount = line.to / labelDistance;
                 for (int i = 0; i < toCount; i++) {
-                    points.add(new Vector3f(-labelDistance * i, 0.5f, 0));
-                    points.add(new Vector3f(-labelDistance * i, -0.5f, 0));
-                    points.add(new Vector3f(-labelDistance * i, 0, 0.5f));
-                    points.add(new Vector3f(-labelDistance * i, 0, -0.5f));
+                    points.add(new Vector3f(labelDistance * i, 0.5f, 0));
+                    points.add(new Vector3f(labelDistance * i, -0.5f, 0));
+                    points.add(new Vector3f(labelDistance * i, 0, 0.5f));
+                    points.add(new Vector3f(labelDistance * i, 0, -0.5f));
                 }
             }
             direction.rotateVectors(points);
-
             return points;
         }
+
     }
 
     public static class Coordinates implements ISequenceRenderings {
@@ -333,15 +377,60 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
             if (Z != null) {
                 points.addAll(Z.getPoints(percent));
             }
+            return points;
+        }
 
+        public ArrayList<Vector3f> getFunctionPoints(float percent) {
+            ArrayList<Vector3f> points = new ArrayList<>();
             if (function != null) {
-                for (float i = 0; i < percent; i += PRECISION) {
-                    HashMap<String, Object> env = new HashMap<>();
-                    env.put("t", i);
-                    points.add(new Vector3f((Float) AviatorEvaluator.execute(function.x, env), (Float) AviatorEvaluator.execute(function.y, env), (Float) AviatorEvaluator.execute(function.z, env)));
+                for (float i = 0; i < function.samplingCount; i++) {
+                    Vector3f execute = function.execute((double) i * function.samplingAccuracy);
+                    if (execute != null) {
+                        points.add(execute);
+                    } else {
+                        return null;
+                    }
                 }
             }
             return points;
+        }
+
+        public ArrayList<Vector3f> getXAxisPoints(float percent) {
+            ArrayList<Vector3f> points = new ArrayList<>();
+            if (X != null) {
+                points.addAll(X.getPoints(percent));
+            }
+            return points;
+        }
+
+        public ArrayList<Vector3f> getYAxisPoints(float percent) {
+            ArrayList<Vector3f> points = new ArrayList<>();
+            if (Y != null) {
+                points.addAll(Y.getPoints(percent));
+            }
+            return points;
+        }
+
+        public ArrayList<Vector3f> getZAxisPoints(float percent) {
+            ArrayList<Vector3f> points = new ArrayList<>();
+            if (Z != null) {
+                points.addAll(Z.getPoints(percent));
+            }
+            return points;
+        }
+
+        public ArrayList<Vector3f> getLabels() {
+            ArrayList<Vector3f> labels = new ArrayList<>();
+            if (X != null) {
+                labels.addAll(X.getLabels(1));
+            }
+            if (Y != null) {
+                labels.addAll(Y.getLabels(1));
+            }
+            if (Z != null) {
+                labels.addAll(Z.getLabels(1));
+            }
+            return labels;
         }
 
     }

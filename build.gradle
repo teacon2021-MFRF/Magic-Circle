@@ -78,6 +78,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'junit:junit:4.13.1'
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
     compileOnly 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
     runtimeOnly 'com.googlecode.efficient-java-matrix-library:ejml:0.24'

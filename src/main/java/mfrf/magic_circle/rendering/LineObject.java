@@ -121,7 +121,7 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, points);
 
             matrixStackIn.popPose();
-            RenderSystem.disableDepthTest();
+//            RenderSystem.disableDepthTest();
             buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
 
         }

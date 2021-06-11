@@ -18,19 +18,22 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
     protected ArrayList<BezierCurveObject> curves;
     protected ArrayList<CircleObject> circles;
     protected ArrayList<LineObject> lineObjects;
+    protected ArrayList<MagicCircleComponentBase> otherThings;
 
-    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, ArrayList<LineObject> lines, int maxProgress, float delay, float xrot, float yrot, float zrot) {
+    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, ArrayList<LineObject> lines, ArrayList<MagicCircleComponentBase> otherThings, int maxProgress, float delay, float xrot, float yrot, float zrot) {
         super(delay, xrot, yrot, zrot);
         this.curves = curves;
         this.circles = circles;
         this.maxProgress = maxProgress;
         this.lineObjects = lines;
+        this.otherThings = otherThings;
     }
 
     public MagicCircleRenderBase() {
         super();
         curves = new ArrayList<>();
         circles = new ArrayList<>();
+        otherThings = new ArrayList<>();
     }
 
     /**
@@ -50,6 +53,10 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
         }
         for (LineObject lineObject : lineObjects) {
             boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            flag = flag && b;
+        }
+        for (MagicCircleComponentBase otherThings : otherThings) {
+            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
             flag = flag && b;
         }
         return flag && (maxProgress == currentProgress);
