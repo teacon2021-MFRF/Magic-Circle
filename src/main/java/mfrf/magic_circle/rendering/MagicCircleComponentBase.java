@@ -383,7 +383,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         public ArrayList<Vector3f> getFunctionPoints(float percent) {
             ArrayList<Vector3f> points = new ArrayList<>();
             if (function != null) {
-                for (float i = 0; i < function.samplingCount; i++) {
+                for (float i = 0; i < function.samplingCount * percent; i++) {
                     Vector3f execute = function.execute((double) i * function.samplingAccuracy);
                     if (execute != null) {
                         points.add(execute);

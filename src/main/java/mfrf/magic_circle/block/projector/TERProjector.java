@@ -27,7 +27,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         ArrayList<MagicCircleComponentBase> otherThings = new ArrayList<>();
         //todo make it become functional;
 
-//        circleObjects.add(new CircleObject(2.780f, 0, 0, 0, 8).setAlpha(255).setColor(Colors.DRYSKY).setPositionOffset(new Vector3f(0, 2, 0)));
+        circleObjects.add(new CircleObject(8f, 0, 0, 0, 8).setAlpha(255).setColor(Colors.DRYSKY));
 
 //        bezierCurveObjects.add(new BezierCurveObject(0, 0, 0, 0, new Vector3f(1.1f, 1.2f, 1.3f), new Vector3f(1.3f, 2.4f, 1.5f), new Vector3f(1.6f, 3.7f, 1.8f)).setAlpha(255));
 
@@ -44,7 +44,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
                 new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Y, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
                 null,
 //                new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
-                new PositionExpression("t", "math.pow(t,2) + 1", null,0.05f,100)
+                new PositionExpression("t", "math.pow(t,2) + 1", null, 0.05f, 100)
         )));
 
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, lineObjects, otherThings, 100, 0, 0, 0, 0);
