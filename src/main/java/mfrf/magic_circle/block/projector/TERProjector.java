@@ -42,15 +42,14 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         otherThings.add(new CoordinatesObject(0, 0, 0, 0, 8, new MagicCircleComponentBase.Coordinates(
                 new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.X, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
                 new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Y, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
-                null,
-//                new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
+               new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
                 new PositionExpression("t", "math.pow(t,2) + 1", null, 0.05f, 100)
-        )));
+        )).setRotateWithLookVec());
 
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(bezierCurveObjects, circleObjects, lineObjects, otherThings, 100, 0, 0, 0, 0);
         BlockPos pos = tileProjector.getBlockPos();
 //        magicCircleRenderBase.rendering(0.9f, matrixStack, iRenderTypeBuffer, tileProjector.time, new Vector3d(0, 1, 0), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
-        magicCircleRenderBase.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, 0.5f, new Vector3d(1, 1, 1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()));
+        magicCircleRenderBase.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, 0.5f, new Vector3d(1, 1, 1), new Vector3d(0, 1, 1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()),this.renderer);
     }
 
     @Override

@@ -1,24 +1,26 @@
 package mfrf.magic_circle.rendering;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.util.Colors;
 import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.*;
+import net.minecraft.util.text.ITextComponent;
 
 import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBase> {
     protected static final float PRECISION = Config.CURVE_PRECISION.get();
@@ -107,28 +109,38 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         rotateWithLookVec = compoundNBT.getBoolean("lay_down");
     }
 
-    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
+    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
         if (trueTime + time - delay <= 0) {
             return false;
         } else {
-            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+        }
+    }
+
+    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
+        if (trueTime + time - delay <= 0) {
+            return false;
+        } else {
+            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
         }
     }
 
 
-    public Vector3f getLookVecTransform(float x, float y, float z, Vector3f lookVec) {
-        Vector3f beta_1 = lookVec.copy();
-        beta_1.add(beta_1.x(), 2 * beta_1.y(), 3 * beta_1.z());
+    public Vector3f getLookVecTransform(float x, float y, float z, Vector3f lookVec, Vector3f verticalVec) {
+        lookVec.normalize();
+        verticalVec.normalize();
+
+        Vector3f beta_1 = verticalVec.copy();
         Vector3f proj = lookVec.copy();
-        proj.mul(beta_1.dot(lookVec) / lookVec.dot(lookVec));
+
+        proj.mul(lookVec.dot(verticalVec) / lookVec.dot(lookVec));
         beta_1.sub(proj);
         beta_1.normalize();
-        //this cound get the "error" of projection
+        //this cound get the "error" of projection, as the "X hat" of the plane.
         Vector3f beta_2 = lookVec.copy();
         beta_2.cross(beta_1);
         beta_2.normalize();
         //get another perpendicular vector
-        //todo make it be more comfortable
 
 
         float vecX = beta_1.x() * x + lookVec.x() * y + beta_2.x() * z;
@@ -138,11 +150,14 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
     }
 
-    public Vector3f getLookVecTransform(Vector3f vector3f, Vector3f lookVec) {
-        return getLookVecTransform(vector3f.x(), vector3f.y(), vector3f.z(), lookVec);
+    public Vector3f getLookVecTransform(Vector3f vector3f, Vector3f lookVec, Vector3f verticalVec) {
+        return getLookVecTransform(vector3f.x(), vector3f.y(), vector3f.z(), lookVec, verticalVec);
     }
 
-    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition);
+    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer);
+    //todo implement
+    //todo fix transformMatrix
+    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer);
 
     protected Colors getColorsAdd(float time) {
         Colors add = color;
@@ -236,6 +251,10 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
             RenderSystem.disableDepthTest();
             buffer.endBatch(renderType);
         }
+    }
+
+    protected static void renderText(MatrixStack matrixStack, Color color, ITextComponent text, FontRenderer renderer) {
+        renderer.draw(matrixStack, text, 100, 200, 300);
     }
 
     protected static void renderALotAxisLabels(MatrixStack matrixStack, Vector3f pos, Color color, boolean enableRGBGradient, boolean enableAlphaGradient, ArrayList<Vector3f> points) {
@@ -436,7 +455,9 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     }
 
     public enum DIRECTION {
-        X(Matrix3f.createScaleMatrix(1, 1, 1)), Y(new Matrix3f(new Quaternion(0, 0, 90, true))), Z(new Matrix3f(new Quaternion(0, 90, 0, true)));
+        X(Matrix3f.createScaleMatrix(1, 1, 1)),
+        Y(new Matrix3f(new Quaternion(0, 0, 90, true))),
+        Z(new Matrix3f(new Quaternion(0, -90, 0, true)));
 
         private Matrix3f rotate;
 

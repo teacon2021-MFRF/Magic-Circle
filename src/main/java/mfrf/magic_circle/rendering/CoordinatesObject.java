@@ -1,11 +1,14 @@
 package mfrf.magic_circle.rendering;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mfrf.magic_circle.MagicCircle;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -31,7 +34,12 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        return false;
+    }
+
+    @Override
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
         float actualRenderProgress = time - delay;
         float progress = actualRenderProgress / renderTick;
         if (progress >= 1) {
@@ -50,15 +58,24 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         copy.add(positionOffset);
 
         Quaternion baseRot = makeRotate(time);
+        xAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        yAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        zAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        if (functionPoints != null) {
+            functionPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        }
+        labels.forEach(vector3f -> vector3f.transform(baseRot));
+
         if (rotateWithLookVec) {
-            Vector3f vector3f1 = new Vector3f(lookVec);
-            xAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, vector3f1));
-            yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, vector3f1));
-            zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, vector3f1));
+            Vector3f look = new Vector3f(lookVec);
+            Vector3f verticalVecF = new Vector3f(verticalVec);
+            xAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             if (functionPoints != null) {
-                functionPoints.forEach(vector3f -> getLookVecTransform(vector3f, vector3f1));
+                functionPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             }
-            labels.forEach(vector3f -> getLookVecTransform(vector3f, vector3f1));
+            labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
 
         doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
@@ -71,6 +88,7 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoints, RenderTypes.MAGIC_CIRCLE_LINES);
         } else {
             //todo render error
+            renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.font);
         }
 
         renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels);

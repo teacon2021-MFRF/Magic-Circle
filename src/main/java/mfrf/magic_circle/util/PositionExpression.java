@@ -59,7 +59,6 @@ public class PositionExpression {
             z = (float) ((double) zCompile.execute(env));
         } catch (ClassCastException e) {
 //            LogManager.getLogger().info("type error! your expression result is not a number! check your expression!");
-            //todo render text
             return null;
         }
 

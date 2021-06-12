@@ -1,6 +1,5 @@
 package mfrf.magic_circle.rendering;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,9 +9,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import mfrf.magic_circle.Config;
-import mfrf.magic_circle.util.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -41,7 +41,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
      * @param time current time of rendering
      * @return a list of point in bezier curve
      */
-    public ArrayList<Vector3f> getBezierPoints(float time, Vector3f lookVec) {
+    public ArrayList<Vector3f> getBezierPoints(float time, Vector3f lookVec, Vector3f verticalVec) {
         ArrayList<Vector3f> bezierPointList = new ArrayList<>();
         Iterator<Vector3f> it = points.iterator();
         Float precision = Config.CURVE_PRECISION.get();
@@ -92,7 +92,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
             Vector3f vector3f = new Vector3f(x0, y0, z0);
             if (rotateWithLookVec) {
-                vector3f = getLookVecTransform(vector3f, lookVec);
+                vector3f = getLookVecTransform(vector3f, lookVec, verticalVec);
             }
             vector3f.add(positionOffset);
             bezierPointList.add(vector3f);
@@ -154,19 +154,24 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
             for (int i = 0; i < count; i++) {
                 CompoundNBT compoundPoint = (CompoundNBT) points.get(i);
                 this.points.add(new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z")));
-                //todo fix rotation
+                //todo maybe we needn't nbt
             }
         }
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        return false;
+    }
+
+    @Override
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
         Vector3f lookVecF = new Vector3f(lookVec);
-        float globalTime = getBezierPoints(1, lookVecF).size() / 15f;
+        Vector3f verticalVecF = new Vector3f(verticalVec);
+        float globalTime = getBezierPoints(1, lookVecF, verticalVecF).size() / 15f;
         float v = Math.max(0, time + trueTime - delay);
         float timePassed = Math.min(v / globalTime, 1);
-        //todo calculate rendering speed
-        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed, lookVecF);
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed, lookVecF, verticalVecF);
 
 //        ArrayList<Vector3f> bezierPoints = getBezierPoints(v >= 1 ? 1 : v);
 

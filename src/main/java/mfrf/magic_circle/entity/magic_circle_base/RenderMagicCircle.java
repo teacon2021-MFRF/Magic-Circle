@@ -27,8 +27,9 @@ public class RenderMagicCircle extends EntityRenderer<EntityMagicCircle> {
         magicCircleRenderBase.deserializeNBT(entityMagicCircle.getEntityData().get(EntityMagicCircle.MAGIC_CIRCLE_OBJECT));
         Float progress = entityMagicCircle.getEntityData().get(EntityMagicCircle.PROGRESS);
         Vector3d lookVec = entityMagicCircle.getLookAngle();
+        Vector3d verticalVec = entityMagicCircle.getUpVector(1);
         BlockPos positionVec = entityMagicCircle.blockPosition();
-        magicCircleRenderBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()));
+        magicCircleRenderBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, verticalVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()),this.entityRenderDispatcher);
     }
 
 }

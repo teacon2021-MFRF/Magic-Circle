@@ -7,12 +7,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import mfrf.magic_circle.Config;
-import mfrf.magic_circle.util.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.vector.*;
-import org.ejml.ops.CommonOps;
 
 public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     private float radius;
@@ -29,7 +29,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
         float allLength = (float) (Math.PI * radius * 2);
         double renderingTimeSum = allLength * renderingSpeed;
         float actualTime = trueTime + time;
@@ -37,7 +37,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         float actualLength = (v >= 1 ? allLength : (allLength * v));
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec));
+        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
@@ -64,7 +64,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         return false;
     }
 
-    public ArrayList<Vector3f> getCircle(float length, float timePassed, boolean rotate, Vector3f direction) {
+    public ArrayList<Vector3f> getCircle(float length, float timePassed, boolean rotate, Vector3f direction, Vector3f verticalVec) {
         ArrayList<Vector3f> points = new ArrayList<>();
         float v = Config.CURVE_PRECISION.get() / length;
 
@@ -76,7 +76,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
             float z = (float) (radius * Math.sin(i));
 
             if (rotateWithLookVec) {
-                Vector3f lookVecTransform = getLookVecTransform(x, y, z, direction);
+                Vector3f lookVecTransform = getLookVecTransform(x, y, z, direction, verticalVec);
                 x = lookVecTransform.x();
                 y = lookVecTransform.y();
                 z = lookVecTransform.z();
@@ -107,6 +107,11 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
             super.deserializeNBT(compoundNBT);
             this.radius = compoundNBT.getFloat("radius");
         }
+    }
+
+    @Override
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        return false;
     }
 
 }

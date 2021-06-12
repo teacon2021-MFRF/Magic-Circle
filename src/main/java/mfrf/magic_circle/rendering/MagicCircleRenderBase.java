@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -40,23 +42,23 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
      * @return if returnValue == true, whitch means all rendering progress has complete(include progress of instance).
      */
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3f actualPosition) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
         currentProgress += 1;
         boolean flag = true;
         for (BezierCurveObject curve : curves) {
-            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
             flag = flag && b;
         }
         for (CircleObject circle : circles) {
-            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
             flag = flag && b;
         }
         for (LineObject lineObject : lineObjects) {
-            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
             flag = flag && b;
         }
         for (MagicCircleComponentBase otherThings : otherThings) {
-            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, actualPosition);
+            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
             flag = flag && b;
         }
         return flag && (maxProgress == currentProgress);
@@ -101,6 +103,11 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
             this.currentProgress = compoundNBT.getInt("current_progress");
             this.delay = compoundNBT.getInt("delay");
         }
+    }
+
+    @Override
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        return false;
     }
 
 }
