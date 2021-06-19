@@ -16,6 +16,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class BlockBase extends Block {
@@ -28,12 +30,13 @@ public class BlockBase extends Block {
         return super.use(blockState, world, pos, playerEntity, hand, blockRayTraceResult);
     }
 
-    protected void openGUIAndContainer(World world, BlockPos blockPos, PlayerEntity serverPlayerEntity, Hand hand) {
-        if (!world.isClientSide() && hand == Hand.MAIN_HAND) {
+    protected void openGUIAndContainer(World world, BlockPos blockPos, PlayerEntity serverPlayerEntity, Hand hand, @Nullable Consumer<PacketBuffer> addition) {
             NamedContainerTileBase tileEntity = (NamedContainerTileBase) world.getBlockEntity(blockPos);
             NetworkHooks.openGui(((ServerPlayerEntity) serverPlayerEntity), tileEntity, (PacketBuffer packerBuffer) -> {
                 packerBuffer.writeBlockPos(tileEntity.getBlockPos());
+                if (addition != null) {
+                    addition.accept(packerBuffer);
+                }
             });
-        }
     }
 }

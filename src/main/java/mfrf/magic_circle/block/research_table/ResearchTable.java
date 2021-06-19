@@ -1,6 +1,7 @@
 package mfrf.magic_circle.block.research_table;
 
 import mfrf.magic_circle.block.BlockBase;
+import mfrf.magic_circle.world_saved_data.PlayerKnowledge;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -28,10 +29,13 @@ public class ResearchTable extends BlockBase {
 
     @Override
     public ActionResultType use(BlockState blockState, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-        openGUIAndContainer(world, pos, playerEntity, hand);
+        if (!world.isClientSide() && hand == Hand.MAIN_HAND) {
+            openGUIAndContainer(world, pos, playerEntity, hand, buffer -> {
+                buffer.writeNbt(PlayerKnowledge.getOrCreate(world).getOrCreate(playerEntity.getUUID()).serializeNBT());
+            });
+        }
         return ActionResultType.SUCCESS;
     }
-
 
 
     @Nullable

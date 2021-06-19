@@ -1,6 +1,7 @@
 package mfrf.magic_circle.knowledges;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,8 @@ public class PlayerKnowledges {
         unlockedResearchs.addAll(researches);
         analysedItem.addAll(items);
     }
+
+
 
     public int getMath() {
         return math;
@@ -111,12 +114,15 @@ public class PlayerKnowledges {
     }
 
     public static PlayerKnowledges deserializeNBT(CompoundNBT nbt) {
-        int math = nbt.getInt("math");
-        int mystery = nbt.getInt("mystery");
-        int eightDiragrams = nbt.getInt("bagua");
-        int physical = nbt.getInt("physical");
-        List<String> researches = Arrays.stream(nbt.getString("researches").split("\\|")).collect(Collectors.toList());
-        List<String> items = Arrays.stream(nbt.getString("items").split("\\|")).collect(Collectors.toList());
-        return new PlayerKnowledges(math, mystery, eightDiragrams, physical, researches, items);
+        if (nbt == null || !(nbt.getAllKeys().containsAll(Arrays.asList("math,mystery,bagua,physical,researches,items".split(","))))) {
+            int math = nbt.getInt("math");
+            int mystery = nbt.getInt("mystery");
+            int eightDiragrams = nbt.getInt("bagua");
+            int physical = nbt.getInt("physical");
+            List<String> researches = Arrays.stream(nbt.getString("researches").split("\\|")).collect(Collectors.toList());
+            List<String> items = Arrays.stream(nbt.getString("items").split("\\|")).collect(Collectors.toList());
+            return new PlayerKnowledges(math, mystery, eightDiragrams, physical, researches, items);
+        }
+        return new PlayerKnowledges();
     }
 }

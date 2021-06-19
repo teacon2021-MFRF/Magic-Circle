@@ -156,7 +156,6 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer);
     //todo implement
-    //todo fix transformMatrix
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer);
 
     protected Colors getColorsAdd(float time) {
@@ -181,7 +180,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
                 .endVertex();
     }
 
-    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f pos, Color color, boolean enableRGBGradients, boolean enableAlphaGradients, List<Vector3f> nodes) {
+    protected static void curve(IVertexBuilder builder, Matrix4f positionMatrix, Vector3f posOffset, Color color, boolean enableRGBGradients, boolean enableAlphaGradients, List<Vector3f> nodes) {
         int size = nodes.size();
         int r = color.getRed();
         int g = color.getGreen();
@@ -204,7 +203,8 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         }
 
         for (int i = 0; i < size; i++) {
-            builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
+//            builder.vertex(positionMatrix, pos.x() + nodes.get(i).x(), pos.y() + nodes.get(i).y(), pos.z() + nodes.get(i).z())
+            builder.vertex(positionMatrix, nodes.get(i).x(), nodes.get(i).y(), nodes.get(i).z())
                     .color((int) (r + gradientR * i), (int) (g + gradientG * i), (int) (b + gradientB * i), (int) (alpha + alphaGradients * i))
                     .endVertex();
         }

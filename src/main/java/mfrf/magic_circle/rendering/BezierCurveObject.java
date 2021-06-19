@@ -161,7 +161,34 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        return false;
+        Vector3f lookVecF = new Vector3f(lookVec);
+        Vector3f verticalVecF = new Vector3f(verticalVec);
+        float globalTime = getBezierPoints(1, lookVecF, verticalVecF).size() / 15f;
+        float v = Math.max(0, time + trueTime - delay);
+        float timePassed = Math.min(v / globalTime, 1);
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed, lookVecF, verticalVecF);
+
+//        ArrayList<Vector3f> bezierPoints = getBezierPoints(v >= 1 ? 1 : v);
+
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        Matrix4f matrix = matrixStackIn.last().pose();
+        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+
+        matrixStackIn.pushPose();
+
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
+
+        curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, bezierPoints);
+
+        matrixStackIn.popPose();
+
+
+        RenderSystem.disableDepthTest();
+        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
+
+        return v >= 1.0f;
     }
 
     @Override

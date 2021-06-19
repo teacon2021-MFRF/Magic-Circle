@@ -87,7 +87,46 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        return false;
+        float timePassed = Math.max(time + trueTime - delay, 0);
+        boolean flag = timePassed >= actualRenderTick;
+        if (!linepoints.isEmpty()) {
+            float xRot = xRotateSpeedRadius == 0 ? 1 : timePassed * xRotateSpeedRadius;
+            float yRot = yRotateSpeedRadius == 0 ? 1 : timePassed * yRotateSpeedRadius;
+            float zRot = zRotateSpeedRadius == 0 ? 1 : timePassed * zRotateSpeedRadius;
+            Quaternion rot = rotation.copy();
+            rot.mul(new Quaternion(xRot, yRot, zRot, true));
+            float progressPerTick = (((float) linepoints.size() - 1) / (float) renderTick);
+            ArrayList<Vector3f> actualPoints = flag ? this.linepoints : new ArrayList<>(linepoints.subList(0, Math.min((int) (progressPerTick * timePassed), linepoints.size())));
+
+            ArrayList<Vector3f> points = new ArrayList<>();
+
+            for (Vector3f point : actualPoints) {
+                Vector3f copy = point.copy();
+                copy.transform(rot);
+                if (rotateWithLookVec) {
+                    copy = getLookVecTransform(copy, new Vector3f(lookVec), new Vector3f(verticalVec));
+                }
+                points.add(copy);
+            }
+
+
+            IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            Matrix4f matrix = matrixStackIn.last().pose();
+
+            matrixStackIn.pushPose();
+
+            Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+            matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
+            IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+            curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, points);
+
+            matrixStackIn.popPose();
+//            RenderSystem.disableDepthTest();
+            buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
+
+        }
+        return flag;
     }
 
     @Override

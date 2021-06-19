@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.UUID;
@@ -37,8 +36,8 @@ public abstract class ResearchBase<T extends EntityEvent> {
             UUID uuid = player.getUUID();
             World level = player.level;
             if (level.getRandom().nextFloat() >= difficulty && !level.isClientSide()) {
-                PlayerKnowledge playerKnowledge = PlayerKnowledge.get(level);
-                PlayerKnowledges playerKnowledges = playerKnowledge.get(uuid);
+                PlayerKnowledge playerKnowledge = PlayerKnowledge.getOrCreate(level);
+                PlayerKnowledges playerKnowledges = playerKnowledge.getOrCreate(uuid);
                 if (canUnlock(event, playerKnowledges)) {
                     playerKnowledges.unlock(name);
                     onUnlock.accept(playerKnowledges);

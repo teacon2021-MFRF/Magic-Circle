@@ -46,19 +46,19 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
         currentProgress += 1;
         boolean flag = true;
         for (BezierCurveObject curve : curves) {
-            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
+            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
             flag = flag && b;
         }
         for (CircleObject circle : circles) {
-            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
+            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
             flag = flag && b;
         }
         for (LineObject lineObject : lineObjects) {
-            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
+            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
             flag = flag && b;
         }
         for (MagicCircleComponentBase otherThings : otherThings) {
-            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition,renderer);
+            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
             flag = flag && b;
         }
         return flag && (maxProgress == currentProgress);
@@ -107,7 +107,25 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        return false;
+        currentProgress += 1;
+        boolean flag = true;
+        for (BezierCurveObject curve : curves) {
+            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+            flag = flag && b;
+        }
+        for (CircleObject circle : circles) {
+            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+            flag = flag && b;
+        }
+        for (LineObject lineObject : lineObjects) {
+            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+            flag = flag && b;
+        }
+        for (MagicCircleComponentBase otherThings : otherThings) {
+            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+            flag = flag && b;
+        }
+        return flag && (maxProgress == currentProgress);
     }
 
 }

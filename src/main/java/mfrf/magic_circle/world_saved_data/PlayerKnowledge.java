@@ -1,9 +1,5 @@
 package mfrf.magic_circle.world_saved_data;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import mfrf.magic_circle.knowledges.PlayerKnowledges;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -13,6 +9,11 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class PlayerKnowledge extends WorldSavedData {
     private static final String NAME = "PlayerKnowledge";
     private static final HashMap<UUID, PlayerKnowledges> KNOWLEDGE_MAP = new HashMap<>();
@@ -21,7 +22,10 @@ public class PlayerKnowledge extends WorldSavedData {
         super(NAME);
     }
 
-    public PlayerKnowledges get(UUID id) {
+    public PlayerKnowledges getOrCreate(UUID id) {
+        if (!KNOWLEDGE_MAP.containsKey(id)) {
+            KNOWLEDGE_MAP.put(id, new PlayerKnowledges());
+        }
         return KNOWLEDGE_MAP.get(id);
     }
 
@@ -48,7 +52,7 @@ public class PlayerKnowledge extends WorldSavedData {
         return compoundNBT;
     }
 
-    public static PlayerKnowledge get(World worldIn) {
+    public static PlayerKnowledge getOrCreate(World worldIn) {
         if (!(worldIn instanceof ServerWorld)) {
             throw new RuntimeException("Attempted to get the data from a client world. This is wrong.");
         }

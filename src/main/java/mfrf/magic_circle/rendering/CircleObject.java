@@ -42,6 +42,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
         Matrix4f matrix = matrixStackIn.last().pose();
+//        Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
 

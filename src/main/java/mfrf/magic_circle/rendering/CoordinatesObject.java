@@ -35,7 +35,61 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        return false;
+
+        float actualRenderProgress = time - delay;
+        float progress = actualRenderProgress / renderTick;
+        if (progress >= 1) {
+            progress = 1;
+        }
+        ArrayList<Vector3f> xAxisPoints = coordinates.getXAxisPoints(progress);
+        ArrayList<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress);
+        ArrayList<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress);
+        ArrayList<Vector3f> labels = new ArrayList<>();
+        ArrayList<Vector3f> functionPoints = coordinates.getFunctionPoints(progress);
+
+        if (progress >= 1)
+            labels = coordinates.getLabels();
+
+        Vector3f copy = actualPosition.copy();
+        copy.add(positionOffset);
+
+        Quaternion baseRot = makeRotate(time);
+        xAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        yAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        zAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        if (functionPoints != null) {
+            functionPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        }
+        labels.forEach(vector3f -> vector3f.transform(baseRot));
+
+        if (rotateWithLookVec) {
+            Vector3f look = new Vector3f(lookVec);
+            Vector3f verticalVecF = new Vector3f(verticalVec);
+            xAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            if (functionPoints != null) {
+                functionPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            }
+            labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+        }
+
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+
+        if (functionPoints != null) {
+            doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        } else {
+            //todo render error
+            renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.getFont());
+        }
+
+        renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels);
+
+        return time >= actualRenderTick;
     }
 
     @Override
