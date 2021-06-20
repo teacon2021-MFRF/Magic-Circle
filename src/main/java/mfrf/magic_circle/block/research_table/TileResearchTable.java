@@ -9,6 +9,8 @@ import mfrf.magic_circle.registry_lists.TileEntities;
 import mfrf.magic_circle.world_saved_data.PlayerKnowledge;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -20,30 +22,34 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
 public class TileResearchTable extends NamedContainerTileBase {
-    private ItemStackHandler itemStackHandler = new ItemStackHandler(3) {
-        @NotNull
+
+    public Inventory inventory = new Inventory(3) {
         @Override
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+        public boolean canPlaceItem(int slot, ItemStack stack) {
+
             Slot value = Slot.values()[slot];
             switch (value) {
                 case TEST_PAPER: {
                     if (stack.getItem() instanceof ItemTestPaper) {
-                        if (getStackInSlot(slot).isEmpty()) {
-                            return super.insertItem(slot, stack, simulate);
+                        if (getItem(slot).isEmpty()) {
+                            return true;
                         }
                     }
+                    return false;
                 }
                 case PEN_AND_INK: {
                     if (stack.getItem() instanceof ItemPenAndInk) {
-                        if (getStackInSlot(slot).isEmpty()) {
-                            return super.insertItem(slot, stack, simulate);
+                        if (getItem(slot).isEmpty()) {
+                            return true;
                         }
                     }
+                    return false;
                 }
                 default: {
-                    return super.insertItem(slot, stack, simulate);
+                    return super.canPlaceItem(slot, stack);
                 }
             }
+
         }
     };
 
@@ -52,6 +58,7 @@ public class TileResearchTable extends NamedContainerTileBase {
     }
 
     @Override
+
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent("gui." + MagicCircle.MOD_ID + ".research_table");
     }

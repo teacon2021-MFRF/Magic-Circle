@@ -16,17 +16,14 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
     public ScreenBase(T p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_, int xSize, int ySize) {
         super(p_i51105_1_, p_i51105_2_, p_i51105_3_);
         this.xSize = xSize;
+        this.imageWidth = xSize;
+        this.imageHeight = ySize;
         this.ySize = ySize;
     }
 
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         this.renderBackground(matrixStack);
-    }
-
-    @Override
-    public void render(MatrixStack matrixStack, int x, int y, float partialTick) {
-        super.render(matrixStack, x, y, partialTick);
         ResourceLocation texture = getTexture();
 
         if (texture != null) {
@@ -38,6 +35,17 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
             this.blit(matrixStack, relX, relY, 0, 0, xSize, ySize, xSize, ySize);
             //todo fix this
         }
+    }
+
+    @Override
+    protected void renderLabels(MatrixStack p_230451_1_, int p_230451_2_, int p_230451_3_) {
+//        super.renderLabels(p_230451_1_, p_230451_2_, p_230451_3_);
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, int x, int y, float partialTick) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, x, y, partialTick);
     }
 
     protected abstract ResourceLocation getTexture();

@@ -14,15 +14,13 @@ public abstract class ContainerBase extends Container {
 
 
     protected void layoutInventory160x75(int x, int y, IInventory inventory) {
-        int actualX = x + getOriginX();
-        int actualY = y + getOriginY();
         for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(inventory, i, actualX + i * 18, actualY + 59));
+            this.addSlot(new Slot(inventory, i, x + i * 18, y + 59));
         }
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(inventory, 9 + i * 9 + j, actualX + j * 18, actualY + i * 18));
+                this.addSlot(new Slot(inventory, 9 + i * 9 + j, x + j * 18, y + i * 18));
             }
         }
     }
