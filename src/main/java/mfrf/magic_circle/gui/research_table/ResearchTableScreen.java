@@ -25,10 +25,19 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
         answer.renderButton(matrixStack, x, y, partialTick);
         answer.renderToolTip(matrixStack,x,y);
         answer.setTextColor(0xFF2002);
+        answer.setEditable(true);
+        answer.setValue("123123");
         renderTooltip(matrixStack, x, y);
     }
 
+    @Override
+    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
+        answer.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+        return super.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+    }
+
     //where is my drawGuiContainerForegroundLayer???
+    //todo editable
 
 
     @Override
