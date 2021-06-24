@@ -53,6 +53,7 @@ public class ResearchTableContainer extends ContainerBase {
             }
         });
         layoutInventory160x75(22, 154, playerInventory);
+        //todo sync
     }
 
 

@@ -1,7 +1,7 @@
 {
   "type": "magic_circle:bagua_research_test",
   "difficulty": 0.2,
-  "figure": "",
-  "answer": "answer",
-  "research": ""
+  "figure": "textures/figures/research_table.png",
+  "answer": "test",
+  "research": "test"
 }

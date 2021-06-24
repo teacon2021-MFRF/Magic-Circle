@@ -30,7 +30,7 @@ public class ItemTestPaper extends ItemBase {
     public static ResearchTestBase.Serializer.DataContainer getTest(ItemStack stack) {
         if (stack != null) {
             CompoundNBT tag = stack.getTag();
-            if (tag.contains("research_contain")) {
+            if (tag != null && tag.contains("research_contain")) {
                 return ResearchTestBase.Serializer.fromNBT(tag.getCompound("research_contain"));
             }
         }

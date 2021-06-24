@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class ResearchTestBase extends JsonConfigBase {
 
     protected float difficulty;
-    protected String figure;//todo resolve image path
+    protected String figure;
     protected String answer; //regex
     protected String research; //resourceLocation
 
