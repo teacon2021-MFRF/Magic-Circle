@@ -1,7 +1,7 @@
 {
   "type": "magic_circle:gem_effect",
 
-  "item_or_tag": "minecraft:dimanond",
+  "item_or_tag": "minecraft:diamond",
   "mana_recovery_scale": 0.9,
   "mana_capacity_scale": 1.1,
   "strength": 1.1,

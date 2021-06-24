@@ -1,0 +1,14 @@
+{
+  "type": "magic_circle:item_research",
+  "item_or_tag": "minecraft:dirt",
+  "bagua_knowledge": 0,
+  "math_knowledge": 0,
+  "mystery_knowledge": 0,
+  "physical_knowledge": 0,
+  "required_item_or_tag": "",
+  "required_bagua_knowledge": 0,
+  "required_math_knowledge": 0,
+  "required_mystery_knowledge": 0,
+  "required_physical_knowledge": 0,
+  "repeatable": true
+}

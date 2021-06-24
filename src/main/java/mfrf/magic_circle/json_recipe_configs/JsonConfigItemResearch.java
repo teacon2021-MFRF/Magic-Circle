@@ -46,6 +46,50 @@ public class JsonConfigItemResearch extends JsonConfigBase {
         return ingredient.getItems()[0];
     }
 
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public int getBaguaKnowledge() {
+        return baguaKnowledge;
+    }
+
+    public int getMathKnowledge() {
+        return mathKnowledge;
+    }
+
+    public int getMysteryKnowledge() {
+        return mysteryKnowledge;
+    }
+
+    public int getPhysicalKnowledge() {
+        return physicalKnowledge;
+    }
+
+    public int getRequiredBaguaKnowledge() {
+        return requiredBaguaKnowledge;
+    }
+
+    public int getRequiredMathKnowledge() {
+        return requiredMathKnowledge;
+    }
+
+    public int getRequiredMysteryKnowledge() {
+        return requiredMysteryKnowledge;
+    }
+
+    public int getRequiredPhysicalKnowledge() {
+        return requiredPhysicalKnowledge;
+    }
+
+    public boolean isRepeatable() {
+        return repeatable;
+    }
+
+    public String getResearchContain() {
+        return researchContain;
+    }
+
     @Override
     public IRecipeSerializer<?> getSerializer() {
         return new Serializer();

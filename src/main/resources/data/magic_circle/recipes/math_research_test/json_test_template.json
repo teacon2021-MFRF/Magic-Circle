@@ -1,7 +1,7 @@
 {
   "type": "magic_circle:math_research_test",
   "difficulty": 0.2,
-  "description": "these matrix is a matrix,<image[magic_circle:xxxxx\\xxxxx.png]>,try to solve this problem",
+  "figure": "",
   "answer": "answer",
   "research": ""
 }
