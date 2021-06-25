@@ -28,39 +28,34 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
     @Override
     public void render(MatrixStack matrixStack, int x, int y, float partialTick) {
         super.render(matrixStack, x, y, partialTick);
-        Optional<JsonConfigItemResearch> itemResearchContain = menu.getItemResearchContain();
-        Optional<ResearchTestBase.Serializer.DataContainer> testPaperResearchContain = menu.getTestPaperResearchContain();
-        if (testPaperResearchContain.isPresent()) {
-            ResearchTestBase.Serializer.DataContainer dataContainer = testPaperResearchContain.get();
-            try {
-                ResourceLocation figurePath = ResourceLocation.tryParse(dataContainer.figure);
-                figure.setFigurePath(figurePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (itemResearchContain.isPresent()) {
-//            JsonConfigItemResearch jsonConfigItemResearch = itemResearchContain.get();
-//            jsonConfigItemResearch.getResearchContain();
-            //todo render ItemResearch
+
+
+        if (answer != null) {
+            answer.render(matrixStack, x, y, partialTick);
+        }
+        if (figure != null) {
+            figure.render(matrixStack, x, y, partialTick);
         }
 
-        answer.render(matrixStack, x, y, partialTick);
-        figure.render(matrixStack, x, y, partialTick);
-
         renderTooltip(matrixStack, x, y);
-    }
-
-    @Override
-    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
-        return super.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
     }
 
     //where is my drawGuiContainerForegroundLayer???
     //todo editable
 
+
     @Override
     public void tick() {
         super.tick();
+    }
+
+    @Override
+    public boolean mouseDragged(double p_231045_1_, double p_231045_3_, int p_231045_5_, double p_231045_6_, double p_231045_8_) {
+        if (figure != null && figure.isMouseOver(p_231045_1_, p_231045_3_)) {
+            return figure.mouseDragged(p_231045_1_, p_231045_3_, p_231045_5_, p_231045_6_, p_231045_8_);
+        } else {
+            return super.mouseDragged(p_231045_1_, p_231045_3_, p_231045_5_, p_231045_6_, p_231045_8_);
+        }
     }
 
     @Override
@@ -70,11 +65,24 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
         answer.setEditable(true);
         answer.setVisible(true);
         this.addWidget(answer);
-        try {
-            figure = this.addWidget(new FigureBox(getGuiLeft() + 91, getGuiTop() + 28, 177, 69, new StringTextComponent("figure"), null));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+
+        Optional<JsonConfigItemResearch> itemResearchContain = menu.getItemResearchContain();
+        Optional<ResearchTestBase.Serializer.DataContainer> testPaperResearchContain = menu.getTestPaperResearchContain();
+        if (testPaperResearchContain.isPresent()) {
+            ResearchTestBase.Serializer.DataContainer dataContainer = testPaperResearchContain.get();
+            try {
+                ResourceLocation figurePath = ResourceLocation.tryParse(dataContainer.figure);
+                figure = this.addWidget(new FigureBox(getGuiLeft() + 91, getGuiTop() + 28, 177, 70, new StringTextComponent("figure"), figurePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (itemResearchContain.isPresent()) {
+//            JsonConfigItemResearch jsonConfigItemResearch = itemResearchContain.get();
+//            jsonConfigItemResearch.getResearchContain();
+            //todo render ItemResearch
         }
+
         //todo render picture,writeable.
     }
 

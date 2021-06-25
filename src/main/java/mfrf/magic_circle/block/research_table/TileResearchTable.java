@@ -11,10 +11,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -54,10 +56,32 @@ public class TileResearchTable extends NamedContainerTileBase {
             }
 
         }
+
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            markDirty();
+        }
     };
 
     public TileResearchTable() {
         super(TileEntities.RESEARCH_TABLE.get());
+    }
+
+    @Override
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = super.serializeNBT();
+        compoundNBT.put("inventory", inventory.createTag());
+        return compoundNBT;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundNBT nbt) {
+        super.deserializeNBT(nbt);
+        INBT inventory = nbt.get("inventory");
+        if (inventory != null) {
+            this.inventory.fromTag((ListNBT) inventory);
+        }
     }
 
     @Override
@@ -76,7 +100,7 @@ public class TileResearchTable extends NamedContainerTileBase {
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT updateTag = super.getUpdateTag();
-        updateTag.put("inventory",inventory.createTag());
+        updateTag.put("inventory", inventory.createTag());
         return updateTag;
     }
 

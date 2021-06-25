@@ -155,7 +155,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     }
 
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer);
-    //todo implement
+
     protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer);
 
     protected Colors getColorsAdd(float time) {

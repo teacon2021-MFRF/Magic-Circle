@@ -2,6 +2,6 @@
   "type": "magic_circle:research_test",
   "difficulty": 1.1,
   "figure": "magic_circle:textures/figures/linear_algebra.png",
-  "answer": "test",
+  "answer": "\\d+",
   "research": "test"
 }
