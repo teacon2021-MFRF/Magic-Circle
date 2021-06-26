@@ -27,7 +27,6 @@ import java.io.IOException;
 
 public class FigureBox extends Widget implements IGuiEventListener, IRenderable {
 
-    //todo scale
     private ResourceLocation location;
     private int figureWidth;
     private int figureHeight;
@@ -77,14 +76,30 @@ public class FigureBox extends Widget implements IGuiEventListener, IRenderable 
 
     @Override
     public boolean mouseDragged(double scaledMouseX, double scaledMouseY, int activeMouseButton, double deltaX, double deltaY) {
-        //todo 判断边缘
+        //todo fixit
         if (location != null) {
-            double movedLUX = xOffset - deltaX;
-            double movedLUY = yOffset - deltaY;
-            double leftBoundary;
-            double rightBoundary;
-            double upBoundary;
-            double downBoundary;
+            double movedLUX = xOffset - deltaX * currentScale;
+            double movedLUY = yOffset - deltaY * currentScale;
+            double leftBoundary = 0;
+            double rightBoundary = (width / currentScale - width);
+            double upBoundary = 0;
+            double downBoundary = (height / (currentScale) - height);
+
+            if (movedLUX < leftBoundary) {
+                xOffset = (int) leftBoundary;
+            } else if (movedLUX > rightBoundary) {
+                xOffset = (int) rightBoundary;
+            } else {
+                xOffset = (int) movedLUX;
+            }
+
+            if (movedLUY < upBoundary) {
+                yOffset = (int) upBoundary;
+            } else if (movedLUY > downBoundary) {
+                yOffset = (int) downBoundary;
+            } else {
+                yOffset = (int) movedLUY;
+            }
 
 
             return true;

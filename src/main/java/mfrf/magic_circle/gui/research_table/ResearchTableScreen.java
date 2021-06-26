@@ -59,9 +59,9 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
     }
 
     @Override
-    public void init(Minecraft p_231158_1_, int p_231158_2_, int p_231158_3_) {
-        super.init(p_231158_1_, p_231158_2_, p_231158_3_);
-        answer = new TextFieldWidget(p_231158_1_.font, getGuiLeft() + 91, getGuiTop() + 113, 176, 19, new StringTextComponent("hello"));
+    public void init(Minecraft minecraft, int x, int y) {
+        super.init(minecraft, x, y);
+        answer = new TextFieldWidget(minecraft.font, getGuiLeft() + 91, getGuiTop() + 113, 176, 19, new StringTextComponent("hello"));
         answer.setEditable(true);
         answer.setVisible(true);
         this.addWidget(answer);
@@ -83,7 +83,7 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
             //todo render ItemResearch
         }
 
-        //todo render picture,writeable.
+        //todo render writeable.
     }
 
     @Override

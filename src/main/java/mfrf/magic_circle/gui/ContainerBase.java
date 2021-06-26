@@ -1,9 +1,11 @@
 package mfrf.magic_circle.gui;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +14,10 @@ public abstract class ContainerBase extends Container {
         super(p_i50105_1_, p_i50105_2_);
     }
 
+    @Override
+    public ItemStack quickMoveStack(PlayerEntity p_82846_1_, int p_82846_2_) {
+        return ItemStack.EMPTY;
+    }
 
     protected void layoutInventory160x75(int x, int y, IInventory inventory) {
         for (int i = 0; i < 9; i++) {

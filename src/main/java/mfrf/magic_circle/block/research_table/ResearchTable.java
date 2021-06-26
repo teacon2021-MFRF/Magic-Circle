@@ -30,8 +30,13 @@ public class ResearchTable extends BlockBase {
     @Override
     public ActionResultType use(BlockState blockState, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult blockRayTraceResult) {
         if (!world.isClientSide() && hand == Hand.MAIN_HAND) {
-            openGUIAndContainer(world, pos, playerEntity, hand, buffer -> {
-                buffer.writeNbt(PlayerKnowledge.getOrCreate(world).getOrCreate(playerEntity.getUUID()).serializeNBT());
+//            openGUIAndContainer(world, pos, playerEntity, hand, buffer -> {
+//                buffer.writeNbt(PlayerKnowledge.getOrCreate(world).getOrCreate(playerEntity.getUUID()).serializeNBT());
+//            });
+            TileResearchTable tileEntity = (TileResearchTable) world.getBlockEntity(pos);
+            NetworkHooks.openGui((ServerPlayerEntity) playerEntity, tileEntity, (PacketBuffer packerBuffer) -> {
+                packerBuffer.writeBlockPos(tileEntity.getBlockPos());
+                packerBuffer.writeNbt(PlayerKnowledge.getOrCreate(world).getOrCreate(playerEntity.getUUID()).serializeNBT());
             });
         }
         return ActionResultType.SUCCESS;

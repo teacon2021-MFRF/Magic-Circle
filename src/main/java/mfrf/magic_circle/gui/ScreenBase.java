@@ -33,7 +33,6 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
             int relX = (this.width - xSize) / 2;
             int relY = (this.height - ySize) / 2;
             this.blit(matrixStack, relX, relY, 0, 0, xSize, ySize, xSize, ySize);
-            //todo fix this
         }
     }
 

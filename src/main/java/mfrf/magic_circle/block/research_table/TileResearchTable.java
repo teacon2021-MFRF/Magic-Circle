@@ -10,25 +10,21 @@ import mfrf.magic_circle.world_saved_data.PlayerKnowledge;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.items.ItemStackHandler;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class TileResearchTable extends NamedContainerTileBase {
+public class TileResearchTable extends NamedContainerTileBase implements ITickableTileEntity {
 
-    public Inventory inventory = new Inventory(3) {
+    private Inventory inventory = new Inventory(3) {
         @Override
         public boolean canPlaceItem(int slot, ItemStack stack) {
 
@@ -37,7 +33,7 @@ public class TileResearchTable extends NamedContainerTileBase {
                 case TEST_PAPER: {
                     if (stack.getItem() instanceof ItemTestPaper) {
                         if (getItem(slot).isEmpty()) {
-                            return true;
+                            return super.canPlaceItem(slot, stack);
                         }
                     }
                     return false;
@@ -45,7 +41,7 @@ public class TileResearchTable extends NamedContainerTileBase {
                 case PEN_AND_INK: {
                     if (stack.getItem() instanceof ItemPenAndInk) {
                         if (getItem(slot).isEmpty()) {
-                            return true;
+                            return super.canPlaceItem(slot, stack);
                         }
                     }
                     return false;
@@ -56,12 +52,6 @@ public class TileResearchTable extends NamedContainerTileBase {
             }
 
         }
-
-        @Override
-        public void setChanged() {
-            super.setChanged();
-            markDirty();
-        }
     };
 
     public TileResearchTable() {
@@ -69,18 +59,18 @@ public class TileResearchTable extends NamedContainerTileBase {
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = super.serializeNBT();
-        compoundNBT.put("inventory", inventory.createTag());
-        return compoundNBT;
+    public CompoundNBT save(CompoundNBT p_189515_1_) {
+        CompoundNBT save = super.save(p_189515_1_);
+        save.put("inventory", getInventory().createTag());
+        return save;
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
-        super.deserializeNBT(nbt);
-        INBT inventory = nbt.get("inventory");
+    public void load(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
+        super.load(p_230337_1_, p_230337_2_);
+        INBT inventory = p_230337_2_.get("inventory");
         if (inventory != null) {
-            this.inventory.fromTag((ListNBT) inventory);
+            this.getInventory().fromTag((ListNBT) inventory);
         }
     }
 
@@ -92,22 +82,24 @@ public class TileResearchTable extends NamedContainerTileBase {
 
     @Nullable
     @Override
-    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-        World world = getLevel();
-        return new ResearchTableContainer(p_createMenu_1_, p_createMenu_2_, getBlockPos(), world, PlayerKnowledge.getOrCreate(world).getOrCreate(p_createMenu_3_.getUUID()));
+    public Container createMenu(int syncID, PlayerInventory inventory, PlayerEntity playerEntity) {
+        return new ResearchTableContainer(syncID, inventory, this.worldPosition, this.level, PlayerKnowledge.getOrCreate(this.level).getOrCreate(playerEntity.getUUID()));
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+        markDirty();
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT updateTag = super.getUpdateTag();
-        updateTag.put("inventory", inventory.createTag());
-        return updateTag;
-    }
+    public void tick() {
+        if (!level.isClientSide) {
 
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        super.handleUpdateTag(state, tag);
-        inventory.fromTag((ListNBT) tag.get("inventory"));
+        }
     }
 
     public enum Slot {
