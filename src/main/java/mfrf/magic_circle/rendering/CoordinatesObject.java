@@ -18,12 +18,10 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
 
     protected Coordinates coordinates = new Coordinates(null, null, null, null);
     protected int renderTick = 0;
-    private float actualRenderTick = 0;
 
     public CoordinatesObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, int renderTick, @Nullable Coordinates coordinates) {
-        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius);
-        this.renderTick = renderTick;
-        this.actualRenderTick = renderTick + delay;
+        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius, renderTick);
+
         if (coordinates != null) {
             this.coordinates = coordinates;
         }
@@ -34,10 +32,9 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
 
-        float actualRenderProgress = time - delay;
-        float progress = actualRenderProgress / renderTick;
+        float progress = time / renderTick;
         if (progress >= 1) {
             progress = 1;
         }
@@ -45,7 +42,7 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         ArrayList<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress);
         ArrayList<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress);
         ArrayList<Vector3f> labels = new ArrayList<>();
-        ArrayList<Vector3f> functionPoints = coordinates.getFunctionPoints(progress);
+        ArrayList<ArrayList<Vector3f>> functionPoints = coordinates.getFunctionPoints(progress);
 
         if (progress >= 1)
             labels = coordinates.getLabels();
@@ -58,7 +55,11 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         yAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
         zAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
         if (functionPoints != null) {
-            functionPoints.forEach(vector3f -> vector3f.transform(baseRot));
+            functionPoints.forEach(
+                    function -> function.forEach(
+                            vector3d -> vector3d.transform(baseRot)
+                    )
+            );
         }
         labels.forEach(vector3f -> vector3f.transform(baseRot));
 
@@ -69,7 +70,11 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             if (functionPoints != null) {
-                functionPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+                functionPoints.forEach(
+                        function -> function.forEach(
+                                vector3f -> getLookVecTransform(vector3f, look, verticalVecF)
+                        )
+                );
             }
             labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
@@ -81,7 +86,9 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
 
         if (functionPoints != null) {
-            doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+            for (ArrayList<Vector3f> functionPoint : functionPoints) {
+                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, RenderTypes.MAGIC_CIRCLE_LINES);
+            }
         } else {
             //todo render error
             renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.getFont());
@@ -89,13 +96,12 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
 
         renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels);
 
-        return time >= actualRenderTick;
+        return time >= renderTick;
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
-        float actualRenderProgress = time - delay;
-        float progress = actualRenderProgress / renderTick;
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
+        float progress = time / renderTick;
         if (progress >= 1) {
             progress = 1;
         }
@@ -103,7 +109,7 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         ArrayList<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress);
         ArrayList<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress);
         ArrayList<Vector3f> labels = new ArrayList<>();
-        ArrayList<Vector3f> functionPoints = coordinates.getFunctionPoints(progress);
+        ArrayList<ArrayList<Vector3f>> functionPoints = coordinates.getFunctionPoints(progress);
 
         if (progress >= 1)
             labels = coordinates.getLabels();
@@ -116,7 +122,11 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         yAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
         zAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
         if (functionPoints != null) {
-            functionPoints.forEach(vector3f -> vector3f.transform(baseRot));
+            functionPoints.forEach(
+                    function -> function.forEach(
+                            vector3d -> vector3d.transform(baseRot)
+                    )
+            );
         }
         labels.forEach(vector3f -> vector3f.transform(baseRot));
 
@@ -127,7 +137,11 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             if (functionPoints != null) {
-                functionPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+                functionPoints.forEach(
+                        function -> function.forEach(
+                                vector3f -> getLookVecTransform(vector3f, look, verticalVecF)
+                        )
+                );
             }
             labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
@@ -139,7 +153,9 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
 
         if (functionPoints != null) {
-            doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+            for (ArrayList<Vector3f> functionPoint : functionPoints) {
+                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, RenderTypes.MAGIC_CIRCLE_LINES);
+            }
         } else {
             //todo render error
             renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.font);
@@ -147,7 +163,7 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
 
         renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels);
 
-        return time >= actualRenderTick;
+        return time >= renderTick;
     }
 
 }

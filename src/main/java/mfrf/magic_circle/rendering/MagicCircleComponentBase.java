@@ -20,6 +20,7 @@ import net.minecraft.util.text.ITextComponent;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBase> {
@@ -28,12 +29,12 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected static final float greenGradient = 0.023f;
     protected static final float blueGradient = 0.025f;
     protected static final float alphaGradient = 0.016f;
-    protected static final double renderingSpeed = Config.POLYGONS_RENDERING_SPEED.get();
 
     protected float delay;
     protected float xRotateSpeedRadius;
     protected float yRotateSpeedRadius;
     protected float zRotateSpeedRadius;
+    protected int renderTime;
     protected Vector3f positionOffset = new Vector3f(0, 0, 0);
     protected Quaternion rotation = Quaternion.ONE;
     protected boolean enableAlphaGradient = false;
@@ -41,6 +42,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected boolean enableRGBGradient = false;
     protected Colors color = Colors.YIN;
     protected boolean rotateWithLookVec = false;
+    protected ArrayList<MagicCircleComponentBase<?>> nextParallelComponents = new ArrayList<>();
 
     public T setPositionOffset(Vector3f positionOffset) {
         this.positionOffset = positionOffset;
@@ -77,52 +79,63 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         return (T) this;
     }
 
+    public T appendNextParallelComponent(MagicCircleComponentBase<?> circleComponentBase) {
+        nextParallelComponents.add(circleComponentBase);
+        return (T) this;
+    }
+
+    public T appendNextParallelComponents(MagicCircleComponentBase<?>... circleComponentBase) {
+        nextParallelComponents.addAll(Arrays.asList(circleComponentBase));
+        return (T) this;
+    }
+
     public MagicCircleComponentBase() {
         xRotateSpeedRadius = 0;
         yRotateSpeedRadius = 0;
         zRotateSpeedRadius = 0;
         delay = 0;
+        renderTime = 0;
     }
 
-    public MagicCircleComponentBase(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius) {
+    public MagicCircleComponentBase(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, int renderTime) {
         this.delay = delay;
         this.xRotateSpeedRadius = xRotateSpeedRadius;
         this.yRotateSpeedRadius = yRotateSpeedRadius;
         this.zRotateSpeedRadius = zRotateSpeedRadius;
+        this.renderTime = renderTime;
     }
 
-    public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putFloat("delay", delay);
-        compoundNBT.putFloat("xrot", xRotateSpeedRadius);
-        compoundNBT.putFloat("yrot", yRotateSpeedRadius);
-        compoundNBT.putFloat("zrot", zRotateSpeedRadius);
-        compoundNBT.putBoolean("lay_down", rotateWithLookVec);
-        return compoundNBT;
-    }
-
-    public void deserializeNBT(CompoundNBT compoundNBT) {
-        this.delay = compoundNBT.getFloat("delay");
-        this.xRotateSpeedRadius = compoundNBT.getFloat("xrot");
-        this.yRotateSpeedRadius = compoundNBT.getFloat("yrot");
-        this.zRotateSpeedRadius = compoundNBT.getFloat("zrot");
-        rotateWithLookVec = compoundNBT.getBoolean("lay_down");
-    }
-
-    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        if (trueTime + time - delay <= 0) {
+    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        if (time - delay <= 0) {
             return false;
         } else {
-            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+            boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+
+            if (flag) {
+                for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
+                    flag = flag && nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                }
+            }
+
+            return flag;
         }
     }
 
-    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
-        if (trueTime + time - delay <= 0) {
+    public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
+        if (time - delay <= 0) {
             return false;
         } else {
-            return renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
+            boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+
+            if (flag) {
+                for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
+                    flag = flag && nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                }
+            }
+
+            return flag;
         }
+
     }
 
 
@@ -154,9 +167,9 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         return getLookVecTransform(vector3f.x(), vector3f.y(), vector3f.z(), lookVec, verticalVec);
     }
 
-    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer);
+    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer);
 
-    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer);
+    protected abstract boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer);
 
     protected Colors getColorsAdd(float time) {
         Colors add = color;
@@ -374,14 +387,14 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         private Axis X;
         private Axis Y;
         private Axis Z;
-        private PositionExpression function;
+        private PositionExpression[] functions;
         // paramater is t
 
-        public Coordinates(@Nullable Axis x, @Nullable Axis y, @Nullable Axis z, @Nullable PositionExpression function) {
+        public Coordinates(@Nullable Axis x, @Nullable Axis y, @Nullable Axis z, @Nullable PositionExpression... function) {
             X = x;
             Y = y;
             Z = z;
-            this.function = function;
+            this.functions = function;
         }
 
         @Override
@@ -399,19 +412,24 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
             return points;
         }
 
-        public ArrayList<Vector3f> getFunctionPoints(float percent) {
-            ArrayList<Vector3f> points = new ArrayList<>();
-            if (function != null) {
-                for (float i = 0; i < function.samplingCount * percent; i++) {
-                    Vector3f execute = function.execute((double) i * function.samplingAccuracy);
-                    if (execute != null) {
-                        points.add(execute);
-                    } else {
-                        return null;
+        public ArrayList<ArrayList<Vector3f>> getFunctionPoints(float percent) {
+            ArrayList<ArrayList<Vector3f>> list_of_points_s = new ArrayList<>();
+            for (PositionExpression function : functions) {
+
+                ArrayList<Vector3f> points = new ArrayList<>();
+                if (function != null) {
+                    for (float i = 0; i < function.samplingCount * percent; i++) {
+                        Vector3f execute = function.execute((double) i * function.samplingAccuracy);
+                        if (execute != null) {
+                            points.add(execute);
+                        } else {
+                            return null;
+                        }
                     }
                 }
+                list_of_points_s.add(points);
             }
-            return points;
+            return list_of_points_s;
         }
 
         public ArrayList<Vector3f> getXAxisPoints(float percent) {

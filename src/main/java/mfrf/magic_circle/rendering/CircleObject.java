@@ -18,8 +18,8 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     private float radius;
 
 
-    public CircleObject(float radius, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, float delay) {
-        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius);
+    public CircleObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, int renderTime, float radius) {
+        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius, renderTime);
         this.radius = radius;
     }
 
@@ -29,20 +29,51 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
         float allLength = (float) (Math.PI * radius * 2);
-        double renderingTimeSum = allLength * renderingSpeed;
-        float actualTime = trueTime + time;
-        float v = (float) (actualTime / renderingTimeSum);
+        float v = (time / renderTime);
         float actualLength = (v >= 1 ? allLength : (allLength * v));
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, actualTime, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
+        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, time, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
         Matrix4f matrix = matrixStackIn.last().pose();
-//        Matrix4f matrix = matrixStackIn.last().pose();
+
+        matrixStackIn.pushPose();
+
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
+        //todo fix gradient algorithm
+
+        curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, circleArcPoints);
+
+        matrixStackIn.popPose();
+
+
+        RenderSystem.disableDepthTest();
+        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+
+        if (actualLength == allLength) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        float allLength = (float) (Math.PI * radius * 2);
+        float v = (time / renderTime);
+        float actualLength = (v >= 1 ? allLength : (allLength * v));
+
+
+        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, time, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
+
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
 
@@ -96,23 +127,5 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         return points;
     }
 
-    public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = super.serializeNBT();
-        compoundNBT.putFloat("radius", radius);
-        return compoundNBT;
-    }
-
-    @Override
-    public void deserializeNBT(CompoundNBT compoundNBT) {
-        if (compoundNBT.contains("delay") && compoundNBT.contains("radius") && compoundNBT.contains("xrot") && compoundNBT.contains("yrot") && compoundNBT.contains("zrot") && compoundNBT.contains("lay_down")) {
-            super.deserializeNBT(compoundNBT);
-            this.radius = compoundNBT.getFloat("radius");
-        }
-    }
-
-    @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        return false;
-    }
 
 }

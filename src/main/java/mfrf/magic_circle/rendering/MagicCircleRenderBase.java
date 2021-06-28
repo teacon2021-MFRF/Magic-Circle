@@ -14,118 +14,23 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
 
-public class MagicCircleRenderBase extends MagicCircleComponentBase {
-    public int currentProgress = 0;
-    public int maxProgress = 0;
-    protected ArrayList<BezierCurveObject> curves;
-    protected ArrayList<CircleObject> circles;
-    protected ArrayList<LineObject> lineObjects;
-    protected ArrayList<MagicCircleComponentBase> otherThings;
+public class MagicCircleRenderBase extends MagicCircleComponentBase<MagicCircleRenderBase> {
 
-    public MagicCircleRenderBase(ArrayList<BezierCurveObject> curves, ArrayList<CircleObject> circles, ArrayList<LineObject> lines, ArrayList<MagicCircleComponentBase> otherThings, int maxProgress, float delay, float xrot, float yrot, float zrot) {
-        super(delay, xrot, yrot, zrot);
-        this.curves = curves;
-        this.circles = circles;
-        this.maxProgress = maxProgress;
-        this.lineObjects = lines;
-        this.otherThings = otherThings;
+    public MagicCircleRenderBase(float delay, float xrot, float yrot, float zrot) {
+        super(delay, xrot, yrot, zrot, 0);
     }
 
     public MagicCircleRenderBase() {
         super();
-        curves = new ArrayList<>();
-        circles = new ArrayList<>();
-        otherThings = new ArrayList<>();
-    }
-
-    /**
-     * @return if returnValue == true, whitch means all rendering progress has complete(include progress of instance).
-     */
-    @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
-        currentProgress += 1;
-        boolean flag = true;
-        for (BezierCurveObject curve : curves) {
-            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        for (CircleObject circle : circles) {
-            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        for (LineObject lineObject : lineObjects) {
-            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        for (MagicCircleComponentBase otherThings : otherThings) {
-            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        return flag && (maxProgress == currentProgress);
-    }
-
-    public CompoundNBT serializeNBT() {
-        super.serializeNBT();
-        CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.putInt("max_progress", maxProgress);
-        compoundNBT.putInt("current_progress", currentProgress);
-        compoundNBT.putFloat("delay", delay);
-        ListNBT curvesNBT = new ListNBT();
-        for (BezierCurveObject curve : curves) {
-            curvesNBT.add(curve.serializeNBT());
-        }
-        compoundNBT.put("curves", curvesNBT);
-        ListNBT circlesNBT = new ListNBT();
-        for (CircleObject circle : circles) {
-            circlesNBT.add(circle.serializeNBT());
-        }
-        compoundNBT.put("circles", circlesNBT);
-        return compoundNBT;
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT compoundNBT) {
-        if (compoundNBT.contains("curves") && compoundNBT.contains("circles") && compoundNBT.contains("delay")) {
-            super.deserializeNBT(compoundNBT);
-            ListNBT curvesNBT = compoundNBT.getList("curves", Constants.NBT.TAG_COMPOUND);
-            ListNBT circlesNBT = compoundNBT.getList("circles", Constants.NBT.TAG_COMPOUND);
-            for (INBT inbt : curvesNBT) {
-                BezierCurveObject bezierCurveObject = new BezierCurveObject();
-                bezierCurveObject.deserializeNBT((CompoundNBT) inbt);
-                this.curves.add(bezierCurveObject);
-            }
-            for (INBT inbt : circlesNBT) {
-                CircleObject circleObject = new CircleObject();
-                circleObject.deserializeNBT((CompoundNBT) inbt);
-                this.circles.add(circleObject);
-            }
-            this.maxProgress = compoundNBT.getInt("max_progress");
-            this.currentProgress = compoundNBT.getInt("current_progress");
-            this.delay = compoundNBT.getInt("delay");
-        }
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+        return true;
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        currentProgress += 1;
-        boolean flag = true;
-        for (BezierCurveObject curve : curves) {
-            boolean b = curve.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        for (CircleObject circle : circles) {
-            boolean b = circle.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        for (LineObject lineObject : lineObjects) {
-            boolean b = lineObject.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        for (MagicCircleComponentBase otherThings : otherThings) {
-            boolean b = otherThings.renderingSelf(time, matrixStackIn, bufferIn, trueTime, lookVec, verticalVec, actualPosition, renderer);
-            flag = flag && b;
-        }
-        return flag && (maxProgress == currentProgress);
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
+        return true;
     }
-
 }

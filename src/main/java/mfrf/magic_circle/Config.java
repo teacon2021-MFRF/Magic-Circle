@@ -5,7 +5,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class Config {
     public static ForgeConfigSpec CONFIG;
     public static ForgeConfigSpec.ConfigValue<Float> CURVE_PRECISION;
-    public static ForgeConfigSpec.ConfigValue<Float> POLYGONS_RENDERING_SPEED;
     public static ForgeConfigSpec.ConfigValue<Integer> DURABILITY_OF_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Float> MANA_CAPACITY_OF_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Integer> COMPLEXITY_CEILING_OF_MAGES_ARMOR;
@@ -30,11 +29,6 @@ public class Config {
                 "This float value is the Precision of the line in the magic circle.",
                 "make it too low may cause rendering laggy").define("precision_of_bezier_curve", 0.05f);
 
-        POLYGONS_RENDERING_SPEED = CONFIG_BUILDER.comment(
-                "This float value is the \"rendering speed\" of the polygons in the magic circle",
-                "it means time use of each line",
-                "Polygons include circle.",
-                "This is calculus,brother.").define("speed_of_rendering_polygons", 1f);
         // RGB_RED_STEP = CONFIG_BUILDER.comment(
         // "Red color gradients each step.",
         // "R!G!B!"

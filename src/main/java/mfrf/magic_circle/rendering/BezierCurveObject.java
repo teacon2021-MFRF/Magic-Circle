@@ -23,8 +23,8 @@ import net.minecraftforge.common.util.Constants;
 public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObject> {
     private ArrayList<Vector3f> points;
 
-    public BezierCurveObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, Vector3f... points) {
-        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius);
+    public BezierCurveObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, int renderTime, Vector3f... points) {
+        super(delay, xRotateSpeedRadius, yRotateSpeedRadius, zRotateSpeedRadius, renderTime);
         this.points = new ArrayList<>(Arrays.asList(points));
     }
 
@@ -128,48 +128,14 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
         return list;
     }
 
-    public CompoundNBT serializeNBT() {
-        CompoundNBT compoundNBT = new CompoundNBT();
-        ListNBT pointList = new ListNBT();
-        compoundNBT.putInt("count", points.size());
-        compoundNBT.putFloat("delay", delay);
-        for (int i = 0; i < points.size(); i++) {
-            CompoundNBT point = new CompoundNBT();
-            Vector3f vector3f = points.get(i);
-            point.putFloat("x", vector3f.x());
-            point.putFloat("y", vector3f.y());
-            point.putFloat("z", vector3f.z());
-            pointList.add(i, point);
-        }
-        compoundNBT.put("points", pointList);
-
-        return compoundNBT;
-    }
-
     @Override
-    public void deserializeNBT(CompoundNBT compoundNBT) {
-        if (compoundNBT.contains("count") && compoundNBT.contains("points") && compoundNBT.contains("delay")) {
-            super.deserializeNBT(compoundNBT);
-            int count = compoundNBT.getInt("count");
-            ListNBT points = compoundNBT.getList("points", Constants.NBT.TAG_COMPOUND);
-            for (int i = 0; i < count; i++) {
-                CompoundNBT compoundPoint = (CompoundNBT) points.get(i);
-                this.points.add(new Vector3f(compoundPoint.getFloat("x"), compoundPoint.getFloat("y"), compoundPoint.getFloat("z")));
-                //todo maybe we needn't nbt
-            }
-        }
-    }
-
-    @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
         Vector3f lookVecF = new Vector3f(lookVec);
         Vector3f verticalVecF = new Vector3f(verticalVec);
-        float globalTime = getBezierPoints(1, lookVecF, verticalVecF).size() / 15f;
-        float v = Math.max(0, time + trueTime - delay);
-        float timePassed = Math.min(v / globalTime, 1);
-        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed, lookVecF, verticalVecF);
 
-//        ArrayList<Vector3f> bezierPoints = getBezierPoints(v >= 1 ? 1 : v);
+        float timePassed = time / renderTime;
+        boolean flag = timePassed >= 1;
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(flag ? 1 : timePassed, lookVecF, verticalVecF);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Matrix4f matrix = matrixStackIn.last().pose();
@@ -189,19 +155,17 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
         RenderSystem.disableDepthTest();
         buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
 
-        return v >= 1.0f;
+        return flag;
     }
 
     @Override
-    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, float trueTime, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
+    protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
         Vector3f lookVecF = new Vector3f(lookVec);
         Vector3f verticalVecF = new Vector3f(verticalVec);
-        float globalTime = getBezierPoints(1, lookVecF, verticalVecF).size() / 15f;
-        float v = Math.max(0, time + trueTime - delay);
-        float timePassed = Math.min(v / globalTime, 1);
-        ArrayList<Vector3f> bezierPoints = getBezierPoints(timePassed >= 1 ? 1 : timePassed, lookVecF, verticalVecF);
 
-//        ArrayList<Vector3f> bezierPoints = getBezierPoints(v >= 1 ? 1 : v);
+        float timePassed = time / renderTime;
+        boolean flag = timePassed >= 1;
+        ArrayList<Vector3f> bezierPoints = getBezierPoints(flag ? 1 : timePassed, lookVecF, verticalVecF);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Matrix4f matrix = matrixStackIn.last().pose();
@@ -221,7 +185,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
         RenderSystem.disableDepthTest();
         buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
 
-        return v >= 1.0f;
+        return flag;
     }
 
 
