@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObject> {
 
-    protected Coordinates coordinates = new Coordinates(null, null, null, null);
+    protected Coordinates coordinates = new Coordinates(null, null, null);
     protected int renderTick = 0;
 
     public CoordinatesObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, int renderTick, @Nullable Coordinates coordinates) {

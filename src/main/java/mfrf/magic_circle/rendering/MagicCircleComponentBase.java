@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.*;
 import net.minecraft.util.text.ITextComponent;
@@ -113,7 +112,8 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
             if (flag) {
                 for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
-                    flag = flag && nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    boolean rendering = nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    flag = flag && rendering;
                 }
             }
 
@@ -129,7 +129,8 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
             if (flag) {
                 for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
-                    flag = flag && nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    boolean rendering = nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    flag = flag && rendering;
                 }
             }
 

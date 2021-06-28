@@ -30,15 +30,15 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
-        float allLength = (float) (Math.PI * radius * 2);
-        float v = (time / renderTime);
-        float actualLength = (v >= 1 ? allLength : (allLength * v));
+        boolean flag = time >= renderTime;
+        float percent = flag ? 1 : (time / renderTime);
+        float timePassed = flag ? renderTime : time;
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, time, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
+        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
         Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
@@ -56,20 +56,17 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         RenderSystem.disableDepthTest();
         buffer.endBatch(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
 
-        if (actualLength == allLength) {
-            return true;
-        }
-        return false;
+        return flag;
     }
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        float allLength = (float) (Math.PI * radius * 2);
-        float v = (time / renderTime);
-        float actualLength = (v >= 1 ? allLength : (allLength * v));
+        boolean flag = time >= renderTime;
+        float percent = (time / renderTime);
+        float timePassed = flag ? renderTime : time;
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(actualLength, time, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
+        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
@@ -90,18 +87,16 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         RenderSystem.disableDepthTest();
         buffer.endBatch(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
 
-        if (actualLength == allLength) {
-            return true;
-        }
-        return false;
+        return flag;
     }
 
-    public ArrayList<Vector3f> getCircle(float length, float timePassed, boolean rotate, Vector3f direction, Vector3f verticalVec) {
+    public ArrayList<Vector3f> getCircle(float percent, float timePassed, boolean rotate, Vector3f direction, Vector3f verticalVec) {
         ArrayList<Vector3f> points = new ArrayList<>();
-        float v = Config.CURVE_PRECISION.get() / length;
+        float actualAngle = (float) (percent * Math.PI * 2);
+        float v = Config.CURVE_PRECISION.get() / actualAngle;
 
 
-        for (float i = 0; i <= length; i += v) {
+        for (float i = 0; i <= actualAngle; i += v) {
 
             float x = (float) (radius * Math.cos(i));
             float y = 0;
@@ -123,6 +118,9 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
 
             pos.add(positionOffset);
             points.add(pos);
+        }
+        if(percent == 1 && !points.isEmpty()) {
+            points.add(points.get(0));
         }
         return points;
     }

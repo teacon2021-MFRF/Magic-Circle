@@ -20,10 +20,11 @@ public class EntityMagicCircle extends Entity {
         super(entityTypeIn, p_i48580_2_);
     }
 
-    public EntityMagicCircle setMagicCircleObject(MagicCircleRenderBase magicCircleObject) {
-        this.getEntityData().set(MAGIC_CIRCLE_OBJECT, magicCircleObject.serializeNBT());
-        return this;
-    }
+//    public EntityMagicCircle setMagicCircleObject(MagicCircleRenderBase magicCircleObject) {
+//        this.getEntityData().set(MAGIC_CIRCLE_OBJECT, magicCircleObject.serializeNBT());
+//        return this;
+//    }
+    //todo complete it
 
     @Override
     protected void defineSynchedData() {

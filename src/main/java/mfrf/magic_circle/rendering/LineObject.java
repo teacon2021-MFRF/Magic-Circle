@@ -53,8 +53,9 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             float zRot = zRotateSpeedRadius == 0 ? 1 : time * zRotateSpeedRadius;
             Quaternion rot = rotation.copy();
             rot.mul(new Quaternion(xRot, yRot, zRot, true));
-            float progressPerTick = (((float) linePoints.size() - 1) / (float) renderTime);
-            ArrayList<Vector3f> actualPoints = flag ? this.linePoints : new ArrayList<>(linePoints.subList(0, Math.min((int) (progressPerTick * time), linePoints.size())));
+
+            float percent = flag ? 1:(time / renderTime);
+            ArrayList<Vector3f> actualPoints = flag ? this.linePoints : new ArrayList<>(linePoints.subList(0, Math.round(percent * (linePoints.size() - 1))));
 
             ArrayList<Vector3f> points = new ArrayList<>();
 
@@ -97,8 +98,10 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             float zRot = zRotateSpeedRadius == 0 ? 1 : time * zRotateSpeedRadius;
             Quaternion rot = rotation.copy();
             rot.mul(new Quaternion(xRot, yRot, zRot, true));
-            float progressPerTick = (((float) linePoints.size() - 1) / (float) renderTime);
-            ArrayList<Vector3f> actualPoints = flag ? this.linePoints : new ArrayList<>(linePoints.subList(0, Math.min((int) (progressPerTick * time), linePoints.size())));
+
+            float percent = flag ? 1:(time / renderTime);
+
+            ArrayList<Vector3f> actualPoints = flag ? this.linePoints : new ArrayList<>(linePoints.subList(0, Math.round(percent * (linePoints.size() - 1))));
 
             ArrayList<Vector3f> points = new ArrayList<>();
 
