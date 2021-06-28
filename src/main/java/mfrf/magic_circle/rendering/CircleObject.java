@@ -82,7 +82,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
                 y = lookVecTransform.y();
                 z = lookVecTransform.z();
             }
-            Vector3f pos = new Vector3f(positionOffset.x() + x, positionOffset.y() + y, positionOffset.z() + z);
+            Vector3f pos = new Vector3f(x, y, z);
 
             if (rotate) {
                 Quaternion copy = rotation.copy();

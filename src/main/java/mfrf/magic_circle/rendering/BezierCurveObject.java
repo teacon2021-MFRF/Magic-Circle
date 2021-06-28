@@ -100,6 +100,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
             y0 = y1;
             z0 = z1;
         }
+        bezierPointList.add(points.get(points.size() - 1));
 
         return bezierPointList;
     }
