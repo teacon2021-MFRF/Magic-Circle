@@ -21,4 +21,9 @@ public class BeginNodeBase extends MagicNodeBase {
         return magic;
     }
 
+    @Override
+    public MagicStream applyWithRender(MagicStream magicStream) {
+        return null;
+    }
+
 }

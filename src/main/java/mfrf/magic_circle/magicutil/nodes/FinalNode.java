@@ -17,4 +17,11 @@ public class FinalNode extends MagicNodeBase {
     public MagicStream apply(MagicStream magic) {
         return magic;
     }
+
+    @Override
+    public MagicStream applyWithRender(MagicStream magicStream) {
+
+        magicStream.finishRender();
+        return magicStream;
+    }
 }
