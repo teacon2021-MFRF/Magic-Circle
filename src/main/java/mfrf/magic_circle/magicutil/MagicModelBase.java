@@ -4,18 +4,21 @@ import java.util.ArrayList;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
+import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 
 public class MagicModelBase extends MagicNodeBase {
+    private final MagicCircleRenderBase renderBase;
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
     private int edgeCounts = -1;
     private MagicStreamMatrixNByN connectivityMatrix = null;
     protected final MagicModelBase.type type;
 
-    public MagicModelBase(MagicNodeBase graph, MagicModelBase.type type) {
+    public MagicModelBase(MagicNodeBase graph, MagicModelBase.type type, MagicCircleRenderBase renderBase) {
         super(NodeType.MODEL, graph, null, magicStream -> true);
         this.begin = graph;
         this.type = type;
+        this.renderBase = renderBase;
         this.eigenMatrix = null;
     }
 
@@ -60,6 +63,11 @@ public class MagicModelBase extends MagicNodeBase {
     @Override
     public MagicStream apply(MagicStream magic) {
         return begin.invoke(magic);
+    }
+
+    @Override
+    public MagicStream applyWithRender(MagicStream magicStream) {
+        return begin.applyWithRender(magicStream);
     }
 
     public enum type {

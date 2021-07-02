@@ -19,13 +19,6 @@ public class RenderMagicCircle extends EntityRenderer<EntityMagicCircle> {
     @Override
     public void render(EntityMagicCircle entityMagicCircle, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         super.render(entityMagicCircle, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-//        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase();
-//        magicCircleRenderBase.deserializeNBT(entityMagicCircle.getEntityData().get(EntityMagicCircle.MAGIC_CIRCLE_OBJECT));
-//        Float progress = entityMagicCircle.getEntityData().get(EntityMagicCircle.PROGRESS);
-//        Vector3d lookVec = entityMagicCircle.getLookAngle();
-//        Vector3d verticalVec = entityMagicCircle.getUpVector(1);
-//        BlockPos positionVec = entityMagicCircle.blockPosition();
-//        magicCircleRenderBase.rendering(progress + partialTicks, matrixStackIn, bufferIn, packedLightIn, lookVec, verticalVec, new Vector3f(positionVec.getX(), positionVec.getY(), positionVec.getZ()),this.entityRenderDispatcher);
         //todo complete it
     }
 

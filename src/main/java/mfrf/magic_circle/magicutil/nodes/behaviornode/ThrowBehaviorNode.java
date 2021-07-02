@@ -1,5 +1,6 @@
 package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import mfrf.magic_circle.entity.barrage.DanmakuEntity;
@@ -12,7 +13,10 @@ import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.registry_lists.Entities;
 import mfrf.magic_circle.util.MathUtil;
 import mfrf.magic_circle.util.PositionExpression;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
@@ -46,38 +50,55 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             double efficient = streamEigenMatrix.getEfficient();
 
             switch (lastNode.getNodeType()) {
-                case BEGIN : {
+                case BEGIN: {
 
                     break;
                 }
-                case FINAL : {
+                case FINAL: {
 
                     break;
                 }
-                case MODEL : {
+                case MODEL: {
 
                     break;
                 }
-                case EFFECT : {
+                case EFFECT: {
 
                     break;
                 }
-                case ADDITION : {
+                case ADDITION: {
 
                     break;
                 }
-                case BEHAVIOR : {
+                case BEHAVIOR: {
 
                     break;
                 }
-                case DECORATE : {
+                case DECORATE: {
                     DecorateNodeBase decorateNode = (DecorateNodeBase) lastNode;
-                    switch (decorateNode.decorateType) {
-                        case POWER : {
-                            int count = (int) Math.min((execute_speed - cooldown) * strength / 20, 50);
-                            double splitArgument = cooldown / execute_speed;
-                            long countPerShoot = Math.round(count / (splitArgument < 1 ? 1 : splitArgument));
+                    double minCount = Math.min((execute_speed - cooldown) * strength / 20, 50);
+                    double splitArgument = cooldown / execute_speed;
 
+                    switch (decorateNode.decorateType) {
+
+                        case POWER: {
+
+                        }
+                        case INVERT: {
+                            float _range = (float) (7.0 + 0.25 * range);
+                            float half = _range / 2;
+                            BlockPos offset = invoker.beginPos;
+                            List<DanmakuEntity> entities = world.getEntities(Entities.DANMAKU_ENTITY.get(), new AxisAlignedBB(offset.offset(-half, -half, -half), offset.offset(half, half, half)), danmakuEntity -> {
+                                String s = danmakuEntity.getEntityData().get(DanmakuEntity.TYPE);
+                                return s.equals(DanmakuEntity.DanmakuType.BULLET.name()) || s.equals(DanmakuEntity.DanmakuType.NULL.name());
+                            });
+                            entities.forEach(DanmakuEntity::remove);
+
+                            return magicStream;
+                        }
+                        case STRENGTH: {
+                            int count = (int) minCount;
+                            long countPerShoot = Math.round(count / (splitArgument < 1 ? 1 : splitArgument));
                             if (world instanceof ServerWorld) {
                                 ServerWorld serverWorld = (ServerWorld) world;
                                 for (int i = 0; i <= duration; i += cooldown) {
@@ -85,10 +106,10 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                                         DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
                                         if (spawn != null) {
                                             double v = (range / strength) * 1.2;
-                                            spawn.setSpeedScale(v >= 20 ? 20 : (float) v);
+                                            spawn.setSpeedScale((float) v);
                                             spawn.setRGBA(streamEigenMatrix.getRGBA());
                                             spawn.setTargetVec(targetVec);
-                                            spawn.setRequiredVariables((float) (strength * 1.2f), ((float) duration));
+                                            spawn.setRequiredVariables((float) (strength * 1.2f), ((float) duration), DanmakuEntity.DanmakuType.BULLET);
                                             spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
                                         }
                                     }
@@ -98,19 +119,53 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
                             return magicStream;
                         }
-                        case INVERT : {
+                        case EXPANSION: {
 
-                        }
-                        case STRENGTH : {
+                            int count = (int) (minCount * 1.25);
+                            long countPerShoot = Math.round(count / (splitArgument < 1 ? 1 : splitArgument));
 
-                        }
-                        case EXPANSION : {
+                            if (world instanceof ServerWorld) {
+                                ServerWorld serverWorld = (ServerWorld) world;
+                                for (int i = 0; i <= duration; i += cooldown) {
+                                    for (long l = 0; l < countPerShoot; l++) {
+                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
+                                        if (spawn != null) {
+                                            spawn.setRGBA(streamEigenMatrix.getRGBA());
+                                            spawn.setTargetVec(targetVec);
+                                            spawn.setRequiredVariables((float) (strength) * 0.6f, ((float) duration * 1.3f), DanmakuEntity.DanmakuType.BULLET);
+                                            spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
+                                        }
+                                    }
+                                }
 
-                        }
-                        case CONTINUOUS : {
+                            }
 
+                            return magicStream;
                         }
-                        case DIAGONALIZE : {
+                        case CONTINUOUS: {
+                            int count = (int) minCount;
+                            long countPerShoot = Math.round(count / (splitArgument < 1 ? 1 : splitArgument));
+
+                            if (world instanceof ServerWorld) {
+                                ServerWorld serverWorld = (ServerWorld) world;
+                                for (int i = 0; i <= duration; i += cooldown) {
+                                    for (long l = 0; l < countPerShoot; l++) {
+                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
+                                        if (spawn != null) {
+                                            double v = (range / strength) * 1.2;
+                                            spawn.setRGBA(streamEigenMatrix.getRGBA());
+                                            spawn.setTargetVec(targetVec);
+                                            spawn.setRequiredVariables((float) (strength), ((float) duration * 1.3f), DanmakuEntity.DanmakuType.BULLET);
+                                            spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            return magicStream;
+                        }
+                        case DIAGONALIZE: {
 
                         }
 
@@ -118,7 +173,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
                     break;
                 }
-                case RESONANCE : {
+                case RESONANCE: {
 
                     break;
                 }
@@ -127,6 +182,14 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             return magic;
         });
         return magic;
+    }
+
+    @Override
+    public MagicStream applyWithRender(MagicStream magicStream) {
+//        magicStream.renders.add((lastRender, stream) -> {
+//
+//        });
+        return magicStream;
     }
 
     public boolean setPositionExpression(PositionExpression expression) {
@@ -138,7 +201,6 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
         this.positionExpression = new PositionExpression();
         expressionModified = false;
     }
-
 
 
 }

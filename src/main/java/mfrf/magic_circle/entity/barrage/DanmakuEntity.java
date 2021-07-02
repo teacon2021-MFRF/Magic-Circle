@@ -33,6 +33,7 @@ public class DanmakuEntity extends Entity {
     public static final DataParameter<String> VELOCITY_X_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
     public static final DataParameter<String> VELOCITY_Y_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
     public static final DataParameter<String> VELOCITY_Z_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
+    public static final DataParameter<String> TYPE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
 
     public DanmakuEntity(EntityType<?> p_i48580_1_, World p_i48580_2_) {
         super(p_i48580_1_, p_i48580_2_);
@@ -60,12 +61,15 @@ public class DanmakuEntity extends Entity {
         return this;
     }
 
-    public DanmakuEntity setRequiredVariables(float damage, float max_time) {
+    public DanmakuEntity setRequiredVariables(float damage, float max_time, DanmakuType type) {
         this.entityData.set(DAMAGE, damage);
+        this.entityData.set(MAX_TIME, max_time);
+        this.entityData.set(TYPE, type.toString());
         return this;
     }
 
     public DanmakuEntity setSpeedScale(float scale) {
+        if (scale >= 20) scale = 20;
         this.entityData.set(SPEED_SCALE, scale);
         return this;
     }
@@ -87,11 +91,11 @@ public class DanmakuEntity extends Entity {
         this.entityData.define(X_TARGET, 0F);
         this.entityData.define(X_TARGET, 0F);
         this.entityData.define(X_TARGET, 0F);
+        this.entityData.define(TYPE, DanmakuType.NULL.name());
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundNBT compoundNBT) {
-
         this.entityData.set(DAMAGE, compoundNBT.getFloat("danmaku_damage"));
         this.entityData.set(TIME, compoundNBT.getFloat("danmaku_time"));
         this.entityData.set(MAX_TIME, compoundNBT.getFloat("danmaku_max_existing_time"));
@@ -106,6 +110,7 @@ public class DanmakuEntity extends Entity {
         this.entityData.set(Y_TARGET, compoundNBT.getFloat("y_target"));
         this.entityData.set(Z_TARGET, compoundNBT.getFloat("z_target"));
         this.entityData.set(SPEED_SCALE, compoundNBT.getFloat("speed_scale"));
+        this.entityData.set(TYPE, compoundNBT.getString("type"));
 
     }
 
@@ -125,6 +130,7 @@ public class DanmakuEntity extends Entity {
         compoundNBT.putFloat("y_target", this.entityData.get(Y_TARGET));
         compoundNBT.putFloat("z_target", this.entityData.get(Z_TARGET));
         compoundNBT.putFloat("speed_scale", this.entityData.get(SPEED_SCALE));
+        compoundNBT.putString("type", this.entityData.get(TYPE));
     }
 
     @Override
@@ -153,5 +159,18 @@ public class DanmakuEntity extends Entity {
             this.moveTo((Float) AviatorEvaluator.execute(xFormula, env) * speed_scale, (Float) AviatorEvaluator.execute(yFormula, env) * speed_scale, (Float) AviatorEvaluator.execute(zFormula, env) * speed_scale);
         }
 
+        //todo damage
+
+    }
+
+    @Override
+    public void remove() {
+        //todo remove_animation
+
+        super.remove();
+    }
+
+    public enum DanmakuType {
+        NULL, BEAM, BULLET
     }
 }

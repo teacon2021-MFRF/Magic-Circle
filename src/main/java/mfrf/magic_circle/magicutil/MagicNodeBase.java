@@ -5,6 +5,9 @@ import java.util.function.Predicate;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
+import mfrf.magic_circle.rendering.MagicCircleRenderBase;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class MagicNodeBase {
     private final NodeType nodeType;
@@ -52,9 +55,14 @@ public abstract class MagicNodeBase {
 
     public abstract MagicStream apply(MagicStream magic);
 
+    @OnlyIn(Dist.CLIENT)
+    public abstract MagicStream applyWithRender(MagicStream magicStream);
+
     public MagicStream invoke(MagicStream magic) {
         MagicStream apply = apply(magic);
+
         apply.Matrixtimes(this.eigenMatrix);
+
         if (condition != null) {
             if (condition.test(apply) && leftNode != null) {
                 return leftNode.invoke(apply);
@@ -104,4 +112,5 @@ public abstract class MagicNodeBase {
     public enum NodeType {
         BEGIN, FINAL, BEHAVIOR, ADDITION, DECORATE, RESONANCE, EFFECT, MODEL;
     }
+
 }
