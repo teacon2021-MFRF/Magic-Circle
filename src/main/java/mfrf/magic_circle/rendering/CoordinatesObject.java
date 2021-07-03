@@ -118,17 +118,32 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         copy.add(positionOffset);
 
         Quaternion baseRot = makeRotate(time);
-        xAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
-        yAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
-        zAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        xAxisPoints.forEach(vector3f -> {
+            vector3f.transform(baseRot);
+            vector3f.transform(transform);
+        });
+        yAxisPoints.forEach(vector3f -> {
+            vector3f.transform(baseRot);
+            vector3f.transform(transform);
+        });
+        zAxisPoints.forEach(vector3f -> {
+            vector3f.transform(baseRot);
+            vector3f.transform(transform);
+        });
         if (functionPoints != null) {
             functionPoints.forEach(
                     function -> function.forEach(
-                            vector3d -> vector3d.transform(baseRot)
+                            vector3d -> {
+                                vector3d.transform(baseRot);
+                                vector3d.transform(transform);
+                            }
                     )
             );
         }
-        labels.forEach(vector3f -> vector3f.transform(baseRot));
+        labels.forEach(vector3f -> {
+            vector3f.transform(baseRot);
+            vector3f.transform(transform);
+        });
 
         if (rotateWithLookVec) {
             Vector3f look = new Vector3f(lookVec);

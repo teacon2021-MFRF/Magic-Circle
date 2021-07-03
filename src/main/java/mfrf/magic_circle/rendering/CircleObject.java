@@ -117,6 +117,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
             }
 
             pos.add(positionOffset);
+            pos.transform(transform);
             points.add(pos);
         }
         if(percent == 1 && !points.isEmpty()) {

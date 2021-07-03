@@ -28,6 +28,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected static final float greenGradient = 0.023f;
     protected static final float blueGradient = 0.025f;
     protected static final float alphaGradient = 0.016f;
+    protected static final int maxLight = 0x00F0_00F0;
 
     protected float delay;
     protected float xRotateSpeedRadius;
@@ -42,6 +43,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected Colors color = Colors.YIN;
     protected boolean rotateWithLookVec = false;
     protected ArrayList<MagicCircleComponentBase<?>> nextParallelComponents = new ArrayList<>();
+    protected Matrix3f transform = Matrix3f.createScaleMatrix(1, 1, 1);
 
     public T setPositionOffset(Vector3f positionOffset) {
         this.positionOffset = positionOffset;
@@ -85,6 +87,11 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
     public T appendNextParallelComponents(MagicCircleComponentBase<?>... circleComponentBase) {
         nextParallelComponents.addAll(Arrays.asList(circleComponentBase));
+        return (T) this;
+    }
+
+    public T setTransform(Matrix3f transform) {
+        this.transform = transform;
         return (T) this;
     }
 

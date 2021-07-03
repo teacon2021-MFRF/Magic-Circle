@@ -27,6 +27,7 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
     public LineObject point(float x, float y, float z) {
         Vector3f copy = positionOffset.copy();
         copy.add(x, y, z);
+        copy.transform(transform);
         if (linePoints.size() != 0) {
             Vector3f lastPoint = linePoints.get(linePoints.size() - 1);
             linePoints.addAll(linearInsert(lastPoint, copy));
@@ -48,13 +49,13 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
         boolean flag = time >= renderTime;
 
         if (!linePoints.isEmpty()) {
-            float xRot = xRotateSpeedRadius == 0 ? 1 : time * xRotateSpeedRadius;
-            float yRot = yRotateSpeedRadius == 0 ? 1 : time * yRotateSpeedRadius;
-            float zRot = zRotateSpeedRadius == 0 ? 1 : time * zRotateSpeedRadius;
+            float xRot = xRotateSpeedRadius == 0 ? 0 : time * xRotateSpeedRadius;
+            float yRot = yRotateSpeedRadius == 0 ? 0 : time * yRotateSpeedRadius;
+            float zRot = zRotateSpeedRadius == 0 ? 0 : time * zRotateSpeedRadius;
             Quaternion rot = rotation.copy();
             rot.mul(new Quaternion(xRot, yRot, zRot, true));
 
-            float percent = flag ? 1:(time / renderTime);
+            float percent = flag ? 1 : (time / renderTime);
             ArrayList<Vector3f> actualPoints = flag ? this.linePoints : new ArrayList<>(linePoints.subList(0, Math.round(percent * (linePoints.size() - 1))));
 
             ArrayList<Vector3f> points = new ArrayList<>();
@@ -93,13 +94,13 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
         boolean flag = time >= renderTime;
 
         if (!linePoints.isEmpty()) {
-            float xRot = xRotateSpeedRadius == 0 ? 1 : time * xRotateSpeedRadius;
-            float yRot = yRotateSpeedRadius == 0 ? 1 : time * yRotateSpeedRadius;
-            float zRot = zRotateSpeedRadius == 0 ? 1 : time * zRotateSpeedRadius;
+            float xRot = xRotateSpeedRadius == 0 ? 0 : time * xRotateSpeedRadius;
+            float yRot = yRotateSpeedRadius == 0 ? 0 : time * yRotateSpeedRadius;
+            float zRot = zRotateSpeedRadius == 0 ? 0 : time * zRotateSpeedRadius;
             Quaternion rot = rotation.copy();
             rot.mul(new Quaternion(xRot, yRot, zRot, true));
 
-            float percent = flag ? 1:(time / renderTime);
+            float percent = flag ? 1 : (time / renderTime);
 
             ArrayList<Vector3f> actualPoints = flag ? this.linePoints : new ArrayList<>(linePoints.subList(0, Math.round(percent * (linePoints.size() - 1))));
 

@@ -95,6 +95,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
                 vector3f = getLookVecTransform(vector3f, lookVec, verticalVec);
             }
             vector3f.add(positionOffset);
+            vector3f.transform(transform);
             bezierPointList.add(vector3f);
             x0 = x1;
             y0 = y1;
