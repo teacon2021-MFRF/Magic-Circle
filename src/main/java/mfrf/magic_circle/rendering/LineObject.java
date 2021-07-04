@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -78,12 +79,13 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
             matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
-            IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+            RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
+            IVertexBuilder builder = buffer.getBuffer(renderType);
             curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, points);
 
             matrixStackIn.popPose();
 //            RenderSystem.disableDepthTest();
-            buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
+            buffer.endBatch(renderType);
 
         }
         return flag;
@@ -124,12 +126,13 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
             matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
-            IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+            RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
+            IVertexBuilder builder = buffer.getBuffer(renderType);
             curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, points);
 
             matrixStackIn.popPose();
 //            RenderSystem.disableDepthTest();
-            buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
+            buffer.endBatch(renderType);
 
         }
         return flag;

@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.nbt.CompoundNBT;
@@ -140,7 +141,8 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Matrix4f matrix = matrixStackIn.last().pose();
-        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+        RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
+        IVertexBuilder builder = buffer.getBuffer(renderType);
 
         matrixStackIn.pushPose();
 
@@ -154,7 +156,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
 
         RenderSystem.disableDepthTest();
-        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
+        buffer.endBatch(renderType);
 
         return flag;
     }
@@ -170,7 +172,8 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         Matrix4f matrix = matrixStackIn.last().pose();
-        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+        RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
+        IVertexBuilder builder = buffer.getBuffer(renderType);
 
         matrixStackIn.pushPose();
 
@@ -184,7 +187,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
 
 
         RenderSystem.disableDepthTest();
-        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_LINES);
+        buffer.endBatch(renderType);
 
         return flag;
     }

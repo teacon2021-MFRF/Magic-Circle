@@ -3,6 +3,7 @@ package mfrf.magic_circle.rendering;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mfrf.magic_circle.MagicCircle;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.vector.Quaternion;
@@ -79,15 +80,17 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, renderType);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, renderType);
+
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, renderType);
 
         if (functionPoints != null) {
             for (ArrayList<Vector3f> functionPoint : functionPoints) {
-                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, RenderTypes.MAGIC_CIRCLE_LINES);
+                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, renderType);
             }
         } else {
             //todo render error
@@ -161,15 +164,17 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, renderType);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, RenderTypes.MAGIC_CIRCLE_LINES);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, renderType);
+
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, renderType);
 
         if (functionPoints != null) {
             for (ArrayList<Vector3f> functionPoint : functionPoints) {
-                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, RenderTypes.MAGIC_CIRCLE_LINES);
+                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, renderType);
             }
         } else {
             //todo render error

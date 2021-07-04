@@ -36,7 +36,61 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
 
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        return false;
+        RenderType type = RenderTypes.slide(url);
+        IVertexBuilder buffer = bufferIn.getBuffer(type);
+        Color colorsAdd = getColorsAdd(time).toAWT();
+        Matrix4f pose = matrixStackIn.last().pose();
+
+        Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+//        matrixStackIn.translate(positionOffset.x(), positionOffset.y(), positionOffset.z());
+        ArrayList<Vector3f> vector3fs = new ArrayList<>();
+        vector3fs.add(new Vector3f(-0.5F, 1F / 256F, 0.5F));
+        vector3fs.add(new Vector3f(0.5F, 1F / 256F, 0.5F));
+        vector3fs.add(new Vector3f(0.5F, 1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(-0.5F, 1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(-0.5F, -1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(0.5F, -1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(0.5F, -1F / 256F, 0.5F));
+        vector3fs.add(new Vector3f(-0.5F, -1F / 256F, 0.5F));
+        //todo make it could rotate
+
+        Vector3f look = new Vector3f(lookVec);
+        Vector3f vert = new Vector3f(verticalVec);
+        ArrayList<Vector3f> vector3fArrayList = new ArrayList<>();
+
+        for (Vector3f f : vector3fs) {
+            Vector3f copy = f.copy();
+
+            Quaternion quaternion = makeRotate(time);
+            copy.transform(transform);
+            quaternion.mul(rotation);
+            copy.transform(quaternion);
+
+            copy.add(positionOffset);
+
+
+            if (rotateWithLookVec) {
+                copy = getLookVecTransform(copy, look, vert);
+            }
+
+            vector3fArrayList.add(copy);
+        }
+
+        matrixStackIn.pushPose();
+        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+        for (int i = 0; i < vector3fArrayList.size(); i += 4) {
+            Vector3f vector3f1 = vector3fArrayList.get(i);
+            Vector3f vector3f2 = vector3fArrayList.get(i + 1);
+            Vector3f vector3f3 = vector3fArrayList.get(i + 2);
+            Vector3f vector3f4 = vector3fArrayList.get(i + 3);
+            buffer.vertex(pose, vector3f1.x(), vector3f1.y(), vector3f1.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 1F).uv2(maxLight).endVertex();
+            buffer.vertex(pose, vector3f2.x(), vector3f2.y(), vector3f2.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 1F).uv2(maxLight).endVertex();
+            buffer.vertex(pose, vector3f3.x(), vector3f3.y(), vector3f3.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 0F).uv2(maxLight).endVertex();
+            buffer.vertex(pose, vector3f4.x(), vector3f4.y(), vector3f4.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 0F).uv2(maxLight).endVertex();
+        }
+        matrixStackIn.popPose();
+
+        return time > renderTime;
     }
 
     @Override
@@ -47,41 +101,53 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         Matrix4f pose = matrixStackIn.last().pose();
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-        matrixStackIn.translate(positionOffset.x(), positionOffset.y(), positionOffset.z());
+//        matrixStackIn.translate(positionOffset.x(), positionOffset.y(), positionOffset.z());
         ArrayList<Vector3f> vector3fs = new ArrayList<>();
-        vector3fs.add(new Vector3f(0F, 1F / 256F, 1F));
-        vector3fs.add(new Vector3f(1F, 1F / 256F, 1F));
-        vector3fs.add(new Vector3f(1F, 1F / 256F, 0F));
-        vector3fs.add(new Vector3f(0F, 1F / 256F, 0F));
-        vector3fs.add(new Vector3f(0F, -1F / 256F, 0F));
-        vector3fs.add(new Vector3f(1F, -1F / 256F, 0F));
-        vector3fs.add(new Vector3f(1F, -1F / 256F, 1F));
-        vector3fs.add(new Vector3f(0F, -1F / 256F, 1F));
+        vector3fs.add(new Vector3f(-0.5F, 1F / 256F, 0.5F));
+        vector3fs.add(new Vector3f(0.5F, 1F / 256F, 0.5F));
+        vector3fs.add(new Vector3f(0.5F, 1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(-0.5F, 1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(-0.5F, -1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(0.5F, -1F / 256F, -0.5F));
+        vector3fs.add(new Vector3f(0.5F, -1F / 256F, 0.5F));
+        vector3fs.add(new Vector3f(-0.5F, -1F / 256F, 0.5F));
         //todo make it could rotate
-        vector3fs.forEach(vector3f -> vector3f.add(0, 2, 0));
+
         Vector3f look = new Vector3f(lookVec);
         Vector3f vert = new Vector3f(verticalVec);
-//        if (rotateWithLookVec) {
-//            vector3fs.forEach(vector3f -> getLookVecTransform(vector3f, look, vert));
-//        }
+        ArrayList<Vector3f> vector3fArrayList = new ArrayList<>();
+
+        for (Vector3f f : vector3fs) {
+            Vector3f copy = f.copy();
+
+            Quaternion quaternion = makeRotate(time);
+            copy.transform(transform);
+            quaternion.mul(rotation);
+            copy.transform(quaternion);
+
+            copy.add(positionOffset);
+
+
+            if (rotateWithLookVec) {
+                copy = getLookVecTransform(copy, look, vert);
+            }
+
+            vector3fArrayList.add(copy);
+        }
 
         matrixStackIn.pushPose();
-        for (Vector3f vector3f : vector3fs) {
-            buffer.vertex(pose, vector3f.x(), vector3f.y(), vector3f.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 1F).uv2(maxLight).endVertex();
+        matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+        for (int i = 0; i < vector3fArrayList.size(); i += 4) {
+            Vector3f vector3f1 = vector3fArrayList.get(i);
+            Vector3f vector3f2 = vector3fArrayList.get(i + 1);
+            Vector3f vector3f3 = vector3fArrayList.get(i + 2);
+            Vector3f vector3f4 = vector3fArrayList.get(i + 3);
+            buffer.vertex(pose, vector3f1.x(), vector3f1.y(), vector3f1.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 1F).uv2(maxLight).endVertex();
+            buffer.vertex(pose, vector3f2.x(), vector3f2.y(), vector3f2.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 1F).uv2(maxLight).endVertex();
+            buffer.vertex(pose, vector3f3.x(), vector3f3.y(), vector3f3.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 0F).uv2(maxLight).endVertex();
+            buffer.vertex(pose, vector3f4.x(), vector3f4.y(), vector3f4.z()).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 0F).uv2(maxLight).endVertex();
         }
         matrixStackIn.popPose();
-
-//        buffer.vertex(pose, 0F, 1F / 256F + 2, 1F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 1F).uv2(maxLight).endVertex();
-//        buffer.vertex(pose, 1F, 1F / 256F + 2, 1F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 1F).uv2(maxLight).endVertex();
-//        buffer.vertex(pose, 1F, 1F / 256F + 2, 0F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 0F).uv2(maxLight).endVertex();
-//        buffer.vertex(pose, 0F, 1F / 256F + 2, 0F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 0F).uv2(maxLight).endVertex();
-//
-//        buffer.vertex(pose, 0F, -1F / 256F + 2, 0F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 0F).uv2(maxLight).endVertex();
-//        buffer.vertex(pose, 1F, -1F / 256F + 2, 0F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 0F).uv2(maxLight).endVertex();
-//        buffer.vertex(pose, 1F, -1F / 256F + 2, 1F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(1F, 1F).uv2(maxLight).endVertex();
-//        buffer.vertex(pose, 0F, -1F / 256F + 2, 1F).color(colorsAdd.getRed(), colorsAdd.getGreen(), colorsAdd.getBlue(), colorsAdd.getAlpha()).uv(0F, 1F).uv2(maxLight).endVertex();
-
 
         return time > renderTime;
     }

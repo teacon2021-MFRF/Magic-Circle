@@ -39,43 +39,47 @@ public class RenderTypes extends RenderType {
                         .setTextureState(new RenderState.TextureState(loc, false, true)).createCompositeState(false));
     }
 
-    private static final LineState LINE_1_0D = new LineState(OptionalDouble.of(3.0D));
-    //todo thickness
+    public static RenderType makeCircleLine(double width) {
+        LineState lineState = new LineState(OptionalDouble.of(width));
+        return create("magic_circle_lines",
+                DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_STRIP, 256,
+                RenderType.State.builder().setLineState(lineState)
+                        .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setTextureState(NO_TEXTURE)
+                        .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
+                        .setCullState(CullState.NO_CULL)
+                        .setLightmapState(RenderState.NO_LIGHTMAP)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .createCompositeState(false));
+    }
 
-    public static final RenderType MAGIC_CIRCLE_LINES = create("magic_circle_lines",
-            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_STRIP, 256,
-            RenderType.State.builder().setLineState(LINE_1_0D)
-                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                    .setTextureState(NO_TEXTURE)
-                    .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
-                    .setCullState(CullState.NO_CULL)
-                    .setLightmapState(RenderState.NO_LIGHTMAP)
-                    .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false));
+    public static RenderType make2PLine(LineState state) {
+        return create("magic_circle_lines",
+                DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
+                RenderType.State.builder().setLineState(state)
+                        .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setTextureState(NO_TEXTURE)
+                        .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
+                        .setCullState(CullState.NO_CULL)
+                        .setLightmapState(RenderState.NO_LIGHTMAP)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .createCompositeState(false));
+    }
 
-    public static final RenderType TWO_POINT_LINES = create("magic_circle_lines",
-            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
-            RenderType.State.builder().setLineState(LINE_1_0D)
-                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                    .setTextureState(NO_TEXTURE)
-                    .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
-                    .setCullState(CullState.NO_CULL)
-                    .setLightmapState(RenderState.NO_LIGHTMAP)
-                    .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false));
-
-    public static final RenderType MAGIC_CIRCLE_CLOSE_LINES = create("magic_circle_lines",
-            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_LOOP, 256,
-            RenderType.State.builder().setLineState(LINE_1_0D)
-                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                    .setTextureState(NO_TEXTURE)
-                    .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
-                    .setCullState(CullState.NO_CULL)
-                    .setLightmapState(RenderState.NO_LIGHTMAP)
-                    .setWriteMaskState(COLOR_WRITE)
-                    .createCompositeState(false));
+    public static RenderType makeCloseLine(LineState state) {
+        return create("magic_circle_lines",
+                DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINE_LOOP, 256,
+                RenderType.State.builder().setLineState(state)
+                        .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setTextureState(NO_TEXTURE)
+                        .setDepthTestState(RenderState.LEQUAL_DEPTH_TEST)
+                        .setCullState(CullState.NO_CULL)
+                        .setLightmapState(RenderState.NO_LIGHTMAP)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .createCompositeState(false));
+    }
 
 }

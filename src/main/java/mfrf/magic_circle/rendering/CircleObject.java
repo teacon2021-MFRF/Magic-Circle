@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.nbt.CompoundNBT;
@@ -38,7 +39,8 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_LINES);
+        RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
+        IVertexBuilder builder = buffer.getBuffer(renderType);
         Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
@@ -54,7 +56,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
 
 
         RenderSystem.disableDepthTest();
-        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        buffer.endBatch(renderType);
 
         return flag;
     }
@@ -62,14 +64,15 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
     @Override
     protected boolean renderingSelf(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
         boolean flag = time >= renderTime;
-        float percent = (time / renderTime);
+        float percent = flag ? 1 : (time / renderTime);
         float timePassed = flag ? renderTime : time;
 
 
         ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        IVertexBuilder builder = buffer.getBuffer(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
+        IVertexBuilder builder = buffer.getBuffer(renderType);
         Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
@@ -85,7 +88,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
 
 
         RenderSystem.disableDepthTest();
-        buffer.endBatch(RenderTypes.MAGIC_CIRCLE_CLOSE_LINES);
+        buffer.endBatch(renderType);
 
         return flag;
     }
@@ -120,7 +123,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
             pos.transform(transform);
             points.add(pos);
         }
-        if(percent == 1 && !points.isEmpty()) {
+        if (percent == 1 && !points.isEmpty()) {
             points.add(points.get(0));
         }
         return points;

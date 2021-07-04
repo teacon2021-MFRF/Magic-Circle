@@ -44,6 +44,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected boolean rotateWithLookVec = false;
     protected ArrayList<MagicCircleComponentBase<?>> nextParallelComponents = new ArrayList<>();
     protected Matrix3f transform = Matrix3f.createScaleMatrix(1, 1, 1);
+    protected double lineWidth = 3.0D;
 
     public T setPositionOffset(Vector3f positionOffset) {
         this.positionOffset = positionOffset;
@@ -92,6 +93,11 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
     public T setTransform(Matrix3f transform) {
         this.transform = transform;
+        return (T) this;
+    }
+
+    public T setLineWidth(double width) {
+        this.lineWidth = width;
         return (T) this;
     }
 
