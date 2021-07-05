@@ -89,7 +89,7 @@ public class MagicModelBase extends MagicNodeBase {
             for (int i = 0; i < collect.size(); i++) {
                 double[] row = connectivity_matrix.getRow(i);
                 for (int j = 0; j < row.length; j++) {
-                    if (row[j] != 0) {
+                    if (j != i && row[j] != 0) {
                         MagicNodeBase node = collect.get(i);
                         if (node.leftNode == null) {
                             node.appendNodeL(collect.get(j));
