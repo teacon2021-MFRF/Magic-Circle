@@ -1,25 +1,33 @@
 package mfrf.magic_circle.magicutil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
+import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
+import mfrf.magic_circle.magicutil.nodes.FinalNode;
+import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
+import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
+import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
+import mfrf.magic_circle.magicutil.nodes.resonancenode.ResonanceNodeBase;
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraftforge.common.util.Constants;
 
 public class MagicModelBase extends MagicNodeBase {
-    private final MagicCircleRenderBase renderBase;
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
     private int edgeCounts = -1;
     private MagicStreamMatrixNByN connectivityMatrix = null;
-    protected final MagicModelBase.type type;
 
-    public MagicModelBase(MagicNodeBase graph, MagicModelBase.type type, MagicCircleRenderBase renderBase) {
-        super(NodeType.MODEL, graph, null, magicStream -> true);
+    public MagicModelBase(MagicNodeBase graph) {
+        super(NodeType.MODEL);
         this.begin = graph;
-        this.type = type;
-        this.renderBase = renderBase;
         this.eigenMatrix = null;
+        appendNodeR(graph);
     }
 
     public int getEdges() {
@@ -60,17 +68,48 @@ public class MagicModelBase extends MagicNodeBase {
         return super.getEigenMatrix();
     }
 
-    @Override
-    public MagicStream apply(MagicStream magic) {
-        return begin.invoke(magic);
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = new CompoundNBT();
+        MagicStreamMatrixNByN connectivityMatrix = getConnectivityMatrix();
+        ArrayList<MagicNodeBase> nodes = getNodes();
+
+        compoundNBT.put("connectivity_matrix", connectivityMatrix.serializeNBT());
+
+        ListNBT listNBT = new ListNBT();
+        nodes.stream().map(MagicNodeBase::serializeNBT).forEachOrdered(listNBT::add);
+        compoundNBT.put("nodes", listNBT);
+        return compoundNBT;
+    }
+
+    public static MagicModelBase deserializeNBT(CompoundNBT nbt) {
+        ArrayList<MagicNodeBase> collect = nbt.getList("nodes", Constants.NBT.TAG_COMPOUND).stream().map(inbt -> (CompoundNBT) inbt).map(MagicNodeBase::deserializeNBT).collect(Collectors.toCollection(ArrayList::new));
+        if (!collect.isEmpty()) {
+            MagicStreamMatrixNByN connectivity_matrix = MagicStreamMatrixNByN.deserializeNBT(nbt.getCompound("connectivity_matrix"));
+
+            for (int i = 0; i < collect.size(); i++) {
+                double[] row = connectivity_matrix.getRow(i);
+                for (int j = 0; j < row.length; j++) {
+                    if (row[j] != 0) {
+                        MagicNodeBase node = collect.get(i);
+                        if (node.leftNode == null) {
+                            node.appendNodeL(collect.get(j));
+                        } else if (node.rightNode == null) {
+                            node.appendNodeR(collect.get(j));
+                        }
+                    }
+                }
+            }
+
+            return new MagicModelBase(collect.get(0));
+        } else {
+            return new MagicModelBase(null);
+        }
     }
 
     @Override
-    public MagicStream applyWithRender(MagicStream magicStream) {
-        return begin.applyWithRender(magicStream);
+    public returnDataContainer apply(MagicStream magic) {
+        return new returnDataContainer(magic, true);
     }
 
-    public enum type {
-        PLAYER, BLOCK, EQUIPMENT, CHAIN, DIMENSION, ENTITY, DROP_ENTITY, WEATHER, TIME, AUTO;
-    }
+
 }

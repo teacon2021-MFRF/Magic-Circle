@@ -4,6 +4,8 @@ import mfrf.magic_circle.util.EffectiveItemContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+
 public interface IMagicalItem {
 
     float getManaCapacity();
@@ -34,4 +36,9 @@ public interface IMagicalItem {
 
     void onPriming(World world, BlockPos pos);
 
+    ArrayList<String> magics();
+
+    int getMaxMagicCapacity();
+
+    boolean addMagic(String magicModelName);
 }

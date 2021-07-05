@@ -62,7 +62,6 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
             Vector3f copy = f.copy();
 
             Quaternion quaternion = makeRotate(time);
-            copy.transform(transform);
             quaternion.mul(rotation);
             copy.transform(quaternion);
 
@@ -73,6 +72,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
                 copy = getLookVecTransform(copy, look, vert);
             }
 
+            copy.transform(transform);
             vector3fArrayList.add(copy);
         }
 

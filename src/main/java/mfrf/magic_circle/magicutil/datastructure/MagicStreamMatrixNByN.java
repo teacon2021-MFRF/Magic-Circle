@@ -37,7 +37,7 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
         return compoundNBT;
     }
 
-    public static void deserializeNBT(CompoundNBT compoundNBT) {
+    public static MagicStreamMatrixNByN deserializeNBT(CompoundNBT compoundNBT) {
         int row = compoundNBT.getInt("row");
         int col = compoundNBT.getInt("col");
         MagicStreamMatrixNByN magicStreamMatrixNByN = new MagicStreamMatrixNByN(row, col);
@@ -46,6 +46,7 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
                 magicStreamMatrixNByN.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
             }
         }
+        return magicStreamMatrixNByN;
     }
 
     public MagicStreamMatrixNByN leftTimes(MagicStreamMatrixNByN magicStreamMatrixNByN) {

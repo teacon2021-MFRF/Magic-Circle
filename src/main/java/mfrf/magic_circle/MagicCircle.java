@@ -1,6 +1,6 @@
 package mfrf.magic_circle;
 
-import mfrf.magic_circle.interfaces.IConfortableCapabilityStorage;
+import mfrf.magic_circle.interfaces.IComfortableCapabilityStorage;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.*;
 import net.minecraft.item.ItemGroup;
@@ -30,7 +30,7 @@ public class MagicCircle {
     public static void onSetUpEvent(FMLCommonSetupEvent event) {
         // ----------------------------------------------------------------------------------------------------------------
         event.enqueueWork(() -> {
-            CapabilityManager.INSTANCE.register(IMagicalItem.class, new IConfortableCapabilityStorage<IMagicalItem>(), () -> null);
+            CapabilityManager.INSTANCE.register(IMagicalItem.class, new IComfortableCapabilityStorage<IMagicalItem>(), () -> null);
         });
         // ----------------------------------------------------------------------------------------------------------------
     }

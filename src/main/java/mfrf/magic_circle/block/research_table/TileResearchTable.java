@@ -22,7 +22,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nullable;
 
-public class TileResearchTable extends NamedContainerTileBase implements ITickableTileEntity {
+public class TileResearchTable extends NamedContainerTileBase {
 
     private Inventory inventory = new Inventory(3) {
         @Override
@@ -51,6 +51,12 @@ public class TileResearchTable extends NamedContainerTileBase implements ITickab
                 }
             }
 
+        }
+
+        @Override
+        public void setChanged() {
+            markDirty();
+            super.setChanged();
         }
     };
 
@@ -93,13 +99,6 @@ public class TileResearchTable extends NamedContainerTileBase implements ITickab
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
         markDirty();
-    }
-
-    @Override
-    public void tick() {
-        if (!level.isClientSide) {
-
-        }
     }
 
     public enum Slot {

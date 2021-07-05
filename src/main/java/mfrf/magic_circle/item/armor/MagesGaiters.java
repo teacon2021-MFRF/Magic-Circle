@@ -6,6 +6,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 
 public class MagesGaiters extends MagesArmorBase {
     public MagesGaiters(Properties p_i48534_3_, EffectiveItemContainer.Slot[] slots) {
-        super(EquipmentSlotType.LEGS, p_i48534_3_, new MagicalItemSimpleImplement(new EffectiveItemContainer(slots), MATERIAL.getManaCapacity(), MATERIAL.getScaleCapacityIfPrimed(), (int) MATERIAL.getManaCapacity(), MATERIAL.getManaRecovery(), MATERIAL.getScaleRecoverIfPrimed(), null));
+        super(EquipmentSlotType.LEGS, p_i48534_3_, new MagicalItemSimpleImplement(new EffectiveItemContainer(slots), MATERIAL.getManaCapacity(), MATERIAL.getScaleCapacityIfPrimed(), (int) MATERIAL.getManaCapacity(), MATERIAL.getManaRecovery(), MATERIAL.getScaleRecoverIfPrimed(), slots.length, null));
     }
 }

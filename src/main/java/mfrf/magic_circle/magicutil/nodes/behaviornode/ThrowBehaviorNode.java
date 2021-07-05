@@ -11,13 +11,10 @@ import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.registry_lists.Entities;
-import mfrf.magic_circle.util.MathUtil;
 import mfrf.magic_circle.util.PositionExpression;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -32,7 +29,8 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
 
     @Override
-    public MagicStream apply(MagicStream magic) {
+    public returnDataContainer apply(MagicStream magic) {
+        boolean flag = true;
         MagicNodeBase lastNode = magic.info.lastNode;
 
         magic.functions.add((magicStream, magicStreamInfo) -> {
@@ -63,10 +61,6 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                     break;
                 }
                 case EFFECT: {
-
-                    break;
-                }
-                case ADDITION: {
 
                     break;
                 }
@@ -181,15 +175,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
             return magic;
         });
-        return magic;
-    }
-
-    @Override
-    public MagicStream applyWithRender(MagicStream magicStream) {
-//        magicStream.renders.add((lastRender, stream) -> {
-//
-//        });
-        return magicStream;
+        return new returnDataContainer(magic,flag);
     }
 
     public boolean setPositionExpression(PositionExpression expression) {

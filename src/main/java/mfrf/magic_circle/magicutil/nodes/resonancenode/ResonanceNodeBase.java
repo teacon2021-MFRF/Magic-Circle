@@ -4,14 +4,20 @@ import java.util.function.Predicate;
 
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
+import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
+import net.minecraft.nbt.CompoundNBT;
 
 public abstract class ResonanceNodeBase extends MagicNodeBase {
 
     public final ResonanceType resonanceType;
 
-    public ResonanceNodeBase(MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, ResonanceType resonanceType) {
-        super(NodeType.RESONANCE, leftNode, rightNode, condition);
+    public ResonanceNodeBase(ResonanceType resonanceType) {
+        super(NodeType.RESONANCE);
         this.resonanceType = resonanceType;
+    }
+
+    public static MagicNodeBase deserializeNBT(CompoundNBT nbt, int layer, MagicStreamMatrixNByN matrix) {
+        return null;
     }
 
     public enum ResonanceType {

@@ -1,18 +1,13 @@
 package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
-import mfrf.magic_circle.entity.barrage.DanmakuEntity;
 import mfrf.magic_circle.magicutil.Invoker;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
-import mfrf.magic_circle.registry_lists.Entities;
-import mfrf.magic_circle.util.PositionExpression;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.function.Predicate;
 
@@ -22,8 +17,9 @@ public class BeamNode extends BehaviorNodeBase {
     }
 
     @Override
-    public MagicStream apply(MagicStream magic) {
+    public returnDataContainer apply(MagicStream magic) {
 
+        boolean flag = true;
         MagicNodeBase lastNode = magic.info.lastNode;
 
         magic.functions.add((magicStream, magicStreamInfo) -> {
@@ -66,10 +62,6 @@ public class BeamNode extends BehaviorNodeBase {
 
                     break;
                 }
-                case ADDITION: {
-
-                    break;
-                }
                 default: {
 
                 }
@@ -77,11 +69,7 @@ public class BeamNode extends BehaviorNodeBase {
 
             return magic;
         });
-        return magic;
+        return new returnDataContainer(magic, flag);
     }
 
-    @Override
-    public MagicStream applyWithRender(MagicStream magicStream) {
-        return null;
-    }
 }
