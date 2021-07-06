@@ -10,7 +10,11 @@ import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
 import mfrf.magic_circle.magicutil.nodes.resonancenode.ResonanceNodeBase;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.OnlyIns;
 
 public abstract class MagicNodeBase {
     private final NodeType nodeType;
@@ -117,6 +121,9 @@ public abstract class MagicNodeBase {
             leftNode.getConnectivityMatrix(magicStreamMatrixNByN, nodeMaps);
         }
     }
+
+    @OnlyIn(Dist.CLIENT)
+    public abstract MagicCircleComponentBase<?> getRender();
 
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();

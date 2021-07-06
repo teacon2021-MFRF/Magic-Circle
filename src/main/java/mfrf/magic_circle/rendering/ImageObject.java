@@ -26,7 +26,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
     protected ResourceLocation url;
 
     public ImageObject() {
-        this.url = new ResourceLocation(MagicCircle.MOD_ID, "textures/danmaku/test_danmaku.png");
+        this.url = new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/magic_circle.png");
     }
 
     public ImageObject(float delay, float xRotateSpeedRadius, float yRotateSpeedRadius, float zRotateSpeedRadius, int renderTime, ResourceLocation url) {

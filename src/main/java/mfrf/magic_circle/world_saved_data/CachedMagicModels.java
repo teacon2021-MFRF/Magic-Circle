@@ -2,6 +2,8 @@ package mfrf.magic_circle.world_saved_data;
 
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.magicutil.MagicModelBase;
+import mfrf.magic_circle.rendering.MagicCircleRenderBase;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -9,8 +11,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -23,7 +28,7 @@ public class CachedMagicModels extends WorldSavedData {
         super(NAME);
     }
 
-    public HashMap<String, MagicModelBase> getOrCreate(UUID id) {
+    public HashMap<String, MagicModelBase> getOrCreateModelCache(UUID id) {
         if (!CACHED_MODELS.containsKey(id)) {
             CACHED_MODELS.put(id, new HashMap<>());
         }
@@ -31,13 +36,13 @@ public class CachedMagicModels extends WorldSavedData {
     }
 
     public boolean isFull(UUID uuid) {
-        return getOrCreate(uuid).size() >= Config.MAX_MEMORIZED_MODEL_PER_PLAYER.get();
+        return getOrCreateModelCache(uuid).size() >= Config.MAX_MEMORIZED_MODEL_PER_PLAYER.get();
     }
 
     public boolean add(UUID uuid, String name, MagicModelBase modelBase) {
         if (!isFull(uuid)) {
 
-            CACHED_MODELS.get(uuid).put(name, modelBase);
+            getOrCreateModelCache(uuid).put(name, modelBase);
             setDirty();
             return true;
 
@@ -45,15 +50,17 @@ public class CachedMagicModels extends WorldSavedData {
     }
 
     public MagicModelBase request(UUID uuid, String name) {
-        HashMap<String, MagicModelBase> map = getOrCreate(uuid);
+        HashMap<String, MagicModelBase> map = getOrCreateModelCache(uuid);
         return map.get(name);
     }
 
     public void forgot(UUID uuid, String name) {
-        HashMap<String, MagicModelBase> stringMagicModelBaseHashMap = getOrCreate(uuid);
+        HashMap<String, MagicModelBase> stringMagicModelBaseHashMap = getOrCreateModelCache(uuid);
         stringMagicModelBaseHashMap.remove(name);
         setDirty();
     }
+
+
 
     @Override
     public void load(CompoundNBT compoundNBT) {
@@ -105,11 +112,15 @@ public class CachedMagicModels extends WorldSavedData {
     }
 
     public static CachedMagicModels getOrCreate(World worldIn) {
-        if (!(worldIn instanceof ServerWorld)) {
-            throw new RuntimeException("Attempted to get the data from a client world. This is wrong.");
+        if (worldIn instanceof ClientWorld) {
+
+        } else if (worldIn instanceof ServerWorld) {
+            ServerWorld world = worldIn.getServer().getLevel(World.OVERWORLD);
+            DimensionSavedDataManager storage = world.getDataStorage();
+            return storage.computeIfAbsent(CachedMagicModels::new, NAME);
         }
-        ServerWorld world = worldIn.getServer().getLevel(World.OVERWORLD);
-        DimensionSavedDataManager storage = world.getDataStorage();
-        return storage.computeIfAbsent(CachedMagicModels::new, NAME);
+        throw new RuntimeException("Attempted to get the data from a wrong world. This is wrong.");
     }
+
+
 }

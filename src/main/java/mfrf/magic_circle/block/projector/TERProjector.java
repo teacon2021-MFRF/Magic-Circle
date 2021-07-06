@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -37,16 +38,16 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
 
         //test
         // =====================================================================================
-        BlockPos pos = tileProjector.getBlockPos();
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(1, 0, 0, 0);
-//        ImageObject imageObject = new ImageObject(0, 0, 0, 0, 20, new ResourceLocation(MagicCircle.MOD_ID, "textures/danmaku/test_danmaku.png")).setRotateWithLookVec().setPositionOffset(new Vector3f(0, 3, 0));
-//        magicCircleRenderBase.appendNextParallelComponents(imageObject);
+        BlockPos pos = tileProjector.getBlockPos();
+
+//        ImageObject p1 = new ImageObject(0, 16, 24, -16, 30, new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/block.png")).setRotateWithLookVec().setTransform(Matrix3f.createScaleMatrix(16, 16, 16));
+//        ImageObject p2 = new ImageObject(0, 16, 24, -16, 30, new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/block.png")).setRotateWithLookVec().setPositionOffset(new Vector3f(0, 4, 0)).setTransform(Matrix3f.createScaleMatrix(10, 10, 10));
+//        ImageObject p3 = new ImageObject(0, 16, 24, -16, 30, new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/block.png")).setRotateWithLookVec().setPositionOffset(new Vector3f(-8, 0, -8)).setTransform(Matrix3f.createScaleMatrix(8, 8, 8));
+//        ImageObject p4 = new ImageObject(0, 16, 24, -16, 30, new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/block.png")).setRotateWithLookVec().setPositionOffset(new Vector3f(8, 0, 8)).setTransform(Matrix3f.createScaleMatrix(8, 8, 8));
 //
-//        LineObject lineObject = new LineObject(0, 0, 0, 0, 20).setRotateWithLookVec().point(0, 0, 0).point(0, 16, 0);
-
-//        magicCircleRenderBase.appendNextParallelComponents(t);
-//        magicCircleRenderBase.appendNextParallelComponents(lineObject);
-
+//
+//        magicCircleRenderBase.appendNextParallelComponents(p1, p2, p3, p4);
         magicCircleRenderBase.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, new Vector3d(1, 1, 1), new Vector3d(1, 0, -1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()), this.renderer);
         // =====================================================================================
     }

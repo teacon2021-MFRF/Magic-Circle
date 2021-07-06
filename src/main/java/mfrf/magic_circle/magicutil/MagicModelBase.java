@@ -12,9 +12,12 @@ import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
 import mfrf.magic_circle.magicutil.nodes.resonancenode.ResonanceNodeBase;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 public class MagicModelBase extends MagicNodeBase {
@@ -66,6 +69,17 @@ public class MagicModelBase extends MagicNodeBase {
             this.eigenMatrix = eigen;
         }
         return super.getEigenMatrix();
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public MagicCircleComponentBase<?> getRender() {
+        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase();
+        ArrayList<MagicNodeBase> nodes = getNodes();
+        for (MagicNodeBase node : nodes) {
+            magicCircleRenderBase.appendNextParallelComponent(node.getRender());
+        }
+        return magicCircleRenderBase;
     }
 
     public CompoundNBT serializeNBT() {
