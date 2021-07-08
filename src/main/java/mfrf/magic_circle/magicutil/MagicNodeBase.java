@@ -76,7 +76,10 @@ public abstract class MagicNodeBase {
     public MagicStream invoke(MagicStream magic) {
         returnDataContainer apply = apply(magic);
 
+        magic.info.lastNode = this;
+
         apply.magicStream.Matrixtimes(this.eigenMatrix);
+
 
         if (apply.aBoolean && rightNode != null) {
             return rightNode.invoke(apply.magicStream);
@@ -136,7 +139,7 @@ public abstract class MagicNodeBase {
     public static MagicNodeBase deserializeNBT(CompoundNBT nbt) {
         NodeType type = NodeType.valueOf(nbt.getString("type"));
         int layer = nbt.getInt("layer");
-        MagicStreamMatrixNByN matrix = MagicNodePropertyMatrix8By8.deserializeNBT(nbt.getCompound("matrix"));
+        MagicNodePropertyMatrix8By8 matrix = MagicNodePropertyMatrix8By8.deserializeNBT(nbt.getCompound("matrix"));
 
         MagicNodeBase nodeBase;
         switch (type) {

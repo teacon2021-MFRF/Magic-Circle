@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class MagicStream {
     public ArrayList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new ArrayList<>();
@@ -40,6 +41,12 @@ public class MagicStream {
     }
 
     public static class MagicStreamInfo {
+        public MagicStreamInfo(Invoker invoker, @Nullable MagicNodeBase lastNode, Receiver receiver) {
+            this.invoker = invoker;
+            this.lastNode = lastNode;
+            this.receiver = receiver;
+        }
+
         public Invoker invoker;
         public MagicNodeBase lastNode;
         public Receiver receiver;

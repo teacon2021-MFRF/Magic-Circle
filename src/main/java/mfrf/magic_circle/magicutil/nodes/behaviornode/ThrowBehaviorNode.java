@@ -11,6 +11,7 @@ import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.registry_lists.Entities;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -23,8 +24,8 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
     protected boolean expressionModified = false;
     protected PositionExpression positionExpression = new PositionExpression();
 
-    public ThrowBehaviorNode(MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
-        super(leftNode, rightNode, condition, BehaviorType.THROW);
+    public ThrowBehaviorNode() {
+        super(BehaviorType.THROW);
     }
 
 
@@ -176,6 +177,11 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             return magic;
         });
         return new returnDataContainer(magic,flag);
+    }
+
+    @Override
+    public MagicCircleComponentBase<?> getRender() {
+        return null;
     }
 
     public boolean setPositionExpression(PositionExpression expression) {

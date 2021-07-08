@@ -44,15 +44,18 @@ public class SendPack {
         ctx.get().enqueueWork(() -> {
             NetworkDirection direction = ctx.get().getDirection();
 
+            ServerPlayerEntity sender = ctx.get().getSender();
             if (direction == NetworkDirection.PLAY_TO_CLIENT) {
                 if (hasModel) {
+                    CachedMagicModels cachedMagicModels = CachedMagicModels.getOrCreate(sender.getLevel());
                     HashMap<String, MagicCircleComponentBase<?>> orCreateRenderCache = RequestMagicModelsData.getOrCreateRenderCache(playerUUID);
+                    HashMap<String, MagicModelBase> orCreateModelCache = cachedMagicModels.getOrCreateModelCache(playerUUID);
                     MagicNodeBase nodeBase = MagicNodeBase.deserializeNBT(modelNBT);
+                    orCreateModelCache.put(modelName, (MagicModelBase) nodeBase);
                     orCreateRenderCache.put(modelName, nodeBase.getRender());
                 }
             } else if (direction == NetworkDirection.PLAY_TO_SERVER) {
 
-                ServerPlayerEntity sender = ctx.get().getSender();
                 HashMap<String, MagicModelBase> modelCache = CachedMagicModels.getOrCreate(sender.getLevel()).getOrCreateModelCache(playerUUID);
                 CompoundNBT modelNbt = new CompoundNBT();
                 if (modelCache.containsKey(modelName)) {

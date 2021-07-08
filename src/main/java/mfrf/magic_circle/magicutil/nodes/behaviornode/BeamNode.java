@@ -6,6 +6,7 @@ import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 
@@ -70,6 +71,11 @@ public class BeamNode extends BehaviorNodeBase {
             return magic;
         });
         return new returnDataContainer(magic, flag);
+    }
+
+    @Override
+    public MagicCircleComponentBase<?> getRender() {
+        return null;
     }
 
 }

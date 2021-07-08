@@ -5,18 +5,19 @@ import java.util.UUID;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 
 public class Invoker {
     public BlockPos beginPos;
-    public ResourceLocation dimension;
+    public DimensionType dimension;
     public ItemStack invokerStack;
     public UUID player;
     public MagicStream lastMagicStream;
     public World world;
     public InvokerType type;
 
-    public Invoker(BlockPos beginPos, ResourceLocation dimension, ItemStack invokerStack, UUID player, MagicStream lastMagicStream, World world, InvokerType type) {
+    public Invoker(BlockPos beginPos, DimensionType dimension, ItemStack invokerStack, UUID player, MagicStream lastMagicStream, World world, InvokerType type) {
         this.beginPos = beginPos;
         this.dimension = dimension;
         this.invokerStack = invokerStack;
@@ -27,6 +28,6 @@ public class Invoker {
     }
 
     public enum InvokerType {
-        PLAYER, BLOCK, EQUIPMENT, CHAIN;
+        PLAYER, BLOCK, EQUIPMENT, CHAIN, AUTO;
     }
 }

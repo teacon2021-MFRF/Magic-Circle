@@ -3,6 +3,7 @@ package mfrf.magic_circle.magicutil.datastructure;
 import mfrf.magic_circle.magicutil.BGMPreferences;
 import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.magicutil.RGBA;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.awt.*;
 
@@ -118,6 +119,19 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
         MagicNodePropertyMatrix8By8 ret = new MagicNodePropertyMatrix8By8();
         ret.setData(leftTimes(magicNodePropertyMatrix8By8).data);
         return ret;
+    }
+
+    public static MagicNodePropertyMatrix8By8 deserializeNBT(CompoundNBT compoundNBT){
+
+            int row = compoundNBT.getInt("row");
+            int col = compoundNBT.getInt("col");
+            MagicNodePropertyMatrix8By8 nodePropertyMatrix8By8 = new MagicNodePropertyMatrix8By8();
+            for (int r = 0; r < row; r++) {
+                for (int c = 0; c < col; c++) {
+                    nodePropertyMatrix8By8.unsafe_set(r, c, compoundNBT.getDouble("M" + r + c));
+                }
+            }
+            return nodePropertyMatrix8By8;
     }
 
     public MagicNodePropertyMatrix8By8 copy() {

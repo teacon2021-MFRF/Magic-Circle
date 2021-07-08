@@ -5,6 +5,7 @@ import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 
 public class FinalNode extends MagicNodeBase {
@@ -20,6 +21,11 @@ public class FinalNode extends MagicNodeBase {
     @Override
     public returnDataContainer apply(MagicStream magic) {
         return new returnDataContainer(magic, true);
+    }
+
+    @Override
+    public MagicCircleComponentBase<?> getRender() {
+        return null;
     }
 
 }

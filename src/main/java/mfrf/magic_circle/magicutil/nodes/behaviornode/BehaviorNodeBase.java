@@ -11,7 +11,7 @@ public abstract class BehaviorNodeBase extends MagicNodeBase {
 
     private final BehaviorType behaviorType;
 
-    public BehaviorNodeBase(MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition, BehaviorType behaviorType) {
+    public BehaviorNodeBase(BehaviorType behaviorType) {
         super(NodeType.BEHAVIOR);
         this.behaviorType = behaviorType;
     }
