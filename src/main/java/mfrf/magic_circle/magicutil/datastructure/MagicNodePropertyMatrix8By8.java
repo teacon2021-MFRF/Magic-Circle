@@ -117,7 +117,7 @@ public class MagicNodePropertyMatrix8By8 extends MagicStreamMatrixNByN {
 
     public MagicNodePropertyMatrix8By8 leftTimes(MagicNodePropertyMatrix8By8 magicNodePropertyMatrix8By8) {
         MagicNodePropertyMatrix8By8 ret = new MagicNodePropertyMatrix8By8();
-        ret.setData(leftTimes(magicNodePropertyMatrix8By8).data);
+        ret.setData(super.leftTimes(magicNodePropertyMatrix8By8).data);
         return ret;
     }
 

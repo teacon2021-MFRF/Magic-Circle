@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 import java.util.function.Predicate;
 
 public class BeamNode extends BehaviorNodeBase {
-    public BeamNode(MagicNodeBase leftNode, MagicNodeBase rightNode, Predicate<MagicStream> condition) {
-        super(leftNode, rightNode, condition, BehaviorType.BEAM);
+    public BeamNode() {
+        super(BehaviorType.BEAM);
     }
 
     @Override
