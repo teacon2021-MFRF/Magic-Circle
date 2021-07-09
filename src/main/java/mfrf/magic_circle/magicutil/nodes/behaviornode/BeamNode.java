@@ -68,6 +68,7 @@ public class BeamNode extends BehaviorNodeBase {
                 }
             }
 
+            magic.Matrixtimes(this.eigenMatrix);
             return magic;
         });
         return new returnDataContainer(magic, flag);

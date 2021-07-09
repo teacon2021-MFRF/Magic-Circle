@@ -78,8 +78,8 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
         //
         // return new MagicStreamMatrixNByN(matrixObjectComponents, this.numRows,
         // magicStreamMatrixNByN.numCols);
-        MagicStreamMatrixNByN ret = new MagicStreamMatrixNByN(this.numRows, magicStreamMatrixNByN.numRows);
-        CommonOps.mult(this, magicStreamMatrixNByN, magicStreamMatrixNByN);
+        MagicStreamMatrixNByN ret = new MagicStreamMatrixNByN(this.numRows, magicStreamMatrixNByN.numCols);
+        CommonOps.mult(this, magicStreamMatrixNByN, ret);
         return ret;
     }
 

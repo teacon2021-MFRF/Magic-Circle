@@ -61,6 +61,14 @@ public class DanmakuEntity extends Entity {
         return this;
     }
 
+    public RGBA getRGBA() {
+        Integer r = this.entityData.get(R);
+        Integer g = this.entityData.get(G);
+        Integer b = this.entityData.get(B);
+        Integer a = this.entityData.get(ALPHA);
+        return new RGBA(r, g, b, a);
+    }
+
     public DanmakuEntity setRequiredVariables(float damage, float max_time, DanmakuType type) {
         this.entityData.set(DAMAGE, damage);
         this.entityData.set(MAX_TIME, max_time);
@@ -89,8 +97,8 @@ public class DanmakuEntity extends Entity {
         this.entityData.define(VELOCITY_Z_FORMULA, "0");
         this.entityData.define(SPEED_SCALE, 1f);
         this.entityData.define(X_TARGET, 0F);
-        this.entityData.define(X_TARGET, 0F);
-        this.entityData.define(X_TARGET, 0F);
+        this.entityData.define(Y_TARGET, 0F);
+        this.entityData.define(Z_TARGET, 0F);
         this.entityData.define(TYPE, DanmakuType.NULL.name());
     }
 
@@ -150,13 +158,9 @@ public class DanmakuEntity extends Entity {
             String yFormula = this.entityData.get(VELOCITY_Y_FORMULA);
             String zFormula = this.entityData.get(VELOCITY_Z_FORMULA);
             Float speed_scale = this.entityData.get(SPEED_SCALE);
-            Map<String, Object> env = new HashMap<>();
-            env.put("time", timePassed.toString());
-            env.put("target_x", this.entityData.get(X_TARGET));
-            env.put("target_y", this.entityData.get(Y_TARGET));
-            env.put("target_z", this.entityData.get(Z_TARGET));
-            env.put("random", RandomUtils.nextFloat(0, 1));
-            this.moveTo((Float) AviatorEvaluator.execute(xFormula, env) * speed_scale, (Float) AviatorEvaluator.execute(yFormula, env) * speed_scale, (Float) AviatorEvaluator.execute(zFormula, env) * speed_scale);
+            PositionExpression positionExpression = new PositionExpression(xFormula, yFormula, zFormula, null, null);
+            Vector3f execute = positionExpression.execute(Double.valueOf(timePassed));
+            this.moveTo(execute.x() * speed_scale, execute.y() * speed_scale, execute.z() * speed_scale);
         }
 
         //todo damage

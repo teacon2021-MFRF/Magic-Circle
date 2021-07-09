@@ -14,12 +14,8 @@ import javax.annotation.Nullable;
 
 public class MagicStream {
     public ArrayList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new ArrayList<>();
-    @OnlyIn(Dist.CLIENT)
-    public ArrayList<BiFunction<MagicCircleRenderBase, MagicStream, MagicCircleRenderBase>> renders = new ArrayList<>();
 
     public MagicNodePropertyMatrix8By8 eigenMatrix;
-    @OnlyIn(Dist.CLIENT)
-    public MagicCircleRenderBase magic_circle = new MagicCircleRenderBase();
     public final MagicStreamInfo info;
 
     public MagicStream(MagicStreamInfo info) {
@@ -32,11 +28,9 @@ public class MagicStream {
         eigenMatrix = eigenMatrix.leftTimes(eigenMatrix);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void finishRender() {
-        MagicCircleRenderBase previous = magic_circle;
-        for (BiFunction<MagicCircleRenderBase, MagicStream, MagicCircleRenderBase> render : renders) {
-            previous = render.apply(previous, this);
+    public void apply() {
+        for (BiFunction<MagicStream, MagicStreamInfo, MagicStream> function : functions) {
+            function.apply(this, info);
         }
     }
 

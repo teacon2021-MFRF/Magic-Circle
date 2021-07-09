@@ -2,10 +2,7 @@ package mfrf.magic_circle.block.projector;
 
 import javax.annotation.Nullable;
 
-import mfrf.magic_circle.magicutil.Invoker;
-import mfrf.magic_circle.magicutil.MagicModelBase;
-import mfrf.magic_circle.magicutil.MagicStream;
-import mfrf.magic_circle.magicutil.Receiver;
+import mfrf.magic_circle.magicutil.*;
 import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
 import mfrf.magic_circle.registry_lists.TileEntities;
@@ -18,6 +15,8 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.vector.Vector3f;
+
+import java.util.function.BiFunction;
 
 public class TileProjector extends TileEntity implements ITickableTileEntity {
     public float time = 0;
@@ -35,15 +34,18 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
             time = 0;
             BeginNodeBase beginNodeBase = new BeginNodeBase(Invoker.InvokerType.BLOCK, Receiver.ReceiverType.BLOCK);
             ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
+            beginNodeBase.appendNodeL(throwBehaviorNode);
 
+            magicCircleComponentBase = new MagicModelBase(beginNodeBase);
 
             Invoker invoker = new Invoker(getBlockPos(), level.dimensionType(), ItemStack.EMPTY, null, null, level, Invoker.InvokerType.BLOCK);
             Receiver receiver = new Receiver(new Vector3f(0, 1, 0), getBlockPos().offset(0, 1, 0), level.dimensionType(), new Receiver.WeatherType(level.rainLevel, level.thunderLevel), Receiver.RangeType.CIRCLE, 16, 16, 16, 16, level, Receiver.ReceiverType.BLOCK);
             MagicStream magicStream = new MagicStream(new MagicStream.MagicStreamInfo(invoker, null, receiver));
-            magicCircleComponentBase.apply(magicStream);
-
+            MagicStream apply = magicCircleComponentBase.invoke(magicStream);
+            apply.apply();
+            setChanged();
         }
-        time += 0.05f;
+        time += 1f;
         setChanged();
         // }
         // getUpdatePacket();

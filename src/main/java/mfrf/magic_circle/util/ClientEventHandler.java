@@ -1,6 +1,7 @@
 package mfrf.magic_circle.util;
 
 import mfrf.magic_circle.block.projector.TERProjector;
+import mfrf.magic_circle.entity.barrage.RenderDanmakuEntity;
 import mfrf.magic_circle.entity.magic_circle_base.RenderMagicCircle;
 import mfrf.magic_circle.gui.research_table.ResearchTableScreen;
 import mfrf.magic_circle.registry_lists.Entities;
@@ -26,6 +27,10 @@ public class ClientEventHandler {
 
         event.enqueueWork(() -> {
             ScreenManager.register(GuiContainers.RESEARCH_TABLE_CONTAINER.get(), ResearchTableScreen::new);
+        });
+
+        event.enqueueWork(()->{
+            RenderingRegistry.registerEntityRenderingHandler(Entities.DANMAKU_ENTITY.get(), RenderDanmakuEntity::new);
         });
 
     }

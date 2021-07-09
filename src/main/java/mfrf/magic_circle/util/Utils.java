@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.Tag;
 
 public class Utils {
+
     public static HashMap<Tag<Item>, Properties> EFFECT_MAP = new HashMap();
 
     public class Properties {

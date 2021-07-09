@@ -38,9 +38,9 @@ public class PositionExpression {
     }
 
     public PositionExpression(Vector3f vector3f) {
-        this.x = Float.toString(vector3f.x());
-        this.y = Float.toString(vector3f.y());
-        this.z = Float.toString(vector3f.z());
+        this.x = Float.toString(vector3f.x() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.x());
+        this.y = Float.toString(vector3f.y() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.y());
+        this.z = Float.toString(vector3f.z() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.z());
     }
 
     public Vector3f execute(Double t) throws ClassCastException {
@@ -57,10 +57,21 @@ public class PositionExpression {
             x = (float) ((double) xCompile.execute(env));
             y = (float) ((double) yCompile.execute(env));
             z = (float) ((double) zCompile.execute(env));
+            Float max = Config.MAX_VELOCITY_OF_DANMAKU.get();
+            if (x > max) {
+                x = max;
+            }
+            if (y > max) {
+                y = max;
+            }
+            if (z > max) {
+                z = max;
+            }
         } catch (ClassCastException e) {
 //            LogManager.getLogger().info("type error! your expression result is not a number! check your expression!");
             return null;
         }
+
 
         return new Vector3f(x, y, z);
     }

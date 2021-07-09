@@ -20,6 +20,7 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Integer> ENCHANTMENTS_ABILITY_OF_MAGES_ARMOR;
     public static ForgeConfigSpec.ConfigValue<Integer> MAX_USE_PEN_AND_INK;
     public static ForgeConfigSpec.ConfigValue<Integer> MAX_MEMORIZED_MODEL_PER_PLAYER;
+    public static ForgeConfigSpec.ConfigValue<Float> MAX_VELOCITY_OF_DANMAKU;
 
     static {
         ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
@@ -78,8 +79,9 @@ public class Config {
 
         CONFIG_BUILDER.comment("Magic settings").push("magics");
 
-        MAX_MEMORIZED_MODEL_PER_PLAYER = CONFIG_BUILDER.comment("This value definite max magic model memorable per player.", "Should not be negative").define("max_memorable_model_per_player", 20);
+        MAX_MEMORIZED_MODEL_PER_PLAYER = CONFIG_BUILDER.comment("This value definite max magic model memorable per player.", "Should not be negative", "Integer number").define("max_memorable_model_per_player", 20);
 
+        MAX_VELOCITY_OF_DANMAKU = CONFIG_BUILDER.comment("This value definite max velocity of danmaku.", "should not be negative of 0", "Ratial number").define("max_velocity_of_damaku", 20f);
         CONFIG_BUILDER.pop();
 
         CONFIG_BUILDER.pop();

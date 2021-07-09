@@ -35,6 +35,10 @@ public class BeginNodeBase extends MagicNodeBase {
 
     @Override
     public returnDataContainer apply(MagicStream magic) {
+        magic.functions.add((magicStream, magicStreamInfo) -> {
+            magic.Matrixtimes(this.eigenMatrix);
+            return magic;
+        });
         return new returnDataContainer(magic, true);
     }
 

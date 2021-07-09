@@ -13,5 +13,5 @@ public class Entities {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(ForgeRegistries.ENTITIES, MagicCircle.MOD_ID);
 
     public static RegistryObject<EntityType<EntityMagicCircle>> ENTITY_MAGIC_CIRCLE_BASE = REGISTER.register("magic_circle", () -> EntityType.Builder.of(EntityMagicCircle::new, EntityClassification.MISC).fireImmune().noSummon().build("magic_circle"));
-    public static RegistryObject<EntityType<DanmakuEntity>> DANMAKU_ENTITY = REGISTER.register("danmaku", () -> EntityType.Builder.of(DanmakuEntity::new, EntityClassification.MISC).fireImmune().noSummon().build("danmaku"));
+    public static RegistryObject<EntityType<DanmakuEntity>> DANMAKU_ENTITY = REGISTER.register("danmaku", () -> EntityType.Builder.of(DanmakuEntity::new, EntityClassification.MISC).sized(0.5f,0.5f).fireImmune().noSummon().build("danmaku"));
 }

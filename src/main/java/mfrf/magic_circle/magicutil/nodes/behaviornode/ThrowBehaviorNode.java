@@ -14,6 +14,7 @@ import mfrf.magic_circle.registry_lists.Entities;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
@@ -47,27 +48,17 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             double execute_speed = streamEigenMatrix.getExecuteSpeed();
             double cooldown = streamEigenMatrix.getCoolDown();
             double efficient = streamEigenMatrix.getEfficient();
+            PositionExpression actualExpression = expressionModified ? positionExpression : new PositionExpression(targetVec);
 
             switch (lastNode.getNodeType()) {
-                case BEGIN: {
-
-                    break;
-                }
-                case FINAL: {
-
-                    break;
-                }
                 case MODEL: {
 
-                    break;
                 }
                 case EFFECT: {
 
-                    break;
                 }
                 case BEHAVIOR: {
 
-                    break;
                 }
                 case DECORATE: {
                     DecorateNodeBase decorateNode = (DecorateNodeBase) lastNode;
@@ -98,14 +89,14 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                                 ServerWorld serverWorld = (ServerWorld) world;
                                 for (int i = 0; i <= duration; i += cooldown) {
                                     for (long l = 0; l < countPerShoot; l++) {
-                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
+                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null,invoker.player == null?null:world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
                                         if (spawn != null) {
                                             double v = (range / strength) * 1.2;
                                             spawn.setSpeedScale((float) v);
                                             spawn.setRGBA(streamEigenMatrix.getRGBA());
                                             spawn.setTargetVec(targetVec);
                                             spawn.setRequiredVariables((float) (strength * 1.2f), ((float) duration), DanmakuEntity.DanmakuType.BULLET);
-                                            spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
+                                            spawn.setPositionExpression(actualExpression);
                                         }
                                     }
                                 }
@@ -123,12 +114,12 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                                 ServerWorld serverWorld = (ServerWorld) world;
                                 for (int i = 0; i <= duration; i += cooldown) {
                                     for (long l = 0; l < countPerShoot; l++) {
-                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
+                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null,invoker.player == null?null:world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
                                         if (spawn != null) {
                                             spawn.setRGBA(streamEigenMatrix.getRGBA());
                                             spawn.setTargetVec(targetVec);
                                             spawn.setRequiredVariables((float) (strength) * 0.6f, ((float) duration * 1.3f), DanmakuEntity.DanmakuType.BULLET);
-                                            spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
+                                            spawn.setPositionExpression(actualExpression);
                                         }
                                     }
                                 }
@@ -145,13 +136,12 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                                 ServerWorld serverWorld = (ServerWorld) world;
                                 for (int i = 0; i <= duration; i += cooldown) {
                                     for (long l = 0; l < countPerShoot; l++) {
-                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null, world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
+                                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn(serverWorld, null, null,invoker.player == null?null:world.getPlayerByUUID(invoker.player), invoker.beginPos, SpawnReason.TRIGGERED, true, true);
                                         if (spawn != null) {
-                                            double v = (range / strength) * 1.2;
                                             spawn.setRGBA(streamEigenMatrix.getRGBA());
                                             spawn.setTargetVec(targetVec);
                                             spawn.setRequiredVariables((float) (strength), ((float) duration * 1.3f), DanmakuEntity.DanmakuType.BULLET);
-                                            spawn.setPositionExpression(expressionModified ? positionExpression : new PositionExpression(targetVec));
+                                            spawn.setPositionExpression(actualExpression);
                                         }
                                     }
                                 }
@@ -166,18 +156,29 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
                     }
 
-                    break;
                 }
                 case RESONANCE: {
 
-                    break;
+                }
+                default: {
+                    if (world instanceof ServerWorld) {
+                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn((ServerWorld) world, null, null,invoker.player == null?null:world.getPlayerByUUID(invoker.player) , invoker.beginPos, SpawnReason.TRIGGERED, true, true);
+                        spawn.setRGBA(streamEigenMatrix.getRGBA());
+                        spawn.setTargetVec(targetVec);
+                        spawn.setRequiredVariables((float) strength, (float) duration, DanmakuEntity.DanmakuType.BULLET);
+                        spawn.setPositionExpression(actualExpression);
+                    }
                 }
             }
 
+            magic.Matrixtimes(this.eigenMatrix);
+
             return magic;
         });
-        return new returnDataContainer(magic,flag);
+        return new returnDataContainer(magic, flag);
     }
+
+
 
     @Override
     public MagicCircleComponentBase<?> getRender() {

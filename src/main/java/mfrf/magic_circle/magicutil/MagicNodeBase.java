@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
-import mfrf.magic_circle.magicutil.nodes.FinalNode;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
@@ -14,14 +13,13 @@ import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.api.distmarker.OnlyIns;
 
 public abstract class MagicNodeBase {
     private final NodeType nodeType;
 
     protected MagicNodePropertyMatrix8By8 eigenMatrix = new MagicNodePropertyMatrix8By8();
 
-    protected int layer = 0;
+    protected int layer = -1;
     protected MagicNodeBase leftNode = null;
     protected MagicNodeBase rightNode = null;
 
@@ -50,20 +48,24 @@ public abstract class MagicNodeBase {
     }
 
     public void appendNodeL(MagicNodeBase magicNodeBase) {
-        if (magicNodeBase.layer == -1) {
-            magicNodeBase.layer = this.layer + 1;
-        }
-        if (magicNodeBase.layer > this.layer) {
-            leftNode = magicNodeBase;
+        if (magicNodeBase != null) {
+            if (magicNodeBase.layer == -1) {
+                magicNodeBase.layer = this.layer + 1;
+            }
+            if (magicNodeBase.layer > this.layer) {
+                leftNode = magicNodeBase;
+            }
         }
     }
 
     public void appendNodeR(MagicNodeBase magicNodeBase) {
-        if (magicNodeBase.layer == -1) {
-            magicNodeBase.layer = this.layer + 1;
-        }
-        if (magicNodeBase.layer > this.layer) {
-            rightNode = magicNodeBase;
+        if (magicNodeBase != null) {
+            if (magicNodeBase.layer == -1) {
+                magicNodeBase.layer = this.layer + 1;
+            }
+            if (magicNodeBase.layer > this.layer) {
+                rightNode = magicNodeBase;
+            }
         }
     }
 
@@ -77,9 +79,6 @@ public abstract class MagicNodeBase {
         returnDataContainer apply = apply(magic);
 
         magic.info.lastNode = this;
-
-        apply.magicStream.Matrixtimes(this.eigenMatrix);
-
 
         if (apply.aBoolean && rightNode != null) {
             return rightNode.invoke(apply.magicStream);
@@ -159,10 +158,6 @@ public abstract class MagicNodeBase {
                 nodeBase = EffectNodeBase.deserializeNBT(nbt, layer, matrix);
                 break;
             }
-            case FINAL: {
-                nodeBase = FinalNode.deserializeNBT(nbt, layer, matrix);
-                break;
-            }
             case MODEL: {
                 nodeBase = MagicModelBase.deserializeNBT(nbt);
                 break;
@@ -178,12 +173,12 @@ public abstract class MagicNodeBase {
     }
 
     public enum NodeType {
-        BEGIN, FINAL, BEHAVIOR, DECORATE, RESONANCE, EFFECT, MODEL;
+        BEGIN, BEHAVIOR, DECORATE, RESONANCE, EFFECT, MODEL;
     }
 
     public class returnDataContainer {
-        final MagicStream magicStream;
-        final Boolean aBoolean;
+        public final MagicStream magicStream;
+        public final Boolean aBoolean;
 
         public returnDataContainer(MagicStream magicStream, Boolean aBoolean) {
             this.magicStream = magicStream;

@@ -1,17 +1,10 @@
 package mfrf.magic_circle.magicutil;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
-import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
-import mfrf.magic_circle.magicutil.nodes.FinalNode;
-import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
-import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
-import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
-import mfrf.magic_circle.magicutil.nodes.resonancenode.ResonanceNodeBase;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.nbt.CompoundNBT;
@@ -23,14 +16,14 @@ import net.minecraftforge.common.util.Constants;
 public class MagicModelBase extends MagicNodeBase {
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
-    private int edgeCounts = -1;
+    private int edgeCounts = 0;
     private MagicStreamMatrixNByN connectivityMatrix = null;
 
     public MagicModelBase(MagicNodeBase graph) {
         super(NodeType.MODEL);
-        this.begin = graph;
         this.eigenMatrix = null;
-        appendNodeR(graph);
+        this.begin = graph;
+        appendNodeL(graph);
     }
 
     public int getEdges() {
@@ -41,8 +34,12 @@ public class MagicModelBase extends MagicNodeBase {
     }
 
     public ArrayList<MagicNodeBase> getNodes() {
-        if (nodes == null)
-            nodes = begin.getNodes(new ArrayList<>());
+        if (nodes == null) {
+            if (begin != null) {
+                nodes = begin.getNodes(new ArrayList<>());
+            }
+            nodes = new ArrayList<>();
+        }
         return nodes;
     }
 
