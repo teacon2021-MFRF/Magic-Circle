@@ -54,17 +54,17 @@ public class ModelDanmakuEntity extends EntityModel<DanmakuEntity> {
 
     public void render(float partialTicks, MatrixStack matrixStackIn, int packedOverlay, IVertexBuilder bufferIn, int packedLightIn, float red, float green, float blue, float alpha) {
 
-        setRotationAngle(cube_r1, 45, 2.5f * partialTicks * 10, 2.5f * partialTicks * 10);
-        setRotationAngle(cube_r2, 2.5f * partialTicks * 10, 45, 2.5f * partialTicks * 10);
-        setRotationAngle(cube_r3, 2.5f * partialTicks * 10, 2.5f * partialTicks * 10, 45);
+        setRotationAngle(cube_r1, 45, 2.5f * partialTicks, 0);
+        setRotationAngle(cube_r2, 0, 45, 2.5f * partialTicks);
+        setRotationAngle(cube_r3, 2.5f * partialTicks, 0, 45);
 
         renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlay, red, green, blue, alpha);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = modelRenderer.xRot + x;
-        modelRenderer.yRot += y;
-        modelRenderer.zRot += z;
+        modelRenderer.xRot = x % 360;
+        modelRenderer.yRot = y % 360;
+        modelRenderer.zRot = z % 360;
     }
 
 }

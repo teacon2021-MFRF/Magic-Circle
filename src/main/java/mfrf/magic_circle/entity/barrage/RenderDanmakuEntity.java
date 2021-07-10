@@ -34,7 +34,7 @@ public class RenderDanmakuEntity extends EntityRenderer<DanmakuEntity> {
 //        RenderSystem.enableAlphaTest();
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.danmakuEntityModel.renderType(this.getTextureLocation(entityIn)));
         RGBA rgba = entityIn.getRGBA();
-        this.danmakuEntityModel.render(partialTicks, matrixStackIn, OverlayTexture.NO_OVERLAY, ivertexbuilder, packedLightIn, 1,1,1,0.5f);
+        this.danmakuEntityModel.render(entityIn.tickCount, matrixStackIn, OverlayTexture.NO_OVERLAY, ivertexbuilder, packedLightIn, 1,1,1,0.5f);
         matrixStackIn.popPose();
     }
 
