@@ -48,8 +48,6 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
-        //todo fix gradient algorithm
-
         curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, circleArcPoints);
 
         matrixStackIn.popPose();
@@ -79,8 +77,6 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-
-        //todo fix gradient algorithm
 
         curve(builder, matrix, actualPosition, getColorsAdd(time).toAWT(), enableRGBGradient, enableAlphaGradient, circleArcPoints);
 

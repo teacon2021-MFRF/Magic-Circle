@@ -15,12 +15,11 @@ import javax.annotation.Nullable;
 public class MagicStream {
     public ArrayList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new ArrayList<>();
 
-    public MagicNodePropertyMatrix8By8 eigenMatrix;
+    public MagicNodePropertyMatrix8By8 eigenMatrix = MagicNodePropertyMatrix8By8.IDENTITY.copy();
     public final MagicStreamInfo info;
 
     public MagicStream(MagicStreamInfo info) {
         this.info = info;
-        eigenMatrix = new MagicNodePropertyMatrix8By8();
         MagicNodePropertyMatrix8By8.initPauliElements(eigenMatrix);
     }
 

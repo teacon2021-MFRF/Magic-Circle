@@ -39,7 +39,7 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
             magicCircleComponentBase = new MagicModelBase(beginNodeBase);
 
             Invoker invoker = new Invoker(getBlockPos(), level.dimensionType(), ItemStack.EMPTY, null, null, level, Invoker.InvokerType.BLOCK);
-            Receiver receiver = new Receiver(new Vector3f(0, 1, 0), getBlockPos().offset(0, 1, 0), level.dimensionType(), new Receiver.WeatherType(level.rainLevel, level.thunderLevel), Receiver.RangeType.CIRCLE, 16, 16, 16, 16, level, Receiver.ReceiverType.BLOCK);
+            Receiver receiver = new Receiver(new Vector3f(0, 0, 1), getBlockPos().offset(0, 1, 0), level.dimensionType(), new Receiver.WeatherType(level.rainLevel, level.thunderLevel), Receiver.RangeType.CIRCLE, 16, 16, 16, 16, level, Receiver.ReceiverType.BLOCK);
             MagicStream magicStream = new MagicStream(new MagicStream.MagicStreamInfo(invoker, null, receiver));
             MagicStream apply = magicCircleComponentBase.invoke(magicStream);
             apply.apply();

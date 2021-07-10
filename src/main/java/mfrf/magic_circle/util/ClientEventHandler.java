@@ -29,10 +29,7 @@ public class ClientEventHandler {
             ScreenManager.register(GuiContainers.RESEARCH_TABLE_CONTAINER.get(), ResearchTableScreen::new);
         });
 
-        event.enqueueWork(()->{
-            RenderingRegistry.registerEntityRenderingHandler(Entities.DANMAKU_ENTITY.get(), RenderDanmakuEntity::new);
-        });
-
+        RenderingRegistry.registerEntityRenderingHandler(Entities.DANMAKU_ENTITY.get(), RenderDanmakuEntity::new);
     }
 
 }

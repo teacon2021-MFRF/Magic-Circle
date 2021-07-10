@@ -52,7 +52,6 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         vector3fs.add(new Vector3f(0.5F, -1F / 256F, -0.5F));
         vector3fs.add(new Vector3f(0.5F, -1F / 256F, 0.5F));
         vector3fs.add(new Vector3f(-0.5F, -1F / 256F, 0.5F));
-        //todo make it could rotate
 
         Vector3f look = new Vector3f(lookVec);
         Vector3f vert = new Vector3f(verticalVec);
@@ -111,7 +110,6 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         vector3fs.add(new Vector3f(0.5F, -1F / 256F, -0.5F));
         vector3fs.add(new Vector3f(0.5F, -1F / 256F, 0.5F));
         vector3fs.add(new Vector3f(-0.5F, -1F / 256F, 0.5F));
-        //todo make it could rotate
 
         Vector3f look = new Vector3f(lookVec);
         Vector3f vert = new Vector3f(verticalVec);

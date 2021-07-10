@@ -1,17 +1,22 @@
 package mfrf.magic_circle;
 
+import static mfrf.magic_circle.MagicCircle.MOD_ID;
+
 import mfrf.magic_circle.interfaces.IComfortableCapabilityStorage;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
-import mfrf.magic_circle.registry_lists.*;
+import mfrf.magic_circle.registry_lists.Blocks;
+import mfrf.magic_circle.registry_lists.Entities;
+import mfrf.magic_circle.registry_lists.GuiContainers;
+import mfrf.magic_circle.registry_lists.Items;
+import mfrf.magic_circle.registry_lists.JsonConfigs;
+import mfrf.magic_circle.registry_lists.TileEntities;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import static mfrf.magic_circle.MagicCircle.MOD_ID;
 
 @Mod(MOD_ID)
 public class MagicCircle {

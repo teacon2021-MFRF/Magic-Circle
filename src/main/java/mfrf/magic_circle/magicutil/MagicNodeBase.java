@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class MagicNodeBase {
     private final NodeType nodeType;
 
-    protected MagicNodePropertyMatrix8By8 eigenMatrix = new MagicNodePropertyMatrix8By8();
+    protected MagicNodePropertyMatrix8By8 eigenMatrix = MagicNodePropertyMatrix8By8.IDENTITY.copy();
 
     protected int layer = -1;
     protected MagicNodeBase leftNode = null;

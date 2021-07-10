@@ -17,6 +17,8 @@ public class PositionExpression {
     public String x = "0.0";
     public String y = "0.0";
     public String z = "0.0";
+    public boolean hasTarget = false;
+    public Vector3f targetVec = new Vector3f();
     //parameter is t
 
     public PositionExpression(@Nullable String x, @Nullable String y, @Nullable String z, @Nullable Float samplingAccuracy, @Nullable Integer samplingCount) {
@@ -43,12 +45,21 @@ public class PositionExpression {
         this.z = Float.toString(vector3f.z() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.z());
     }
 
+    public void setTargetVec(Vector3f vector3f) {
+        targetVec = vector3f;
+        hasTarget = true;
+    }
+
     public Vector3f execute(Double t) throws ClassCastException {
         Expression xCompile = AviatorEvaluator.compile(x, true);
         Expression yCompile = AviatorEvaluator.compile(y, true);
         Expression zCompile = AviatorEvaluator.compile(z, true);
         HashMap<String, Object> env = new HashMap<>();
         env.put("t", t);
+        env.put("hasTarget", hasTarget);
+        env.put("targetX", targetVec.x());
+        env.put("targetY", targetVec.y());
+        env.put("targetZ", targetVec.z());
         float x = 0;
         float y = 0;
         float z = 0;

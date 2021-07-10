@@ -40,9 +40,6 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
         renderTooltip(matrixStack, x, y);
     }
 
-    //where is my drawGuiContainerForegroundLayer???
-    //todo editable
-
 
     @Override
     public void tick() {
