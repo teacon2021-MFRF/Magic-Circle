@@ -1,6 +1,7 @@
 package mfrf.magic_circle.entity.barrage;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.magicutil.RGBA;
@@ -12,7 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderDanmakuEntity extends EntityRenderer<DanmakuEntity> {
-    public static final ResourceLocation TEST_TEXTURE = new ResourceLocation(MagicCircle.MOD_ID, "textures/danmaku/test_danmaku.png");
+    public static final ResourceLocation TEST_TEXTURE = new ResourceLocation(MagicCircle.MOD_ID, "textures/danmaku/danmaku_default.png");
     private ModelDanmakuEntity danmakuEntityModel;
 
     public RenderDanmakuEntity(EntityRendererManager p_i46179_1_) {
@@ -30,9 +31,10 @@ public class RenderDanmakuEntity extends EntityRenderer<DanmakuEntity> {
     public void render(DanmakuEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         matrixStackIn.pushPose();
+//        RenderSystem.enableAlphaTest();
         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(this.danmakuEntityModel.renderType(this.getTextureLocation(entityIn)));
         RGBA rgba = entityIn.getRGBA();
-        this.danmakuEntityModel.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, rgba.r / 255F, rgba.g / 255F, rgba.b / 255F, rgba.a / 255F);
+        this.danmakuEntityModel.render(partialTicks, matrixStackIn, OverlayTexture.NO_OVERLAY, ivertexbuilder, packedLightIn, 1,1,1,0.5f);
         matrixStackIn.popPose();
     }
 
