@@ -1,0 +1,39 @@
+{
+	"textures": {
+		"0": "magic_circle:blocks/rune"
+	},
+	"elements": [
+		{
+			"from": [0, 1, 0],
+			"to": [2, 3, 2],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [2, 1, 2],
+			"faces": {
+				"north": {"uv": [12, 15, 14, 16], "texture": "#0"},
+				"east": {"uv": [13, 14, 15, 15], "texture": "#0"},
+				"south": {"uv": [13, 13, 15, 14], "texture": "#0"},
+				"west": {"uv": [14, 13, 16, 14], "texture": "#0"},
+				"down": {"uv": [12, 14, 14, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 3, 0],
+			"to": [2, 4, 2],
+			"faces": {
+				"north": {"uv": [14, 13, 16, 14], "texture": "#0"},
+				"east": {"uv": [12, 15, 14, 16], "texture": "#0"},
+				"south": {"uv": [13, 14, 15, 15], "texture": "#0"},
+				"west": {"uv": [13, 13, 15, 14], "texture": "#0"},
+				"up": {"uv": [12, 14, 14, 16], "texture": "#0"}
+			}
+		}
+	]
+}

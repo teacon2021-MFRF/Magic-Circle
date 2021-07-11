@@ -1,0 +1,101 @@
+{
+    "variants": 
+    {
+        "state=1": {
+            "model": "magic_circle:block/rune_1"
+        },
+        "state=2": {
+            "model": "magic_circle:block/rune_2"
+        },
+        "state=3": {
+            "model": "magic_circle:block/rune_3"
+        },
+        "state=4": {
+            "model": "magic_circle:block/rune_4"
+        },
+        "state=5": {
+            "model": "magic_circle:block/rune_5"
+        },
+        "state=6": {
+            "model": "magic_circle:block/rune_6"
+        },
+        "state=7": {
+            "model": "magic_circle:block/rune_7"
+        },
+        "state=8": {
+            "model": "magic_circle:block/rune_8"
+        },
+        "state=9": {
+            "model": "magic_circle:block/rune_9"
+        },
+        "state=10": {
+            "model": "magic_circle:block/rune_10"
+        },
+        "state=11": {
+            "model": "magic_circle:block/rune_11"
+        },
+        "state=12": {
+            "model": "magic_circle:block/rune_12"
+        },
+        "state=13": {
+            "model": "magic_circle:block/rune_13"
+        },
+        "state=14": {
+            "model": "magic_circle:block/rune_14"
+        },
+        "state=15": {
+            "model": "magic_circle:block/rune_15"
+        },
+        "state=16": {
+            "model": "magic_circle:block/rune_16"
+        },
+        "state=17": {
+            "model": "magic_circle:block/rune_17"
+        },
+        "state=18": {
+            "model": "magic_circle:block/rune_18"
+        },
+        "state=19": {
+            "model": "magic_circle:block/rune_19"
+        },
+        "state=20": {
+            "model": "magic_circle:block/rune_20"
+        },
+        "state=21": {
+            "model": "magic_circle:block/rune_21"
+        },
+        "state=22": {
+            "model": "magic_circle:block/rune_22"
+        },
+        "state=23": {
+            "model": "magic_circle:block/rune_23"
+        },
+        "state=24": {
+            "model": "magic_circle:block/rune_24"
+        },
+        "state=25": {
+            "model": "magic_circle:block/rune_25"
+        },
+        "state=26": {
+            "model": "magic_circle:block/rune_26"
+        },
+        "state=27": {
+            "model": "magic_circle:block/rune_27"
+        },
+        "state=28": {
+            "model": "magic_circle:block/rune_28"
+        },
+        "state=29": {
+            "model": "magic_circle:block/rune_29"
+        },
+        "state=30": {
+            "model": "magic_circle:block/rune_30"
+        },
+        "state=31": {
+            "model": "magic_circle:block/rune_31"
+        },
+        "state=32": {
+            "model": "magic_circle:block/rune_32"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+	"parent": "magic_circle:block/rune_big",
+	"textures": {
+	  "0": "magic_circle:blocks/rune_7",
+	  "particle": "magic_circle:blocks/rune_7"
+	}
+}
