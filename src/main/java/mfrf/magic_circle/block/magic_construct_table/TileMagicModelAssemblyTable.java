@@ -1,6 +1,8 @@
 package mfrf.magic_circle.block.magic_construct_table;
 
 import mfrf.magic_circle.block.NamedContainerTileBase;
+import mfrf.magic_circle.gui.assembly_table.AssemblyTableContainer;
+import mfrf.magic_circle.gui.research_table.ResearchTableContainer;
 import mfrf.magic_circle.registry_lists.TileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,14 +12,13 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
 import javax.annotation.Nullable;
 
-public class TileMagicModelConstructTable extends NamedContainerTileBase {
-    public Inventory inventory = new Inventory(1) {
+public class TileMagicModelAssemblyTable extends NamedContainerTileBase {
+    public Inventory inventory = new Inventory(9) {
         @Override
         public boolean canPlaceItem(int p_94041_1_, ItemStack p_94041_2_) {
             return super.canPlaceItem(p_94041_1_, p_94041_2_);
@@ -30,8 +31,8 @@ public class TileMagicModelConstructTable extends NamedContainerTileBase {
         }
     };
 
-    public TileMagicModelConstructTable() {
-        super(TileEntities.MAGIC_MODEL_CONSTRUCT_TABLE.get());
+    public TileMagicModelAssemblyTable() {
+        super(TileEntities.MAGIC_MODEL_ASSEMBLY_TABLE.get());
     }
 
     @Override
@@ -49,12 +50,12 @@ public class TileMagicModelConstructTable extends NamedContainerTileBase {
 
     @Override
     public ITextComponent getDisplayName() {
-        return new StringTextComponent("magic_model_construct_table");
+        return new StringTextComponent("magic_model_assembly_table");
     }
 
     @Nullable
     @Override
-    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-        return null;
+    public Container createMenu(int syncID, PlayerInventory inventory, PlayerEntity playerEntity) {
+        return new AssemblyTableContainer(syncID,inventory,worldPosition,level);
     }
 }

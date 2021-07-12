@@ -3,9 +3,10 @@ package mfrf.magic_circle.registry_lists;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.BlockBase;
 import mfrf.magic_circle.block.TestBlock;
-import mfrf.magic_circle.block.magic_construct_table.BlockMagicModelConstructTable;
+import mfrf.magic_circle.block.magic_construct_table.BlockMagicModelAssemblyTable;
 import mfrf.magic_circle.block.projector.BlockProjector;
 import mfrf.magic_circle.block.research_table.ResearchTable;
+import mfrf.magic_circle.block.technical_blocks.BlockRune;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -25,10 +26,11 @@ public class Blocks {
     // tileentities
     public static final RegistryObject<Block> PROJECTOR = registryObject(new BlockProjector(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "projector");
     public static final RegistryObject<Block> RESEARCH_TABLE = registryObject(new ResearchTable(AbstractBlock.Properties.of(Material.WOOD)), Items.DEFAULT_ITEM_PROPERTY, "research_table");
-    public static final RegistryObject<Block> MAGIC_MODEL_CONSTRUCT_TABLE = registryObject(new BlockMagicModelConstructTable(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "magic_model_construct_table");
+    public static final RegistryObject<Block> MAGIC_MODEL_ASSEMBLY_TABLE = registryObject(new BlockMagicModelAssemblyTable(AbstractBlock.Properties.of(Material.METAL).dynamicShape().noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "assembly_table");
 
     //technical block
     public static final RegistryObject<Block> TEST_BLOCK = registryObject(new TestBlock(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "test_block");
+    public static final RegistryObject<Block> RUNE = BLOCK_DEFERRED_REGISTER.register("rune", () -> new BlockRune(AbstractBlock.Properties.of(Material.METAL)));
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
         Items.registerObject(new BlockItem(block, itemProperties), name);

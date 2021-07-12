@@ -27,7 +27,7 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
         ResourceLocation texture = getTexture();
 
         if (texture != null) {
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1F);
             RenderSystem.enableAlphaTest();
             this.minecraft.getTextureManager().bind(getTexture());
             int relX = (this.width - xSize) / 2;
