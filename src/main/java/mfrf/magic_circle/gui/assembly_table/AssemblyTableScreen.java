@@ -17,6 +17,8 @@ public class AssemblyTableScreen extends ScreenBase<AssemblyTableContainer> {
     @Override
     public void render(MatrixStack matrixStack, int x, int y, float partialTick) {
         super.render(matrixStack, x, y, partialTick);
+
+        renderTooltip(matrixStack, x, y);
     }
 
     @Override

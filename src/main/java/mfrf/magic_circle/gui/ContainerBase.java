@@ -31,6 +31,16 @@ public abstract class ContainerBase extends Container {
         }
     }
 
+    protected void putInventories(int x, int y, int xOffset, int yOffset, int rowCount, int colCount, int indexBegin, IInventory inventory) {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
+                this.addSlot(new Slot(
+                        inventory, indexBegin++, x + j * xOffset, y + i * yOffset
+                ));
+            }
+        }
+    }
+
     protected static int getOriginX() {
         return 87;
     }

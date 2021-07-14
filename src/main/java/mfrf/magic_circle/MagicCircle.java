@@ -3,6 +3,7 @@ package mfrf.magic_circle;
 import static mfrf.magic_circle.MagicCircle.MOD_ID;
 
 import mfrf.magic_circle.interfaces.IComfortableCapabilityStorage;
+import mfrf.magic_circle.interfaces.IMagicContainerItem;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
 import mfrf.magic_circle.registry_lists.Blocks;
@@ -36,6 +37,7 @@ public class MagicCircle {
     public static void onSetUpEvent(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             CapabilityManager.INSTANCE.register(IMagicalItem.class, new IComfortableCapabilityStorage<IMagicalItem>(), () -> null);
+            CapabilityManager.INSTANCE.register(IMagicContainerItem.class, new IComfortableCapabilityStorage<IMagicContainerItem>(), () -> null);
         });
 
         RequestMagicModelsData.registerMessage();

@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public class MagesArmorBase extends ArmorItem {
+public class MagesArmorBase extends ArmorItem{
     private final MagicalItemSimpleImplement implement;
     protected final static ItemMagicCrystal MATERIAL = (ItemMagicCrystal) Items.MAGIC_CRYSTAL.get();
 

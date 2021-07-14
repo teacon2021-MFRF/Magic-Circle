@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializable<CompoundNBT>, ICapabilityProvider {
 
-    private EffectiveItemContainer effectiveItemContainer = new EffectiveItemContainer();
+    private MagicalItemContainer magicalItemContainer = new MagicalItemContainer();
     private float manaCapacity;
     private double scaleCapacityIFPrimed;
     private int manaCurrent;
@@ -33,8 +33,8 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     private ArrayList<String> magics = new ArrayList<>();
     private int maxMagicModelCapacity;
 
-    public MagicalItemSimpleImplement(EffectiveItemContainer container, float manaCapacity, double scaleCapacityIFPrimed, int manaCurrent, float manaRecover, double scaleRecoverIfPrimed, int maxMagicModelCapacity, ItemStack stack) {
-        this.effectiveItemContainer = container;
+    public MagicalItemSimpleImplement(MagicalItemContainer container, float manaCapacity, double scaleCapacityIFPrimed, int manaCurrent, float manaRecover, double scaleRecoverIfPrimed, int maxMagicModelCapacity, ItemStack stack) {
+        this.magicalItemContainer = container;
         this.manaCapacity = manaCapacity;
         this.scaleCapacityIFPrimed = scaleCapacityIFPrimed;
         this.manaCurrent = manaCurrent;
@@ -88,8 +88,8 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     }
 
     @Override
-    public EffectiveItemContainer getEffectContainer() {
-        return effectiveItemContainer;
+    public MagicalItemContainer getEffectContainer() {
+        return magicalItemContainer;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     }
 
     public MagicalItemSimpleImplement copy(ItemStack stack, CompoundNBT nbt) {
-        MagicalItemSimpleImplement implement = new MagicalItemSimpleImplement(effectiveItemContainer.clone(), manaCapacity, scaleCapacityIFPrimed, manaCurrent, manaRecover, scaleRecoverIfPrimed, maxMagicModelCapacity, stack);
+        MagicalItemSimpleImplement implement = new MagicalItemSimpleImplement(magicalItemContainer.clone(), manaCapacity, scaleCapacityIFPrimed, manaCurrent, manaRecover, scaleRecoverIfPrimed, maxMagicModelCapacity, stack);
         if (nbt != null && nbt.contains("magical_item_implement")) {
             implement.deserializeNBT(nbt.getCompound("magical_item_implement"));
         }
@@ -148,7 +148,7 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();
-        compoundNBT.put("effect_container", effectiveItemContainer.serializeNBT());
+        compoundNBT.put("effect_container", magicalItemContainer.serializeNBT());
         compoundNBT.putFloat("current_capacity", manaCapacity);
         compoundNBT.putFloat("current_recover", manaRecover);
         compoundNBT.putBoolean("primed", hasPrimed);
@@ -170,7 +170,7 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        effectiveItemContainer.deserializeNBT(nbt.getCompound("effect_container"));
+        magicalItemContainer.deserializeNBT(nbt.getCompound("effect_container"));
         manaCapacity = nbt.getInt("current_capacity");
         manaRecover = nbt.getInt("current_recover");
         hasPrimed = nbt.getBoolean("primed");
