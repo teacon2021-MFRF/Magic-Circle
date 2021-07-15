@@ -21,6 +21,11 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Integer> MAX_USE_PEN_AND_INK;
     public static ForgeConfigSpec.ConfigValue<Integer> MAX_MEMORIZED_MODEL_PER_PLAYER;
     public static ForgeConfigSpec.ConfigValue<Float> MAX_VELOCITY_OF_DANMAKU;
+    public static ForgeConfigSpec.ConfigValue<Float> SIZE_MANA_CAPACITY_SCALE;
+    public static ForgeConfigSpec.ConfigValue<Float> PURITY_MANA_RECOVERY_SCALE;
+    public static ForgeConfigSpec.ConfigValue<Float> SIZE_MANA_CAPACITY_PRIMED_SCALE;
+    public static ForgeConfigSpec.ConfigValue<Float> PURITY_MANA_RECOVERY_PRIMED_SCALE;
+
 
     static {
         ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
@@ -73,7 +78,11 @@ public class Config {
 
         CONFIG_BUILDER.comment("Tool settings").push("tools");
 
-        MAX_USE_PEN_AND_INK = CONFIG_BUILDER.comment("Max use of Pen and Ink", "1/character,10/node", "Integer number").define("max_capacity_of_ink_bottle", 5000);
+        MAX_USE_PEN_AND_INK = CONFIG_BUILDER.comment("Max use of Pen and Ink", "1 per character,10 per node", "Integer number").define("max_capacity_of_ink_bottle", 5000);
+        SIZE_MANA_CAPACITY_SCALE = CONFIG_BUILDER.comment("Scale of size and mana capacity of magic crystal", "Rational number").define("scale_of_size_and_mana_capacity", 2.0f);
+        PURITY_MANA_RECOVERY_SCALE = CONFIG_BUILDER.comment("Scale of purity and mana recovery of magic crystal", "Rational number").define("scale_of_purity_and_mana_recovery", 0.5f);
+        SIZE_MANA_CAPACITY_PRIMED_SCALE = CONFIG_BUILDER.comment("Scale of scale of size and mana capacity of magic crystal if primed", "Rational number").define("scale_of_scale_of_size_and_mana_capacity_if_primed", 1.1f);
+        PURITY_MANA_RECOVERY_PRIMED_SCALE = CONFIG_BUILDER.comment("Scale of scale of purity and mana recovery of magic crystal if primed", "Rational number").define("scale_of_scale_of_purity_and_mana_recovery_if_primed", 1.1f);
 
         CONFIG_BUILDER.pop();
 

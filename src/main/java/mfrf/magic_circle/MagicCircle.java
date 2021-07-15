@@ -3,18 +3,22 @@ package mfrf.magic_circle;
 import static mfrf.magic_circle.MagicCircle.MOD_ID;
 
 import mfrf.magic_circle.interfaces.IComfortableCapabilityStorage;
-import mfrf.magic_circle.interfaces.IMagicContainerItem;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
-import mfrf.magic_circle.registry_lists.Blocks;
-import mfrf.magic_circle.registry_lists.Entities;
-import mfrf.magic_circle.registry_lists.GuiContainers;
-import mfrf.magic_circle.registry_lists.Items;
-import mfrf.magic_circle.registry_lists.JsonConfigs;
-import mfrf.magic_circle.registry_lists.TileEntities;
+import mfrf.magic_circle.registry_lists.*;
+import mfrf.magic_circle.vein.EndCrystalVein;
+import mfrf.magic_circle.vein.NetherCrystalVein;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -32,15 +36,7 @@ public class MagicCircle {
         Entities.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         JsonConfigs.JSONCONFIG_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         GuiContainers.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-    }
-
-    public static void onSetUpEvent(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            CapabilityManager.INSTANCE.register(IMagicalItem.class, new IComfortableCapabilityStorage<IMagicalItem>(), () -> null);
-            CapabilityManager.INSTANCE.register(IMagicContainerItem.class, new IComfortableCapabilityStorage<IMagicContainerItem>(), () -> null);
-        });
-
-        RequestMagicModelsData.registerMessage();
+        Features.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

@@ -9,18 +9,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.ArrayList;
 
-public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializable<CompoundNBT>, ICapabilityProvider {
+public class MagicalItemSimpleImplement implements IMagicalItem, ICapabilityProvider {
 
     private MagicalItemContainer magicalItemContainer = new MagicalItemContainer();
     private float manaCapacity;
@@ -29,7 +29,7 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
     private float manaRecover;
     private double scaleRecoverIfPrimed;
     private boolean hasPrimed = false;
-    private ItemStack stack;
+    private ItemStack stack = ItemStack.EMPTY;
     private ArrayList<String> magics = new ArrayList<>();
     private int maxMagicModelCapacity;
 
@@ -41,112 +41,158 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
         this.manaRecover = manaRecover;
         this.scaleRecoverIfPrimed = scaleRecoverIfPrimed;
         this.maxMagicModelCapacity = maxMagicModelCapacity;
-        this.stack = stack;
+        if (stack != null) {
+            this.stack = stack;
+        }
     }
 
     public MagicalItemSimpleImplement() {
     }
 
+
+    public CompoundNBT getTag() {
+        CompoundNBT magic_circle;
+        if (!stack.isEmpty()) {
+            magic_circle = stack.getOrCreateTagElement("magic_circle");
+        } else {
+            magic_circle = new CompoundNBT();
+        }
+        if (!magic_circle.contains("implement")) {
+            magic_circle.put("implement", defaultNBT());
+        }
+        return magic_circle;
+    }
+
     @Override
     public float getManaCapacity() {
-        return manaCapacity;
+        return getTag().getFloat("current_capacity");
     }
 
     @Override
     public void setManaCapacity(float value) {
-        manaCapacity = value;
+        getTag().putFloat("current_capacity", value);
     }
 
     @Override
     public int getMana() {
-        return manaCurrent;
+        return getTag().getInt("mana_current");
     }
 
     @Override
     public void setMana(int value) {
-        manaCurrent = value;
+        getTag().putInt("mana_current", value);
     }
 
     @Override
     public float getManaRecovery() {
-        return manaRecover;
+        return getTag().getFloat("mana_recovery");
     }
 
     @Override
     public void setManaRecovery(float value) {
-        manaRecover = value;
+        getTag().putFloat("mana_recovery", value);
     }
 
     @Override
     public boolean hasPrimed() {
-        return hasPrimed;
+        return getTag().getBoolean("has_primed");
     }
 
     @Override
     public void setHasPrimed(boolean value) {
-        hasPrimed = value;
+        getTag().putBoolean("has_primed", value);
     }
 
     @Override
     public MagicalItemContainer getEffectContainer() {
+        MagicalItemContainer magicalItemContainer = new MagicalItemContainer();
+        magicalItemContainer.deserializeNBT(getTag().getCompound("magic_item_container"));
         return magicalItemContainer;
     }
 
     @Override
     public void setScaleCapacityIfPrimed(double value) {
-        scaleCapacityIFPrimed = value;
+        getTag().putDouble("scale_capacity_primed", value);
     }
 
     @Override
     public double getScaleCapacityIfPrimed() {
-        return scaleCapacityIFPrimed;
+        return getTag().getDouble("scale_capacity_primed");
     }
 
     @Override
     public void setScaleRecoverIfPrimed(double value) {
-        scaleRecoverIfPrimed = value;
+        getTag().putDouble("scale_recovery_primed", value);
     }
 
     @Override
     public double getScaleRecoverIfPrimed() {
-        return scaleRecoverIfPrimed;
+        return getTag().getDouble("scale_recovery_primed");
     }
 
     @Override
     public void onPriming(World world, BlockPos pos) {
         setHasPrimed(true);
-        setManaCapacity((float) (getManaCapacity() * scaleCapacityIFPrimed));
-        setManaRecovery((float) (getManaRecovery() * scaleRecoverIfPrimed));
+        setManaCapacity((float) (getManaCapacity() * getScaleCapacityIfPrimed()));
+        setManaRecovery((float) (getManaRecovery() * getScaleRecoverIfPrimed()));
     }
 
     @Override
     public ArrayList<String> magics() {
-        return magics;
+        ArrayList<String> strings = new ArrayList<>();
+        for (INBT inbt : getTag().getList("magics", Constants.NBT.TAG_COMPOUND)) {
+            CompoundNBT compoundNBT = (CompoundNBT) inbt;
+            strings.add(compoundNBT.getString("magic"));
+        }
+        return strings;
+    }
+
+    @Override
+    public boolean removeMagic(String name) {
+        return getTag().getList("magics", Constants.NBT.TAG_COMPOUND).removeIf(inbt -> {
+            CompoundNBT compoundNBT = (CompoundNBT) inbt;
+            return compoundNBT.contains(name);
+        });
     }
 
     @Override
     public int getMaxMagicCapacity() {
-        return maxMagicModelCapacity;
+        return getTag().getInt("max_magic_capacity");
     }
 
     @Override
     public boolean addMagic(String magicModelName) {
-        if (!(magics.size() >= maxMagicModelCapacity)) {
-            magics.add(magicModelName);
+        CompoundNBT tag = getTag();
+
+        ListNBT magics = tag.getList("magics", Constants.NBT.TAG_COMPOUND);
+        if (magics.size() < getMaxMagicCapacity()) {
+            CompoundNBT compoundNBT = new CompoundNBT();
+            compoundNBT.putString("magic", magicModelName);
+            magics.add(compoundNBT);
+            return true;
         }
         return false;
     }
 
+    @Override
+    public void setEffectContainer(CompoundNBT nbt) {
+        getTag().put("item_container", nbt);
+    }
+
     public MagicalItemSimpleImplement copy(ItemStack stack, CompoundNBT nbt) {
-        MagicalItemSimpleImplement implement = new MagicalItemSimpleImplement(magicalItemContainer.clone(), manaCapacity, scaleCapacityIFPrimed, manaCurrent, manaRecover, scaleRecoverIfPrimed, maxMagicModelCapacity, stack);
-        if (nbt != null && nbt.contains("magical_item_implement")) {
-            implement.deserializeNBT(nbt.getCompound("magical_item_implement"));
-        }
+        MagicalItemSimpleImplement implement = new MagicalItemSimpleImplement(
+                getEffectContainer().clone(),
+                getManaCapacity(),
+                getScaleCapacityIfPrimed(),
+                getMana(),
+                getManaRecovery(),
+                getScaleRecoverIfPrimed(),
+                getMaxMagicCapacity(),
+                stack);
         return implement;
     }
 
-    @Override
-    public CompoundNBT serializeNBT() {
+    public CompoundNBT defaultNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();
         compoundNBT.put("effect_container", magicalItemContainer.serializeNBT());
         compoundNBT.putFloat("current_capacity", manaCapacity);
@@ -166,24 +212,6 @@ public class MagicalItemSimpleImplement implements IMagicalItem, INBTSerializabl
         compoundNBT.put("magics", magics);
 
         return compoundNBT;
-    }
-
-    @Override
-    public void deserializeNBT(CompoundNBT nbt) {
-        magicalItemContainer.deserializeNBT(nbt.getCompound("effect_container"));
-        manaCapacity = nbt.getInt("current_capacity");
-        manaRecover = nbt.getInt("current_recover");
-        hasPrimed = nbt.getBoolean("primed");
-        scaleCapacityIFPrimed = nbt.getDouble("scale_capacity_if_primed");
-        scaleRecoverIfPrimed = nbt.getDouble("scale_recover_if_primed");
-        manaCurrent = nbt.getInt("mana_current");
-        maxMagicModelCapacity = nbt.getInt("max_magic_model_capacity");
-
-        ListNBT magics = nbt.getList("magics", Constants.NBT.TAG_COMPOUND);
-        for (INBT magic : magics) {
-            CompoundNBT compoundNBT = (CompoundNBT) magic;
-            this.magics.add(compoundNBT.getString("name"));
-        }
     }
 
     @Nonnull

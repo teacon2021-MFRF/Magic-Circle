@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -30,14 +31,17 @@ public class TestBlock extends BlockBase {
             if (!itemInHand.isEmpty()) {
 //                    playerEntity.sendMessage(new StringTextComponent(itemInHand.getTag().toString()), playerEntity.getUUID());
 
-                    if (itemInHand.getItem() instanceof ItemTestPaper) {
-                        List<ResearchTestBase> allRecipesFor = world.getRecipeManager().getAllRecipesFor(JsonConfigs.Type.RESEARCH_TEST_JSONCONFIG_TYPE);
-                        playerEntity.sendMessage(new StringTextComponent("count:" + allRecipesFor.size()), playerEntity.getUUID());
-                        if (!allRecipesFor.isEmpty()) {
-                            ItemStack testPaper = ItemTestPaper.createTestPaper(allRecipesFor.get(0));
-                            playerEntity.inventory.add(testPaper);
-                        }
+                if (itemInHand.getItem() instanceof ItemTestPaper) {
+                    List<ResearchTestBase> allRecipesFor = world.getRecipeManager().getAllRecipesFor(JsonConfigs.Type.RESEARCH_TEST_JSONCONFIG_TYPE);
+                    playerEntity.sendMessage(new StringTextComponent("count:" + allRecipesFor.size()), playerEntity.getUUID());
+                    if (!allRecipesFor.isEmpty()) {
+                        ItemStack testPaper = ItemTestPaper.createTestPaper(allRecipesFor.get(0));
+                        playerEntity.inventory.add(testPaper);
                     }
+                } else {
+                    CompoundNBT orCreateTag = itemInHand.getOrCreateTag();
+                    playerEntity.sendMessage(new StringTextComponent("nbt:" + orCreateTag.toString()), playerEntity.getUUID());
+                }
             }
         }
         return ActionResultType.SUCCESS;

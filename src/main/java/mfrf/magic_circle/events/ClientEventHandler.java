@@ -1,4 +1,4 @@
-package mfrf.magic_circle.util;
+package mfrf.magic_circle.events;
 
 import mfrf.magic_circle.block.magic_construct_table.TERMagicModelAssemblyTable;
 import mfrf.magic_circle.block.projector.TERProjector;
@@ -38,6 +38,8 @@ public class ClientEventHandler {
 
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(Blocks.MAGIC_MODEL_ASSEMBLY_TABLE.get(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(Blocks.ORE_CRYSTAL.get(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(Blocks.RESEARCH_TABLE.get(), RenderType.translucent());
         });
 
         RenderingRegistry.registerEntityRenderingHandler(Entities.DANMAKU_ENTITY.get(), RenderDanmakuEntity::new);

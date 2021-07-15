@@ -21,7 +21,7 @@ public class TileMagicModelAssemblyTable extends NamedContainerTileBase {
     public Inventory inventory = new Inventory(1) {
         @Override
         public boolean canPlaceItem(int p_94041_1_, ItemStack itemStack) {
-            return itemStack.getCapability(Capabilities.MAGIC_CONTAINER_ITEM).isPresent();
+            return itemStack.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
         }
 
         @Override

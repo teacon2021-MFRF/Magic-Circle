@@ -6,12 +6,14 @@ import mfrf.magic_circle.block.TestBlock;
 import mfrf.magic_circle.block.magic_construct_table.BlockMagicModelAssemblyTable;
 import mfrf.magic_circle.block.projector.BlockProjector;
 import mfrf.magic_circle.block.research_table.ResearchTable;
+import mfrf.magic_circle.block.resources.MagicCrystalOre;
 import mfrf.magic_circle.block.technical_blocks.BlockRune;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,12 +27,13 @@ public class Blocks {
 
     // tileentities
     public static final RegistryObject<Block> PROJECTOR = registryObject(new BlockProjector(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "projector");
-    public static final RegistryObject<Block> RESEARCH_TABLE = registryObject(new ResearchTable(AbstractBlock.Properties.of(Material.WOOD)), Items.DEFAULT_ITEM_PROPERTY, "research_table");
-    public static final RegistryObject<Block> MAGIC_MODEL_ASSEMBLY_TABLE = registryObject(new BlockMagicModelAssemblyTable(AbstractBlock.Properties.of(Material.METAL).dynamicShape().noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "assembly_table");
+    public static final RegistryObject<Block> RESEARCH_TABLE = registryObject(new ResearchTable(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().harvestTool(ToolType.AXE).strength(3f, 1.3f)), Items.DEFAULT_ITEM_PROPERTY, "research_table");
+    public static final RegistryObject<Block> MAGIC_MODEL_ASSEMBLY_TABLE = registryObject(new BlockMagicModelAssemblyTable(AbstractBlock.Properties.of(Material.METAL).dynamicShape().noOcclusion().strength(4f, 6f).harvestTool(ToolType.PICKAXE).harvestLevel(2)), Items.DEFAULT_ITEM_PROPERTY, "assembly_table");
 
     //technical block
-    public static final RegistryObject<Block> TEST_BLOCK = registryObject(new TestBlock(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "test_block");
-    public static final RegistryObject<Block> RUNE = BLOCK_DEFERRED_REGISTER.register("rune", () -> new BlockRune(AbstractBlock.Properties.of(Material.METAL)));
+    public static final RegistryObject<Block> TEST_BLOCK = registryObject(new TestBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "test_block");
+    public static final RegistryObject<Block> RUNE = BLOCK_DEFERRED_REGISTER.register("rune", () -> new BlockRune(AbstractBlock.Properties.of(Material.METAL).noOcclusion().harvestLevel(4)));
+    public static final RegistryObject<Block> ORE_CRYSTAL = registryObject(new MagicCrystalOre(AbstractBlock.Properties.of(Material.GLASS).harvestTool(ToolType.PICKAXE).harvestLevel(2).strength(30, 30).noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "magic_crystal_ore");
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
         Items.registerObject(new BlockItem(block, itemProperties), name);

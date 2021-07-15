@@ -1,6 +1,7 @@
 package mfrf.magic_circle.interfaces;
 
 import mfrf.magic_circle.util.MagicalItemContainer;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,6 +27,8 @@ public interface IMagicalItem {
 
     MagicalItemContainer getEffectContainer();
 
+    void setEffectContainer(CompoundNBT nbt);
+
     void setScaleCapacityIfPrimed(double value);
 
     double getScaleCapacityIfPrimed();
@@ -37,6 +40,8 @@ public interface IMagicalItem {
     void onPriming(World world, BlockPos pos);
 
     ArrayList<String> magics();
+
+    boolean removeMagic(String name);
 
     int getMaxMagicCapacity();
 

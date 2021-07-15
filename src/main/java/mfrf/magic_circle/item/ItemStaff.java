@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -33,10 +34,22 @@ public class ItemStaff extends ItemBase {
     public ActionResult<ItemStack> use(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
         ItemStack heldItem = p_77659_2_.getItemInHand(p_77659_3_);
         if (!p_77659_1_.isClientSide()) {
+            if(p_77659_2_.isShiftKeyDown()){
+                heldItem.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
+                    iMagicalItem.setMana((int) p_77659_1_.getDayTime());
+                });
+            }else {
             heldItem.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
-                p_77659_2_.sendMessage(new StringTextComponent(iMagicalItem.toString()), p_77659_2_.getUUID());
+                p_77659_2_.sendMessage(new StringTextComponent(iMagicalItem.getMana()+""), p_77659_2_.getUUID());
             });
+            }
         }
         return new ActionResult<ItemStack>(ActionResultType.SUCCESS, heldItem);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int p_77663_4_, boolean p_77663_5_) {
+        super.inventoryTick(p_77663_1_, p_77663_2_, p_77663_3_, p_77663_4_, p_77663_5_);
+        //todo tick
     }
 }

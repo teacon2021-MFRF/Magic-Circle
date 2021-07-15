@@ -6,20 +6,24 @@ import mfrf.magic_circle.registry_lists.Capabilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MagicalItemContainer implements Cloneable, IInventory {
+public class MagicalItemContainer implements Cloneable, IInventory{
     public int slotCount;
     public ArrayList<Slot> slots = new ArrayList<>();
-    public ItemStack itemStack;
-    //todo finishit
 
     public MagicalItemContainer(Slot[] Slots) {
         this.slotCount = Slots.length;
@@ -55,12 +59,12 @@ public class MagicalItemContainer implements Cloneable, IInventory {
 
     public void deserializeNBT(CompoundNBT compoundNBT) {
         this.slotCount = compoundNBT.getInt("slot_count");
-        slots = new ArrayList<>();
+        slots = new ArrayList<>(slotCount);
         for (int i = 0; i < slotCount; i++) {
             CompoundNBT compound = compoundNBT.getCompound("slot" + i);
             int max_complexity = compound.getInt("max_complexity");
             ItemStack itemstack = ItemStack.of(compound.getCompound("itemstack"));
-            slots.set(i, new Slot(max_complexity, itemstack));
+            slots.add(new Slot(max_complexity, itemstack));
         }
     }
 
@@ -156,7 +160,7 @@ public class MagicalItemContainer implements Cloneable, IInventory {
         }
 
         public boolean canInsert(ItemStack itemStack) {
-            return itemStack.isEmpty() && itemStack.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
+            return (itemStack.isEmpty() || this.itemStack.isEmpty()) && itemStack.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
         }
 
         public LazyOptional<IMagicalItem> tryParse() {

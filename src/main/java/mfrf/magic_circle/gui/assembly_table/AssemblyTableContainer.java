@@ -19,7 +19,7 @@ public class AssemblyTableContainer extends ContainerBase {
             new Coordinates(233, 117),
             new Coordinates(212, 174),
             new Coordinates(143, 207),
-            new Coordinates(73, 168),
+            new Coordinates(73, 176),
             new Coordinates(51, 117),
             new Coordinates(72, 58)
     };
@@ -56,19 +56,21 @@ public class AssemblyTableContainer extends ContainerBase {
 //        addSlot(new Slot(table.inventory,5,73,168));
 //        addSlot(new Slot(table.inventory,6,51,117));
 //        addSlot(new Slot(table.inventory,7,72,58));
+        ItemStack item = table.inventory.getItem(0);
 
         addSlot(new Slot(table.inventory, 0, 143, 118) {
             @Override
             public boolean mayPlace(ItemStack p_75214_1_) {
-                return p_75214_1_.getCapability(Capabilities.MAGIC_CONTAINER_ITEM).isPresent();
+                return p_75214_1_.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
             }
+
         });
 
-        ItemStack item = table.inventory.getItem(0);
-        item.getCapability(Capabilities.MAGIC_CONTAINER_ITEM).ifPresent(iMagicContainerItem -> {
-            MagicalItemContainer items = iMagicContainerItem.getItems();
+        item.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicContainerItem -> {
+            MagicalItemContainer items = iMagicContainerItem.getEffectContainer();
             for (int i = 0; i < items.slotCount; i++) {
                 Coordinates coordinates = coordinatesMap[i];
+
                 addSlot(new Slot(items, i, coordinates.x, coordinates.y) {
                     @Override
                     public boolean mayPlace(ItemStack p_75214_1_) {
@@ -78,6 +80,7 @@ public class AssemblyTableContainer extends ContainerBase {
                     @Override
                     public void setChanged() {
                         super.setChanged();
+                        iMagicContainerItem.setEffectContainer(items.serializeNBT());
                     }
                 });
             }

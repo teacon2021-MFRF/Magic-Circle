@@ -9,7 +9,5 @@ public class Capabilities {
 
     @CapabilityInject(IMagicalItem.class)
     public static Capability<IMagicalItem> MAGICAL_ITEM;
-    @CapabilityInject(IMagicContainerItem.class)
-    public static Capability<IMagicContainerItem> MAGIC_CONTAINER_ITEM;
 
 }

@@ -3,16 +3,25 @@ package mfrf.magic_circle.item.resources;
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.interfaces.ItemMagicArmorMatrial;
 import mfrf.magic_circle.item.ItemBase;
+import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.registry_lists.Items;
+import mfrf.magic_circle.util.MagicalItemContainer;
+import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
 
 public class ItemMagicCrystal extends ItemBase implements ItemMagicArmorMatrial {
+    public static final MagicalItemSimpleImplement DEFAULT_INSTANCE = new MagicalItemSimpleImplement(new MagicalItemContainer(), 200, 1.1, 0, 1, 1.1, 3, ItemStack.EMPTY);
 
     public ItemMagicCrystal(Properties p_i48487_1_) {
         super(p_i48487_1_);
@@ -99,4 +108,11 @@ public class ItemMagicCrystal extends ItemBase implements ItemMagicArmorMatrial 
     public void onPriming(World world, BlockPos pos) {
 
     }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+        return DEFAULT_INSTANCE.copy(stack, nbt);
+    }
+
 }
