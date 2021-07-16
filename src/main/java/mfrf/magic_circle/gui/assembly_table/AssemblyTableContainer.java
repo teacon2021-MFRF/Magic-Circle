@@ -1,6 +1,6 @@
 package mfrf.magic_circle.gui.assembly_table;
 
-import mfrf.magic_circle.block.magic_construct_table.TileMagicModelAssemblyTable;
+import mfrf.magic_circle.block.magic_assemby_table.TileMagicModelAssemblyTable;
 import mfrf.magic_circle.gui.ContainerBase;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.registry_lists.GuiContainers;
@@ -11,6 +11,8 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class AssemblyTableContainer extends ContainerBase {
     private static Coordinates[] coordinatesMap = {
@@ -36,7 +38,7 @@ public class AssemblyTableContainer extends ContainerBase {
 
         putInventories(283, 1, -18, 18, 1, 4, 9, playerInventory);
         putInventories(283, 19, 18, 18, 3, 1, 13, playerInventory);
-        putInventories(256, 19, 18, 18, 1, 1, 16, playerInventory);
+        putInventories(265, 19, 18, 18, 1, 1, 16, playerInventory);
         putInventories(247, 37, 18, 18, 1, 1, 17, playerInventory);
 
         putInventories(1, 233, 18, 18, 1, 4, 18, playerInventory);
@@ -56,17 +58,27 @@ public class AssemblyTableContainer extends ContainerBase {
 //        addSlot(new Slot(table.inventory,5,73,168));
 //        addSlot(new Slot(table.inventory,6,51,117));
 //        addSlot(new Slot(table.inventory,7,72,58));
-        ItemStack item = table.inventory.getItem(0);
 
         addSlot(new Slot(table.inventory, 0, 143, 118) {
+            private ArrayList<Slot> slots = null;
+
             @Override
             public boolean mayPlace(ItemStack p_75214_1_) {
-                return p_75214_1_.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
+                return false;
             }
 
+            @Override
+            public boolean mayPickup(PlayerEntity p_82869_1_) {
+                return false;
+            }
+
+            @Override
+            public void setChanged() {
+                super.setChanged();
+            }
         });
 
-        item.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicContainerItem -> {
+        table.inventory.getItem(0).getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicContainerItem -> {
             MagicalItemContainer items = iMagicContainerItem.getEffectContainer();
             for (int i = 0; i < items.slotCount; i++) {
                 Coordinates coordinates = coordinatesMap[i];
@@ -78,15 +90,28 @@ public class AssemblyTableContainer extends ContainerBase {
                     }
 
                     @Override
-                    public void setChanged() {
-                        super.setChanged();
-                        iMagicContainerItem.setEffectContainer(items.serializeNBT());
+                    public void set(ItemStack p_75215_1_) {
+                        super.set(p_75215_1_);
+                        table.inventory.getItem(0).getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
+                            iMagicalItem.setEffectContainer(items.serializeNBT());
+                        });
+                        table.setChanged();
+                    }
+
+                    @Override
+                    public ItemStack onTake(PlayerEntity p_190901_1_, ItemStack p_190901_2_) {
+                        ItemStack stack = super.onTake(p_190901_1_, p_190901_2_);
+                        table.inventory.getItem(0).getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
+                            iMagicalItem.setEffectContainer(items.serializeNBT());
+                        });
+                        table.setChanged();
+                        return stack;
                     }
                 });
             }
         });
-
     }
+
 
     @Override
     public boolean stillValid(PlayerEntity p_75145_1_) {

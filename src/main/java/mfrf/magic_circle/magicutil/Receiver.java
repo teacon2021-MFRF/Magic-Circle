@@ -19,7 +19,7 @@ public class Receiver {
     public float radius;
     public World world;
 
-    public Receiver(Vector3f vector3f, BlockPos pos, DimensionType dimension, WeatherType weatherType, RangeType rangeType, float rangeX, float rangeY, float rangeZ, float radius, World world,ReceiverType type) {
+    public Receiver(Vector3f vector3f, BlockPos pos, DimensionType dimension, WeatherType weatherType, RangeType rangeType, float rangeX, float rangeY, float rangeZ, float radius, World world, ReceiverType type) {
         this.vector3 = vector3f;
         this.pos = pos;
         this.dimension = dimension;
@@ -31,6 +31,10 @@ public class Receiver {
         this.radius = radius;
         this.world = world;
         this.type = type;
+    }
+
+    public Receiver copy() {
+        return new Receiver(vector3, pos, dimension, weatherType, rangeType, rangeX, rangeY, rangeZ, radius, world, type);
     }
 
     public static class WeatherType {

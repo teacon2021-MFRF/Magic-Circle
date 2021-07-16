@@ -42,6 +42,11 @@ public class ResearchTable extends BlockBase {
         return ActionResultType.SUCCESS;
     }
 
+    @Override
+    public float getShadeBrightness(BlockState p_220080_1_, IBlockReader p_220080_2_, BlockPos p_220080_3_) {
+        return 1;
+    }
+
 
     @Nullable
     @Override

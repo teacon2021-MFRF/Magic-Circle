@@ -5,6 +5,7 @@ import mfrf.magic_circle.block.BlockBase;
 import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.registry_lists.Items;
+import mfrf.magic_circle.util.MagicalItemContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
@@ -18,16 +19,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class MagicCrystalOre extends BlockBase {
 
     public static IntegerProperty PURITY = IntegerProperty.create("purity", 1, 5);
-    //todo purity;
 
     public MagicCrystalOre(Properties p_i48440_1_) {
         super(p_i48440_1_);
@@ -62,6 +64,15 @@ public class MagicCrystalOre extends BlockBase {
                         iMagicalItem.setManaRecovery((float) (purity * Config.PURITY_MANA_RECOVERY_SCALE.get()));
                         iMagicalItem.setScaleCapacityIfPrimed(Config.SIZE_MANA_CAPACITY_PRIMED_SCALE.get());
                         iMagicalItem.setScaleRecoverIfPrimed(Config.PURITY_MANA_RECOVERY_PRIMED_SCALE.get());
+                        iMagicalItem.setMaxMagicCapacity(Math.round((float) purity));
+
+                        int slotCount = RANDOM.nextInt(Math.round((float) purity));
+                        ArrayList<MagicalItemContainer.Slot> slots = new ArrayList<>();
+                        for (int i = 0; i < slotCount; i++) {
+                            slots.add(new MagicalItemContainer.Slot(RANDOM.nextInt(Math.round((float) purity)), ItemStack.EMPTY));
+                        }
+
+                        iMagicalItem.setEffectContainer(new MagicalItemContainer(slots.toArray(new MagicalItemContainer.Slot[]{})).serializeNBT());
                     }
             );
 
@@ -85,6 +96,11 @@ public class MagicCrystalOre extends BlockBase {
                 }
             }
         }
+    }
+
+    @Override
+    public float getShadeBrightness(BlockState p_220080_1_, IBlockReader p_220080_2_, BlockPos p_220080_3_) {
+        return 1;
     }
 
     @Override

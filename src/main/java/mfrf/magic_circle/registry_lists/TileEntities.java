@@ -1,7 +1,7 @@
 package mfrf.magic_circle.registry_lists;
 
 import mfrf.magic_circle.MagicCircle;
-import mfrf.magic_circle.block.magic_construct_table.TileMagicModelAssemblyTable;
+import mfrf.magic_circle.block.magic_assemby_table.TileMagicModelAssemblyTable;
 import mfrf.magic_circle.block.projector.TileProjector;
 import mfrf.magic_circle.block.research_table.TileResearchTable;
 import net.minecraft.tileentity.TileEntityType;

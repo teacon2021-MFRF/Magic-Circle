@@ -3,7 +3,7 @@ package mfrf.magic_circle.registry_lists;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.BlockBase;
 import mfrf.magic_circle.block.TestBlock;
-import mfrf.magic_circle.block.magic_construct_table.BlockMagicModelAssemblyTable;
+import mfrf.magic_circle.block.magic_assemby_table.BlockMagicModelAssemblyTable;
 import mfrf.magic_circle.block.projector.BlockProjector;
 import mfrf.magic_circle.block.research_table.ResearchTable;
 import mfrf.magic_circle.block.resources.MagicCrystalOre;

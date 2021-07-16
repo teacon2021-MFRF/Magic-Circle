@@ -43,6 +43,10 @@ public class MagicStream {
         public Invoker invoker;
         public MagicNodeBase lastNode;
         public Receiver receiver;
+
+        public MagicStreamInfo copy() {
+            return new MagicStreamInfo(invoker.copy(), null, receiver.copy());
+        }
     }
 
     //multiThread rendering

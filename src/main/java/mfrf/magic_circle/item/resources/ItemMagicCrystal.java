@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 public class ItemMagicCrystal extends ItemBase implements ItemMagicArmorMatrial {
-    public static final MagicalItemSimpleImplement DEFAULT_INSTANCE = new MagicalItemSimpleImplement(new MagicalItemContainer(), 200, 1.1, 0, 1, 1.1, 3, ItemStack.EMPTY);
+    public static final MagicalItemSimpleImplement DEFAULT_INSTANCE = new MagicalItemSimpleImplement(new MagicalItemContainer(), 200f, 1.1, 0, 1f, 1.1, 3, ItemStack.EMPTY);
 
     public ItemMagicCrystal(Properties p_i48487_1_) {
         super(p_i48487_1_);

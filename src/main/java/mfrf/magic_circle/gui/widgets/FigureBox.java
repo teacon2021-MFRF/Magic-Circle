@@ -76,7 +76,6 @@ public class FigureBox extends Widget implements IGuiEventListener, IRenderable 
 
     @Override
     public boolean mouseDragged(double scaledMouseX, double scaledMouseY, int activeMouseButton, double deltaX, double deltaY) {
-        //todo fixit
         if (location != null) {
             double movedLUX = xOffset - deltaX * currentScale;
             double movedLUY = yOffset - deltaY * currentScale;

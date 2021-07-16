@@ -11,7 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class MagesBoots extends MagesArmorBase {
     public MagesBoots(Properties p_i48534_3_, MagicalItemContainer.Slot[] slots) {
-        super(EquipmentSlotType.FEET, p_i48534_3_, new MagicalItemSimpleImplement(new MagicalItemContainer(slots), MATERIAL.getManaCapacity(), MATERIAL.getScaleCapacityIfPrimed(), (int) MATERIAL.getManaCapacity(), MATERIAL.getManaRecovery(), MATERIAL.getScaleRecoverIfPrimed(),slots.length, null));
+        super(EquipmentSlotType.FEET, p_i48534_3_, new MagicalItemSimpleImplement(new MagicalItemContainer(slots), MATERIAL.getManaCapacity(), (double) MATERIAL.getScaleCapacityIfPrimed(), (int) MATERIAL.getManaCapacity(), MATERIAL.getManaRecovery(), (double) MATERIAL.getScaleRecoverIfPrimed(), slots.length, null));
     }
 
     @Nullable

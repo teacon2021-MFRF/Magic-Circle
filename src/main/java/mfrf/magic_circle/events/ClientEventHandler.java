@@ -1,6 +1,6 @@
 package mfrf.magic_circle.events;
 
-import mfrf.magic_circle.block.magic_construct_table.TERMagicModelAssemblyTable;
+import mfrf.magic_circle.block.magic_assemby_table.TERMagicModelAssemblyTable;
 import mfrf.magic_circle.block.projector.TERProjector;
 import mfrf.magic_circle.entity.barrage.RenderDanmakuEntity;
 import mfrf.magic_circle.entity.magic_circle_base.RenderMagicCircle;

@@ -90,7 +90,6 @@ public class DanmakuEntity extends ThrowableEntity {
         this.entityData.set(SPEED_SCALE, scale);
         return this;
     }
-    // todo collision box etc.
 
     @Override
     protected void defineSynchedData() {

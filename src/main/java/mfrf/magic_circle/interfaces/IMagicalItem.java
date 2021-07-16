@@ -1,11 +1,13 @@
 package mfrf.magic_circle.interfaces;
 
+import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.util.MagicalItemContainer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public interface IMagicalItem {
 
@@ -45,5 +47,15 @@ public interface IMagicalItem {
 
     int getMaxMagicCapacity();
 
+    void setMaxMagicCapacity(int value);
+
     boolean addMagic(String magicModelName);
+
+    void onTick();
+
+    String getSelectedMagic();
+
+    void setSelectedMagic(String selectedMagic);
+
+    void executeMagic(boolean executeAll, World world, UUID uuid, MagicStream.MagicStreamInfo streaminfo);
 }

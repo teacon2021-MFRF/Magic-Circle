@@ -2,6 +2,7 @@ package mfrf.magic_circle.item;
 
 import javax.annotation.Nullable;
 
+import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import net.minecraft.entity.Entity;
@@ -50,6 +51,6 @@ public class ItemStaff extends ItemBase {
     @Override
     public void inventoryTick(ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int p_77663_4_, boolean p_77663_5_) {
         super.inventoryTick(p_77663_1_, p_77663_2_, p_77663_3_, p_77663_4_, p_77663_5_);
-        //todo tick
+        p_77663_1_.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(IMagicalItem::onTick);
     }
 }

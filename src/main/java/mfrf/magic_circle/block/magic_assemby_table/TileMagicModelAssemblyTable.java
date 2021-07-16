@@ -1,4 +1,4 @@
-package mfrf.magic_circle.block.magic_construct_table;
+package mfrf.magic_circle.block.magic_assemby_table;
 
 import mfrf.magic_circle.block.NamedContainerTileBase;
 import mfrf.magic_circle.gui.assembly_table.AssemblyTableContainer;

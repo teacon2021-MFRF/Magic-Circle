@@ -28,7 +28,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected static final float greenGradient = 0.023f;
     protected static final float blueGradient = 0.025f;
     protected static final float alphaGradient = 0.016f;
-    protected static final int maxLight = 0x00F0_00F0;
+    public static final int maxLight = 0x00F0_00F0;
 
     protected float delay;
     protected float xRotateSpeedRadius;
@@ -45,6 +45,8 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected ArrayList<MagicCircleComponentBase<?>> nextParallelComponents = new ArrayList<>();
     protected Matrix3f transform = Matrix3f.createScaleMatrix(1, 1, 1);
     protected double lineWidth = 3.0D;
+    protected boolean useActualPosition = true;
+    protected Vector3f stablePosition = new Vector3f();
 
     public T setPositionOffset(Vector3f positionOffset) {
         this.positionOffset = positionOffset;
@@ -101,6 +103,12 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         return (T) this;
     }
 
+    public T setStablePosition(Vector3f position) {
+        this.stablePosition = position;
+        useActualPosition = false;
+        return (T) this;
+    }
+
     public MagicCircleComponentBase() {
         xRotateSpeedRadius = 0;
         yRotateSpeedRadius = 0;
@@ -121,7 +129,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         if (time - delay <= 0) {
             return false;
         } else {
-            boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+            boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, useActualPosition ? actualPosition : stablePosition, renderer);
 
             if (flag) {
                 for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
@@ -138,7 +146,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         if (time - delay <= 0) {
             return false;
         } else {
-            boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+            boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, useActualPosition ? actualPosition : stablePosition, renderer);
 
             if (flag) {
                 for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {

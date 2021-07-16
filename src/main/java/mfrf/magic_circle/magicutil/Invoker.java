@@ -27,6 +27,30 @@ public class Invoker {
         this.type = type;
     }
 
+    public Invoker copy() {
+//        BlockPos copiedPos = null;
+//        DimensionType dimensionType = null;
+//        ItemStack stack = ItemStack.EMPTY;
+//        UUID uuid = null;
+//        MagicStream stream = null;
+//        if (beginPos != null) {
+//            copiedPos = beginPos;
+//        }
+//        if(dimension != null){
+//            dimensionType = dimension;
+//        }
+//        if(!invokerStack.isEmpty()){
+//            stack = invokerStack;
+//        }
+//        if(player != null){
+//            uuid = player;
+//        }
+//        if(lastMagicStream != null){
+//            stream = lastMagicStream;
+//        }
+        return new Invoker(beginPos, dimension, invokerStack, player, lastMagicStream, world, type);
+    }
+
     public enum InvokerType {
         PLAYER, BLOCK, EQUIPMENT, CHAIN, AUTO;
     }

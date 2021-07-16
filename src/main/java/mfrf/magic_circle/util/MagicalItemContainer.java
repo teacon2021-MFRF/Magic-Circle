@@ -42,8 +42,6 @@ public class MagicalItemContainer implements Cloneable, IInventory{
     public MagicalItemContainer() {
     }
 
-    //todo caninsert,insert,extract.etc
-
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();
         compoundNBT.putInt("slot_count", slotCount);
@@ -70,7 +68,11 @@ public class MagicalItemContainer implements Cloneable, IInventory{
 
     @Override
     protected MagicalItemContainer clone() {
-        return new MagicalItemContainer(slots.toArray(new Slot[]{}));
+        MagicalItemContainer magicalItemContainer = new MagicalItemContainer(slotCount);
+        for (Slot slot : slots) {
+            magicalItemContainer.slots.add(slot.clone());
+        }
+        return magicalItemContainer;
     }
 
     @Override

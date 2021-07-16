@@ -1,6 +1,7 @@
 package mfrf.magic_circle.network.magic_model_sync;
 
 import mfrf.magic_circle.MagicCircle;
+import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +32,7 @@ public class RequestMagicModelsData {
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
-    public MagicCircleComponentBase<?> getRender(UUID uuid, String name) {
+    public static MagicCircleComponentBase<?> getRender(UUID uuid, String name) {
         HashMap<String, MagicCircleComponentBase<?>> renderCache = getOrCreateRenderCache(uuid);
         if (!renderCache.containsKey(name)) {
             RequestMagicModelsData.INSTANCE.send(PacketDistributor.SERVER.with(() -> null),
