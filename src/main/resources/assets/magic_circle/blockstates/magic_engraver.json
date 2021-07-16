@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "neutrino:block/magic_engraver" }
+    "": { "model": "magic_circle:block/magic_engraver" }
   }
 }

@@ -1,5 +1,8 @@
 {
-  "loader": "forge:obj",
-  "model": "magic_circle:models/block/magic_engraver.obj",
-  "flip-v": true
+	"loader": "forge:obj",
+	"model": "magic_circle:models/block/magic_engraver.obj",
+	"textures": {
+		"particle": "micro_machinery:obj/magic_engraver"
+	},
+	"flip-v": true
 }
