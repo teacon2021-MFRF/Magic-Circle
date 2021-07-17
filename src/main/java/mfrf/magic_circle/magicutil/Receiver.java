@@ -1,16 +1,18 @@
 package mfrf.magic_circle.magicutil;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.Dimension;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
+
+import java.util.logging.Level;
 
 public class Receiver {
     public ReceiverType type;
     public Vector3f vector3;
     public BlockPos pos;
-    public DimensionType dimension;
     public WeatherType weatherType;
     public RangeType rangeType;
     public float rangeX;
@@ -19,10 +21,9 @@ public class Receiver {
     public float radius;
     public World world;
 
-    public Receiver(Vector3f vector3f, BlockPos pos, DimensionType dimension, WeatherType weatherType, RangeType rangeType, float rangeX, float rangeY, float rangeZ, float radius, World world, ReceiverType type) {
+    public Receiver(Vector3f vector3f, BlockPos pos, WeatherType weatherType, RangeType rangeType, float rangeX, float rangeY, float rangeZ, float radius, World world, ReceiverType type) {
         this.vector3 = vector3f;
         this.pos = pos;
-        this.dimension = dimension;
         this.weatherType = weatherType;
         this.rangeType = rangeType;
         this.rangeX = rangeX;
@@ -34,7 +35,7 @@ public class Receiver {
     }
 
     public Receiver copy() {
-        return new Receiver(vector3, pos, dimension, weatherType, rangeType, rangeX, rangeY, rangeZ, radius, world, type);
+        return new Receiver(vector3, pos, weatherType, rangeType, rangeX, rangeY, rangeZ, radius, world, type);
     }
 
     public static class WeatherType {
@@ -48,7 +49,7 @@ public class Receiver {
     }
 
     public enum RangeType {
-        BOX, BALL, CIRCLE, CYLINDER, DOME;
+        BOX, BALL, CIRCLE, CYLINDER;
     }
 
     public enum ReceiverType {

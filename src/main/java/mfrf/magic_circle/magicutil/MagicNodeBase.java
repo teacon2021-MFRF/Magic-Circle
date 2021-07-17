@@ -8,7 +8,6 @@ import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
-import mfrf.magic_circle.magicutil.nodes.resonancenode.ResonanceNodeBase;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
@@ -73,10 +72,10 @@ public abstract class MagicNodeBase {
         this.nodeType = nodeType;
     }
 
-    public abstract returnDataContainer apply(MagicStream magic);
+    public abstract DataContainer apply(MagicStream magic);
 
     public MagicStream invoke(MagicStream magic) {
-        returnDataContainer apply = apply(magic);
+        DataContainer apply = apply(magic);
 
         magic.info.lastNode = this;
 
@@ -146,10 +145,6 @@ public abstract class MagicNodeBase {
                 nodeBase = DecorateNodeBase.deserializeNBT(nbt, layer, matrix);
                 break;
             }
-            case RESONANCE: {
-                nodeBase = ResonanceNodeBase.deserializeNBT(nbt, layer, matrix);
-                break;
-            }
             case BEHAVIOR: {
                 nodeBase = BehaviorNodeBase.deserializeNBT(nbt, layer, matrix);
                 break;
@@ -173,14 +168,14 @@ public abstract class MagicNodeBase {
     }
 
     public enum NodeType {
-        BEGIN, BEHAVIOR, DECORATE, RESONANCE, EFFECT, MODEL;
+        BEGIN, BEHAVIOR, DECORATE, EFFECT, MODEL;
     }
 
-    public class returnDataContainer {
+    public class DataContainer {
         public final MagicStream magicStream;
         public final Boolean aBoolean;
 
-        public returnDataContainer(MagicStream magicStream, Boolean aBoolean) {
+        public DataContainer(MagicStream magicStream, Boolean aBoolean) {
             this.magicStream = magicStream;
             this.aBoolean = aBoolean;
         }

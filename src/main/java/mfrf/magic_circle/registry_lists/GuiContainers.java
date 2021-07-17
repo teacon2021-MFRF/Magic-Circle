@@ -2,6 +2,7 @@ package mfrf.magic_circle.registry_lists;
 
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.gui.assembly_table.AssemblyTableContainer;
+import mfrf.magic_circle.gui.engraver_table.EngraverTableContainer;
 import mfrf.magic_circle.gui.research_table.ResearchTableContainer;
 import mfrf.magic_circle.knowledges.PlayerKnowledges;
 import net.minecraft.client.Minecraft;
@@ -25,5 +26,7 @@ public class GuiContainers {
     public static final RegistryObject<ContainerType<AssemblyTableContainer>> ASSEMBLY_TABLE_CONTAINER = REGISTER.register("magic_model_assembly_table_container",
             () -> IForgeContainerType.create(
                     (windowId, inv, data) -> new AssemblyTableContainer(windowId, inv, data.readBlockPos(), Minecraft.getInstance().level)));
-
+    public static final RegistryObject<ContainerType<EngraverTableContainer>> ENGRAVER_TABLE_CONTAINER = REGISTER.register("engraver_table_container",
+            ()->IForgeContainerType.create(
+                    (windowId, inv, data) -> new EngraverTableContainer(windowId,inv,data.readBlockPos(),Minecraft.getInstance().level)));
 }

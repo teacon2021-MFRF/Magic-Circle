@@ -10,26 +10,23 @@ import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 
-import java.util.function.Predicate;
-
 public class BeamNode extends BehaviorNodeBase {
     public BeamNode() {
         super(BehaviorType.BEAM);
     }
 
     @Override
-    public returnDataContainer apply(MagicStream magic) {
+    public DataContainer apply(MagicStream magic) {
 
         boolean flag = true;
         MagicNodeBase lastNode = magic.info.lastNode;
 
         magic.functions.add((magicStream, magicStreamInfo) -> {
 
-            Invoker invoker = magicStreamInfo.invoker;
-            Receiver receiver = magicStreamInfo.receiver;
-            Vector3f targetVec = receiver.vector3;
-            World world = magicStreamInfo.receiver.world;
-            MagicNodePropertyMatrix8By8 streamEigenMatrix = magicStream.eigenMatrix;
+            MagicStream.DataContain data = magicStreamInfo.data;
+            Vector3f targetVec = data.targetVec;
+            World world = data.world;
+            MagicNodePropertyMatrix8By8 streamEigenMatrix = data.eigenMatrix;
             double strength = streamEigenMatrix.getStrength();
             double range = streamEigenMatrix.getRange();
             double duration = streamEigenMatrix.getDuration();
@@ -71,7 +68,7 @@ public class BeamNode extends BehaviorNodeBase {
             magic.Matrixtimes(this.eigenMatrix);
             return magic;
         });
-        return new returnDataContainer(magic, flag);
+        return new DataContainer(magic, flag);
     }
 
     @Override

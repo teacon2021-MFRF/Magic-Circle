@@ -6,6 +6,7 @@ import mfrf.magic_circle.gui.ContainerBase;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.registry_lists.GuiContainers;
+import mfrf.magic_circle.registry_lists.Sounds;
 import mfrf.magic_circle.util.MagicalItemContainer;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import net.minecraft.client.Minecraft;
@@ -110,7 +111,7 @@ public class AssemblyTableContainer extends ContainerBase {
                         });
                         table.setChanged();
 
-                        Minecraft.getInstance().getSoundManager().play(new SimpleSound(new SoundEvent(new ResourceLocation(MagicCircle.MOD_ID,"sounds/piano/split" + finalI + ".mp3")), SoundCategory.BLOCKS,3,3,table.getBlockPos()));
+                        Minecraft.getInstance().getSoundManager().play(new SimpleSound(Sounds.PIANO_SOUNDS.get("piano_" + finalI).get(), SoundCategory.BLOCKS, 16, 16, table.getBlockPos()));
                     }
 
                     @Override

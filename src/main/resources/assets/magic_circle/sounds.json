@@ -1,0 +1,482 @@
+{
+  "piano_0": {
+    "subtitle": "piano_0",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split0",
+      "steam": "true"
+    }
+  },
+  "piano_1": {
+    "subtitle": "piano_1",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split1",
+      "steam": "true"
+    }
+  },
+  "piano_2": {
+    "subtitle": "piano_2",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split2",
+      "steam": "true"
+    }
+  },
+  "piano_3": {
+    "subtitle": "piano_3",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split3",
+      "steam": "true"
+    }
+  },
+  "piano_4": {
+    "subtitle": "piano_4",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split4",
+      "steam": "true"
+    }
+  },
+  "piano_5": {
+    "subtitle": "piano_5",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split5",
+      "steam": "true"
+    }
+  },
+  "piano_6": {
+    "subtitle": "piano_6",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split6",
+      "steam": "true"
+    }
+  },
+  "piano_7": {
+    "subtitle": "piano_7",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split7",
+      "steam": "true"
+    }
+  },
+  "piano_8": {
+    "subtitle": "piano_8",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split8",
+      "steam": "true"
+    }
+  },
+  "piano_9": {
+    "subtitle": "piano_9",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split9",
+      "steam": "true"
+    }
+  },
+  "piano_10": {
+    "subtitle": "piano_10",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split10",
+      "steam": "true"
+    }
+  },
+  "piano_11": {
+    "subtitle": "piano_11",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split11",
+      "steam": "true"
+    }
+  },
+  "piano_12": {
+    "subtitle": "piano_12",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split12",
+      "steam": "true"
+    }
+  },
+  "piano_13": {
+    "subtitle": "piano_13",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split13",
+      "steam": "true"
+    }
+  },
+  "piano_14": {
+    "subtitle": "piano_14",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split14",
+      "steam": "true"
+    }
+  },
+  "piano_15": {
+    "subtitle": "piano_15",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split15",
+      "steam": "true"
+    }
+  },
+  "piano_16": {
+    "subtitle": "piano_16",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split16",
+      "steam": "true"
+    }
+  },
+  "piano_17": {
+    "subtitle": "piano_17",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split17",
+      "steam": "true"
+    }
+  },
+  "piano_18": {
+    "subtitle": "piano_18",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split18",
+      "steam": "true"
+    }
+  },
+  "piano_19": {
+    "subtitle": "piano_19",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split19",
+      "steam": "true"
+    }
+  },
+  "piano_20": {
+    "subtitle": "piano_20",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split20",
+      "steam": "true"
+    }
+  },
+  "piano_21": {
+    "subtitle": "piano_21",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split21",
+      "steam": "true"
+    }
+  },
+  "piano_22": {
+    "subtitle": "piano_22",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split22",
+      "steam": "true"
+    }
+  },
+  "piano_23": {
+    "subtitle": "piano_23",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split23",
+      "steam": "true"
+    }
+  },
+  "piano_24": {
+    "subtitle": "piano_24",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split24",
+      "steam": "true"
+    }
+  },
+  "piano_25": {
+    "subtitle": "piano_25",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split25",
+      "steam": "true"
+    }
+  },
+  "piano_26": {
+    "subtitle": "piano_26",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split26",
+      "steam": "true"
+    }
+  },
+  "piano_27": {
+    "subtitle": "piano_27",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split27",
+      "steam": "true"
+    }
+  },
+  "piano_28": {
+    "subtitle": "piano_28",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split28",
+      "steam": "true"
+    }
+  },
+  "piano_29": {
+    "subtitle": "piano_29",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split29",
+      "steam": "true"
+    }
+  },
+  "piano_30": {
+    "subtitle": "piano_30",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split30",
+      "steam": "true"
+    }
+  },
+  "piano_31": {
+    "subtitle": "piano_31",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split31",
+      "steam": "true"
+    }
+  },
+  "piano_32": {
+    "subtitle": "piano_32",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split32",
+      "steam": "true"
+    }
+  },
+  "piano_33": {
+    "subtitle": "piano_33",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split33",
+      "steam": "true"
+    }
+  },
+  "piano_34": {
+    "subtitle": "piano_34",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split34",
+      "steam": "true"
+    }
+  },
+  "piano_35": {
+    "subtitle": "piano_35",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split35",
+      "steam": "true"
+    }
+  },
+  "piano_36": {
+    "subtitle": "piano_36",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split36",
+      "steam": "true"
+    }
+  },
+  "piano_37": {
+    "subtitle": "piano_37",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split37",
+      "steam": "true"
+    }
+  },
+  "piano_38": {
+    "subtitle": "piano_38",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split38",
+      "steam": "true"
+    }
+  },
+  "piano_39": {
+    "subtitle": "piano_39",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split39",
+      "steam": "true"
+    }
+  },
+  "piano_40": {
+    "subtitle": "piano_40",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split40",
+      "steam": "true"
+    }
+  },
+  "piano_41": {
+    "subtitle": "piano_41",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split41",
+      "steam": "true"
+    }
+  },
+  "piano_42": {
+    "subtitle": "piano_42",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split42",
+      "steam": "true"
+    }
+  },
+  "piano_43": {
+    "subtitle": "piano_43",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split43",
+      "steam": "true"
+    }
+  },
+  "piano_44": {
+    "subtitle": "piano_44",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split44",
+      "steam": "true"
+    }
+  },
+  "piano_45": {
+    "subtitle": "piano_45",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split45",
+      "steam": "true"
+    }
+  },
+  "piano_46": {
+    "subtitle": "piano_46",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split46",
+      "steam": "true"
+    }
+  },
+  "piano_47": {
+    "subtitle": "piano_47",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split47",
+      "steam": "true"
+    }
+  },
+  "piano_48": {
+    "subtitle": "piano_48",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split48",
+      "steam": "true"
+    }
+  },
+  "piano_49": {
+    "subtitle": "piano_49",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split49",
+      "steam": "true"
+    }
+  },
+  "piano_50": {
+    "subtitle": "piano_50",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split50",
+      "steam": "true"
+    }
+  },
+  "piano_51": {
+    "subtitle": "piano_51",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split51",
+      "steam": "true"
+    }
+  },
+  "piano_52": {
+    "subtitle": "piano_52",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split52",
+      "steam": "true"
+    }
+  },
+  "piano_53": {
+    "subtitle": "piano_53",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split53",
+      "steam": "true"
+    }
+  },
+  "piano_54": {
+    "subtitle": "piano_54",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split54",
+      "steam": "true"
+    }
+  },
+  "piano_55": {
+    "subtitle": "piano_55",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split55",
+      "steam": "true"
+    }
+  },
+  "piano_56": {
+    "subtitle": "piano_56",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split56",
+      "steam": "true"
+    }
+  },
+  "piano_57": {
+    "subtitle": "piano_57",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split57",
+      "steam": "true"
+    }
+  },
+  "piano_58": {
+    "subtitle": "piano_58",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split58",
+      "steam": "true"
+    }
+  },
+  "piano_59": {
+    "subtitle": "piano_59",
+    "replace": "true",
+    "sounds": {
+      "name": "magic_circle:piano/split59",
+      "steam": "true"
+    }
+  }
+}

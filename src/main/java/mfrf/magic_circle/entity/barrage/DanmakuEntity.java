@@ -1,6 +1,7 @@
 package mfrf.magic_circle.entity.barrage;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import mfrf.magic_circle.events.InGameCaches;
 import mfrf.magic_circle.magicutil.RGBA;
 import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.entity.Entity;
@@ -16,6 +17,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -25,6 +27,10 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class DanmakuEntity extends ThrowableEntity {
     public static final DataParameter<Float> DAMAGE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
@@ -42,6 +48,8 @@ public class DanmakuEntity extends ThrowableEntity {
     public static final DataParameter<String> VELOCITY_Y_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
     public static final DataParameter<String> VELOCITY_Z_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
     public static final DataParameter<String> TYPE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
+    public static final DataParameter<Boolean> HAS_TICK_CONSUMER = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.BOOLEAN);
+    public static final DataParameter<Boolean> PENETRATE_ABLE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.BOOLEAN);
 
     public DanmakuEntity(EntityType<? extends ThrowableEntity> p_i48580_1_, World p_i48580_2_) {
         super(p_i48580_1_, p_i48580_2_);
@@ -78,6 +86,14 @@ public class DanmakuEntity extends ThrowableEntity {
         return new RGBA(r, g, b, a);
     }
 
+    public void setPenetrateAble(boolean b) {
+        this.entityData.set(PENETRATE_ABLE, b);
+    }
+
+    public boolean penetrateAble() {
+        return this.entityData.get(PENETRATE_ABLE);
+    }
+
     public DanmakuEntity setRequiredVariables(float damage, float max_time, DanmakuType type) {
         this.entityData.set(DAMAGE, damage);
         this.entityData.set(MAX_TIME, max_time);
@@ -89,6 +105,11 @@ public class DanmakuEntity extends ThrowableEntity {
         if (scale >= 20) scale = 20;
         this.entityData.set(SPEED_SCALE, scale);
         return this;
+    }
+
+    public void setTickConsumer(Consumer<DanmakuEntity> entityConsumer) {
+        InGameCaches.onDanmakuTick.put(this.getUUID(), entityConsumer);
+        this.entityData.set(HAS_TICK_CONSUMER, true);
     }
 
     @Override
@@ -108,6 +129,8 @@ public class DanmakuEntity extends ThrowableEntity {
         this.entityData.define(Y_TARGET, 0F);
         this.entityData.define(Z_TARGET, 0F);
         this.entityData.define(TYPE, DanmakuType.NULL.name());
+        this.entityData.define(HAS_TICK_CONSUMER, false);
+        this.entityData.define(PENETRATE_ABLE, false);
     }
 
     @Override
@@ -127,6 +150,8 @@ public class DanmakuEntity extends ThrowableEntity {
         this.entityData.set(Z_TARGET, compoundNBT.getFloat("z_target"));
         this.entityData.set(SPEED_SCALE, compoundNBT.getFloat("speed_scale"));
         this.entityData.set(TYPE, compoundNBT.getString("type"));
+        this.entityData.set(HAS_TICK_CONSUMER, compoundNBT.getBoolean("has_tick_consumer"));
+        this.entityData.set(PENETRATE_ABLE, compoundNBT.getBoolean("penetrate_able"));
 
     }
 
@@ -147,6 +172,8 @@ public class DanmakuEntity extends ThrowableEntity {
         compoundNBT.putFloat("z_target", this.entityData.get(Z_TARGET));
         compoundNBT.putFloat("speed_scale", this.entityData.get(SPEED_SCALE));
         compoundNBT.putString("type", this.entityData.get(TYPE));
+        compoundNBT.putBoolean("has_tick_consumer", this.entityData.get(HAS_TICK_CONSUMER));
+        compoundNBT.putBoolean("penetrate_able", this.entityData.get(PENETRATE_ABLE));
     }
 
     @Override
@@ -177,6 +204,7 @@ public class DanmakuEntity extends ThrowableEntity {
             this.shoot(offsetX, offsetY, offsetZ, mean, 0);
             this.entityData.set(TIME, timePassed);
         }
+
     }
 
     private static boolean hasSameOwner(TameableEntity tameableA, TameableEntity tameableB) {
@@ -194,31 +222,45 @@ public class DanmakuEntity extends ThrowableEntity {
     protected void onHitEntity(EntityRayTraceResult result) {
         Entity thrower = getOwner();
         Entity hit = result.getEntity();
+        boolean needRemove = false;
 
         if (thrower instanceof TameableEntity) {
             TameableEntity tameable = (TameableEntity) thrower;
             if (hit instanceof TameableEntity && hasSameOwner(tameable, (TameableEntity) hit)) {
-                this.remove();
-                return;
+                needRemove = true;
             }
             if (hit instanceof LivingEntity && tameable.isOwnedBy((LivingEntity) hit)) {
-                this.remove();
-                return;
+                needRemove = true;
             }
         }
 
         if (thrower != null && !hit.is(thrower)) {
             DamageSource source = new EntityDamageSourceDanmaku(this, thrower);
             hit.hurt(source, this.entityData.get(DAMAGE));
-            this.remove();
+            needRemove = true;
         }
 
         if (thrower == null) {
             DamageSource source = new EntityDamageSourceDanmaku(this, this);
             hit.hurt(source, this.entityData.get(DAMAGE));
-            this.remove();
+            needRemove = true;
         }
         //todo damage type
+
+        if (!this.penetrateAble() && needRemove) {
+            this.remove();
+        }
+    }
+
+    @Override
+    protected void onHitBlock(BlockRayTraceResult p_230299_1_) {
+        BiConsumer<BlockRayTraceResult, DanmakuEntity> blockRayTraceResultDanmakuEntityBiConsumer = InGameCaches.onDanmakuCrash.remove(getUUID());
+        if (blockRayTraceResultDanmakuEntityBiConsumer != null) {
+            blockRayTraceResultDanmakuEntityBiConsumer.accept(p_230299_1_, this);
+        }
+        if (!this.penetrateAble()) {
+            this.remove();
+        }
     }
 
     @Override
@@ -230,7 +272,7 @@ public class DanmakuEntity extends ThrowableEntity {
     @Override
     public void remove() {
         //todo remove_animation
-
+        InGameCaches.onDanmakuTick.remove(getUUID());
         super.remove();
     }
 

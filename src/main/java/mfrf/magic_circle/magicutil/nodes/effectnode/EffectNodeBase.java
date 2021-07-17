@@ -13,8 +13,8 @@ public abstract class EffectNodeBase extends MagicNodeBase {
 
     public final EffectType effectType;
 
-    public EffectNodeBase(float strengthModify, float rangeModify, float durationModify, float executeSpeedModify, float coolDownModify, float efficientModify, float weaknessModify, float shrinkModify, float brevityModify, float relayModify, float heatupModify, float wasteModify, BaguaPrefer prefer, BGMPreferences bgmPreferences, EffectType effectType) {
-        super(NodeType.EFFECT, strengthModify, rangeModify, durationModify, executeSpeedModify, coolDownModify, efficientModify, weaknessModify, shrinkModify, brevityModify, relayModify, heatupModify, wasteModify, prefer, bgmPreferences);
+    public EffectNodeBase(EffectType effectType) {
+        super(NodeType.EFFECT);
         this.effectType = effectType;
     }
 

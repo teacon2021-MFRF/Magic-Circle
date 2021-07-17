@@ -12,8 +12,8 @@ import java.util.function.Predicate;
 public abstract class DecorateNodeBase extends MagicNodeBase {
     public final DecorateType decorateType;
 
-    public DecorateNodeBase(float strengthModify, float rangeModify, float durationModify, float executeSpeedModify, float coolDownModify, float efficientModify, float weaknessModify, float shrinkModify, float brevityModify, float relayModify, float heatupModify, float wasteModify, BaguaPrefer prefer, BGMPreferences bgmPreferences, DecorateType decorateType) {
-        super(NodeType.DECORATE, strengthModify, rangeModify, durationModify, executeSpeedModify, coolDownModify, efficientModify, weaknessModify, shrinkModify, brevityModify, relayModify, heatupModify, wasteModify, prefer, bgmPreferences);
+    public DecorateNodeBase(DecorateType decorateType) {
+        super(NodeType.DECORATE);
         this.decorateType = decorateType;
     }
 
@@ -21,7 +21,7 @@ public abstract class DecorateNodeBase extends MagicNodeBase {
         return null;
     }
 
-    public enum DecorateType{
-        STRENGTH,CONTINUOUS,EXPANSION,INVERT,POWER, DIAGONALIZE;
+    public enum DecorateType {
+        STRENGTH, CONTINUOUS, EXPANSION, INVERT, POWER, DIAGONALIZE;
     }
 }

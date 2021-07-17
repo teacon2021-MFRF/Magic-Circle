@@ -118,8 +118,8 @@ public class MagicModelBase extends MagicNodeBase {
     }
 
     @Override
-    public returnDataContainer apply(MagicStream magic) {
-        return new returnDataContainer(magic, true);
+    public DataContainer apply(MagicStream magic) {
+        return new DataContainer(magic, true);
     }
 
 

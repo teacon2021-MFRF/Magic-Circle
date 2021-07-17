@@ -7,6 +7,7 @@ import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import net.minecraft.nbt.CompoundNBT;
 
+
 public abstract class BehaviorNodeBase extends MagicNodeBase {
 
     private final BehaviorType behaviorType;
@@ -18,6 +19,10 @@ public abstract class BehaviorNodeBase extends MagicNodeBase {
 
     public static MagicNodeBase deserializeNBT(CompoundNBT nbt, int layer, MagicStreamMatrixNByN matrix) {
         return null;
+    }
+
+    public BehaviorType getBehaviorType() {
+        return behaviorType;
     }
 
     public enum BehaviorType {

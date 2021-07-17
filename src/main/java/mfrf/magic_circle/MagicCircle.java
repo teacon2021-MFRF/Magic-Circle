@@ -37,6 +37,7 @@ public class MagicCircle {
         JsonConfigs.JSONCONFIG_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         GuiContainers.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         Features.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+        Sounds.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

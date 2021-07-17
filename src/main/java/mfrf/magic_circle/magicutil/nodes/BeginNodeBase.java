@@ -2,7 +2,6 @@ package mfrf.magic_circle.magicutil.nodes;
 
 import mfrf.magic_circle.magicutil.*;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -34,12 +33,14 @@ public class BeginNodeBase extends MagicNodeBase {
     }
 
     @Override
-    public returnDataContainer apply(MagicStream magic) {
+    public DataContainer apply(MagicStream magic) {
         magic.functions.add((magicStream, magicStreamInfo) -> {
+            magicStreamInfo.data.receiverType = receiverType;
+            magicStreamInfo.data.invokerType = invokerType;
             magic.Matrixtimes(this.eigenMatrix);
             return magic;
         });
-        return new returnDataContainer(magic, true);
+        return new DataContainer(magic, true);
     }
 
     @Override
