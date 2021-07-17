@@ -1,16 +1,25 @@
 package mfrf.magic_circle.gui.assembly_table;
 
+import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.magic_assemby_table.TileMagicModelAssemblyTable;
 import mfrf.magic_circle.gui.ContainerBase;
+import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.registry_lists.GuiContainers;
 import mfrf.magic_circle.util.MagicalItemContainer;
+import mfrf.magic_circle.util.MagicalItemSimpleImplement;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.ArrayList;
 
@@ -78,12 +87,16 @@ public class AssemblyTableContainer extends ContainerBase {
             }
         });
 
-        table.inventory.getItem(0).getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicContainerItem -> {
-            MagicalItemContainer items = iMagicContainerItem.getEffectContainer();
+        LazyOptional<IMagicalItem> capability = table.inventory.getItem(0).getCapability(Capabilities.MAGICAL_ITEM);
+        if (capability.isPresent()) {
+            IMagicalItem iMagicalItem = capability.orElseGet(() -> new MagicalItemSimpleImplement());
+            MagicalItemContainer items = iMagicalItem.getEffectContainer();
+
             for (int i = 0; i < items.slotCount; i++) {
                 Coordinates coordinates = coordinatesMap[i];
 
-                addSlot(new Slot(items, i, coordinates.x, coordinates.y) {
+                int finalI = i;
+                addSlot(new Slot(items, finalI, coordinates.x, coordinates.y) {
                     @Override
                     public boolean mayPlace(ItemStack p_75214_1_) {
                         return p_75214_1_.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
@@ -96,6 +109,8 @@ public class AssemblyTableContainer extends ContainerBase {
                             iMagicalItem.setEffectContainer(items.serializeNBT());
                         });
                         table.setChanged();
+
+                        Minecraft.getInstance().getSoundManager().play(new SimpleSound(new SoundEvent(new ResourceLocation(MagicCircle.MOD_ID,"sounds/piano/split" + finalI + ".mp3")), SoundCategory.BLOCKS,3,3,table.getBlockPos()));
                     }
 
                     @Override
@@ -109,9 +124,10 @@ public class AssemblyTableContainer extends ContainerBase {
                     }
                 });
             }
-        });
-    }
+        }
 
+
+    }
 
     @Override
     public boolean stillValid(PlayerEntity p_75145_1_) {

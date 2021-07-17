@@ -65,7 +65,7 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
                     matrixStack.translate(Math.cos(angle2 * i + level.getGameTime() / 100d) * 0.5, Math.sin((level.getGameTime() % 1000) / 2.7 + i) / 100, Math.sin(angle2 * i + level.getGameTime() / 100d) * 0.5);
                     blockRenderer.renderBlock(state, matrixStack, bufferIn, MagicCircleComponentBase.maxLight, p_225616_6_, EmptyModelData.INSTANCE);
 
-                    matrixStack.translate(.05, 0.45, .05);
+                    matrixStack.translate(.05, 0.3, .05);
                     matrixStack.scale(0.1f, 0.1f, 0.1f);
                     matrixStack.mulPose(new Quaternion(0, -level.getGameTime() / 10f, 0, true));
                     ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();

@@ -61,7 +61,7 @@ newmtl Material__72
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka A.jpg
-	map_Kd magic_circle:obj/A.jpg
+	map_Kd magic_circle:obj/a.jpg
 
 newmtl Material__77
 	Ns 10.0000
@@ -75,7 +75,7 @@ newmtl Material__77
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka E.jpg
-	map_Kd magic_circle:obj/E.jpg
+	map_Kd magic_circle:obj/e.jpg
 
 newmtl Material__76
 	Ns 10.0000
@@ -89,7 +89,7 @@ newmtl Material__76
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka D.jpg
-	map_Kd magic_circle:obj/D.jpg
+	map_Kd magic_circle:obj/d.jpg
 
 newmtl Material__80
 	Ns 10.0000
@@ -103,7 +103,7 @@ newmtl Material__80
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka H .jpg
-	map_Kd magic_circle:obj/H.jpg
+	map_Kd magic_circle:obj/h.jpg
 
 newmtl Material__74
 	Ns 10.0000
@@ -117,7 +117,7 @@ newmtl Material__74
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka C.jpg
-	map_Kd magic_circle:obj/C.jpg
+	map_Kd magic_circle:obj/c.jpg
 
 newmtl Material__79
 	Ns 10.0000
@@ -131,7 +131,7 @@ newmtl Material__79
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka G.jpg
-	map_Kd magic_circle:obj/G.jpg
+	map_Kd magic_circle:obj/g.jpg
 
 newmtl Material__73
 	Ns 10.0000
@@ -145,7 +145,7 @@ newmtl Material__73
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka B.jpg
-	map_Kd magic_circle:obj/B.jpg
+	map_Kd magic_circle:obj/b.jpg
 
 newmtl Material__78
 	Ns 10.0000
@@ -159,7 +159,7 @@ newmtl Material__78
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka F.jpg
-	map_Kd magic_circle:obj/F.jpg
+	map_Kd magic_circle:obj/f.jpg
 
 newmtl 15___Default
 	Ns 10.0000

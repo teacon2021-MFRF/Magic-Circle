@@ -4,6 +4,7 @@ import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.BlockBase;
 import mfrf.magic_circle.block.TestBlock;
 import mfrf.magic_circle.block.magic_assemby_table.BlockMagicModelAssemblyTable;
+import mfrf.magic_circle.block.magic_engraver.BlockMagicEngraver;
 import mfrf.magic_circle.block.projector.BlockProjector;
 import mfrf.magic_circle.block.research_table.ResearchTable;
 import mfrf.magic_circle.block.resources.MagicCrystalOre;
@@ -29,6 +30,7 @@ public class Blocks {
     public static final RegistryObject<Block> PROJECTOR = registryObject(new BlockProjector(AbstractBlock.Properties.of(Material.METAL)), Items.DEFAULT_ITEM_PROPERTY, "projector");
     public static final RegistryObject<Block> RESEARCH_TABLE = registryObject(new ResearchTable(AbstractBlock.Properties.of(Material.WOOD).noOcclusion().harvestTool(ToolType.AXE).strength(3f, 1.3f)), Items.DEFAULT_ITEM_PROPERTY, "research_table");
     public static final RegistryObject<Block> MAGIC_MODEL_ASSEMBLY_TABLE = registryObject(new BlockMagicModelAssemblyTable(AbstractBlock.Properties.of(Material.METAL).dynamicShape().noOcclusion().strength(4f, 6f).harvestTool(ToolType.PICKAXE).harvestLevel(2)), Items.DEFAULT_ITEM_PROPERTY, "assembly_table");
+    public static final RegistryObject<Block> MAGIC_ENGRAVER_TABLE = registryObject(new BlockMagicEngraver(AbstractBlock.Properties.of(Material.METAL).dynamicShape().noOcclusion().strength(4f, 6f).harvestTool(ToolType.PICKAXE).harvestLevel(2)), Items.DEFAULT_ITEM_PROPERTY, "magic_engraver");
 
     //technical block
     public static final RegistryObject<Block> TEST_BLOCK = registryObject(new TestBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "test_block");
