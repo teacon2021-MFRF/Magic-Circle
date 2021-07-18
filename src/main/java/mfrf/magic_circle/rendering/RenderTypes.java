@@ -1,16 +1,14 @@
 package mfrf.magic_circle.rendering;
 
-import java.util.OptionalDouble;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.util.ResourceLocation;
-import org.checkerframework.checker.units.qual.A;
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.util.OptionalDouble;
 
 public class RenderTypes extends RenderType {
     private static final RenderState.AlphaState ALPHA = new RenderState.AlphaState(1F / 255F);

@@ -1,12 +1,15 @@
 package mfrf.magic_circle.block.projector;
 
-import javax.annotation.Nullable;
-
-import mfrf.magic_circle.magicutil.*;
+import mfrf.magic_circle.magicutil.Invoker;
+import mfrf.magic_circle.magicutil.MagicModelBase;
+import mfrf.magic_circle.magicutil.MagicStream;
+import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
 import mfrf.magic_circle.registry_lists.TileEntities;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
+import mfrf.magic_circle.util.CachedEveryThingForClient;
+import mfrf.magic_circle.util.Utils;
+import mfrf.magic_circle.world_saved_data.StoredMagicModels;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -16,7 +19,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.vector.Vector3f;
 
-import java.util.function.BiFunction;
+import javax.annotation.Nullable;
 
 public class TileProjector extends TileEntity implements ITickableTileEntity {
     public float time = 0;
@@ -44,6 +47,7 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
             MagicStream apply = magicCircleComponentBase.invoke(magicStream);
             apply.apply();
             setChanged();
+
         }
         time += 1f;
         setChanged();

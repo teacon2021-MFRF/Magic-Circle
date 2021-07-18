@@ -1,22 +1,13 @@
 package mfrf.magic_circle.block.projector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import icyllis.modernui.graphics.Canvas;
-import mfrf.magic_circle.MagicCircle;
-import mfrf.magic_circle.rendering.*;
-import mfrf.magic_circle.util.Colors;
-import mfrf.magic_circle.util.PositionExpression;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
-
-import java.util.ArrayList;
 
 public class TERProjector extends TileEntityRenderer<TileProjector> {
     public TERProjector(TileEntityRendererDispatcher p_i226006_1_) {

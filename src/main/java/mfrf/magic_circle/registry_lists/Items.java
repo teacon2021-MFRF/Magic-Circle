@@ -1,8 +1,5 @@
 package mfrf.magic_circle.registry_lists;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.item.ItemBase;
@@ -21,6 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Items {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MagicCircle.MOD_ID);

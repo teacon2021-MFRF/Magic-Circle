@@ -75,6 +75,12 @@ repositories {
         name 'IzzelAliz Maven'
         url 'https://maven.izzel.io/releases'
     }
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -90,6 +96,7 @@ dependencies {
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51")
     compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
     compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}@pom")
+//    implementation fg.deobf("curse.maven:worldstripper-250603:3142092")
 //    compile fg.deobf("com.youbenzi:MDTool:1.2.4")
 //    compileOnly fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
 //    runtimeOnly fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")

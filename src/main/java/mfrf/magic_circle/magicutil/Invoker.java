@@ -1,11 +1,11 @@
 package mfrf.magic_circle.magicutil;
 
-import java.util.UUID;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public class Invoker {
     public BlockPos beginPos;

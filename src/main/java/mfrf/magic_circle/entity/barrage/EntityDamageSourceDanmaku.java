@@ -1,9 +1,7 @@
 package mfrf.magic_circle.entity.barrage;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.util.text.ITextComponent;
 
 import javax.annotation.Nullable;
 

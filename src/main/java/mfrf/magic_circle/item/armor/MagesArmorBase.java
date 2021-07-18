@@ -1,7 +1,5 @@
 package mfrf.magic_circle.item.armor;
 
-import javax.annotation.Nullable;
-
 import mfrf.magic_circle.item.resources.ItemMagicCrystal;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.registry_lists.Items;
@@ -13,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+
+import javax.annotation.Nullable;
 
 public class MagesArmorBase extends ArmorItem{
     private final MagicalItemSimpleImplement implement;

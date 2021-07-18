@@ -1,8 +1,6 @@
 package mfrf.magic_circle.item.resources;
 
 import mfrf.magic_circle.item.ItemBase;
-import mfrf.magic_circle.json_recipe_configs.JsonConfigGemEffect;
-import mfrf.magic_circle.json_recipe_configs.JsonConfigItemResearch;
 import mfrf.magic_circle.json_recipe_configs.research_test.ResearchTestBase;
 import mfrf.magic_circle.registry_lists.Items;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +26,7 @@ public class ItemTestPaper extends ItemBase {
 
     @Nullable
     public static ResearchTestBase.Serializer.DataContainer getTest(ItemStack stack) {
-        if (stack != null) {
+        if (stack != null && !stack.isEmpty()) {
             CompoundNBT tag = stack.getTag();
             if (tag != null && tag.contains("research_contain")) {
                 return ResearchTestBase.Serializer.fromNBT(tag.getCompound("research_contain"));

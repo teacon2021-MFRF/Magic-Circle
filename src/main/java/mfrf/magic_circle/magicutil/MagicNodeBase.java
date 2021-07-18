@@ -1,7 +1,5 @@
 package mfrf.magic_circle.magicutil;
 
-import java.util.ArrayList;
-
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
@@ -12,6 +10,8 @@ import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.ArrayList;
 
 public abstract class MagicNodeBase {
     private final NodeType nodeType;

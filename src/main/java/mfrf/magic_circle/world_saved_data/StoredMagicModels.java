@@ -2,8 +2,7 @@ package mfrf.magic_circle.world_saved_data;
 
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.magicutil.MagicModelBase;
-import mfrf.magic_circle.rendering.MagicCircleRenderBase;
-import net.minecraft.client.world.ClientWorld;
+import mfrf.magic_circle.util.CachedEveryThingForClient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -11,28 +10,25 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class CachedMagicModels extends WorldSavedData {
-    private static final String NAME = "CachedMagicModels";
-    private static final HashMap<UUID, HashMap<String, MagicModelBase>> CACHED_MODELS = new HashMap<>();
+public class StoredMagicModels extends WorldSavedData {
+    private static final String NAME = "StoredMagicModels";
+    private static final HashMap<UUID, HashMap<String, MagicModelBase>> Magic_Models = new HashMap<>();
 
-    public CachedMagicModels() {
+    public StoredMagicModels() {
         super(NAME);
     }
 
     public HashMap<String, MagicModelBase> getOrCreateModelCache(UUID id) {
-        if (!CACHED_MODELS.containsKey(id)) {
-            CACHED_MODELS.put(id, new HashMap<>());
+        if (!Magic_Models.containsKey(id)) {
+            Magic_Models.put(id, new HashMap<>());
         }
-        return CACHED_MODELS.get(id);
+        return Magic_Models.get(id);
     }
 
     public boolean isFull(UUID uuid) {
@@ -51,7 +47,11 @@ public class CachedMagicModels extends WorldSavedData {
 
     public MagicModelBase request(UUID uuid, String name) {
         HashMap<String, MagicModelBase> map = getOrCreateModelCache(uuid);
-        return map.get(name);
+        MagicModelBase magicModelBase = map.get(name);
+        if (magicModelBase != null) {
+            CachedEveryThingForClient.getOrCreateModels(uuid).put(name, magicModelBase);
+        }
+        return magicModelBase;
     }
 
     public void forgot(UUID uuid, String name) {
@@ -59,7 +59,6 @@ public class CachedMagicModels extends WorldSavedData {
         stringMagicModelBaseHashMap.remove(name);
         setDirty();
     }
-
 
 
     @Override
@@ -78,7 +77,7 @@ public class CachedMagicModels extends WorldSavedData {
                 stringMagicModelBaseHashMap.put(name, model);
             }
 
-            CACHED_MODELS.put(uuid, stringMagicModelBaseHashMap);
+            Magic_Models.put(uuid, stringMagicModelBaseHashMap);
         }
     }
 
@@ -87,7 +86,7 @@ public class CachedMagicModels extends WorldSavedData {
 
         ListNBT listNBT = new ListNBT();
         CompoundNBT compoundNBT = new CompoundNBT();
-        for (Map.Entry<UUID, HashMap<String, MagicModelBase>> uuidHashMapEntry : CACHED_MODELS.entrySet()) {
+        for (Map.Entry<UUID, HashMap<String, MagicModelBase>> uuidHashMapEntry : Magic_Models.entrySet()) {
 
             UUID uuid = uuidHashMapEntry.getKey();
             HashMap<String, MagicModelBase> value = uuidHashMapEntry.getValue();
@@ -111,13 +110,11 @@ public class CachedMagicModels extends WorldSavedData {
         return ret;
     }
 
-    public static CachedMagicModels getOrCreate(World worldIn) {
-        if (worldIn instanceof ClientWorld) {
-
-        } else if (worldIn instanceof ServerWorld) {
+    public static StoredMagicModels getOrCreate(World worldIn) {
+        if (worldIn instanceof ServerWorld) {
             ServerWorld world = worldIn.getServer().getLevel(World.OVERWORLD);
             DimensionSavedDataManager storage = world.getDataStorage();
-            return storage.computeIfAbsent(CachedMagicModels::new, NAME);
+            return storage.computeIfAbsent(StoredMagicModels::new, NAME);
         }
         throw new RuntimeException("Attempted to get the data from a wrong world. This is wrong.");
     }

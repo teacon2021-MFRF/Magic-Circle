@@ -11,8 +11,8 @@ import net.minecraft.util.text.ITextComponent;
 public class EngraverTableScreen extends ScreenBase<EngraverTableContainer> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(MagicCircle.MOD_ID, "gui/magic_engraver.png");
 
-    public EngraverTableScreen(EngraverTableContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_, int xSize, int ySize) {
-        super(p_i51105_1_, p_i51105_2_, p_i51105_3_, xSize, ySize);
+    public EngraverTableScreen(EngraverTableContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
+        super(p_i51105_1_, p_i51105_2_, p_i51105_3_, 184,134);
     }
 
     @Override

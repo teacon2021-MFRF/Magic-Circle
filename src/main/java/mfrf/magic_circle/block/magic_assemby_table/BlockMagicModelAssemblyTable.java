@@ -13,13 +13,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 
 import java.util.List;
 
@@ -27,10 +27,12 @@ public class BlockMagicModelAssemblyTable extends BlockBase {
     public BlockMagicModelAssemblyTable(Properties p_i48440_1_) {
         super(p_i48440_1_);
     }
+
     public static final VoxelShape ASSEMBLY_TABLE_SHAPE1 = Block.box(2, 0, 2, 14, 2, 14);
     public static final VoxelShape ASSEMBLY_TABLE_SHAPE2 = Block.box(4, 2, 4, 12, 3, 12);
     public static final VoxelShape ASSEMBLY_TABLE_SHAPE3 = Block.box(5, 3, 5, 11, 10, 11);
     private static final VoxelShape ASSEMBLY_TABLE_SHAPE = VoxelShapes.or(ASSEMBLY_TABLE_SHAPE1, ASSEMBLY_TABLE_SHAPE2, ASSEMBLY_TABLE_SHAPE3);
+
     @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
@@ -48,24 +50,21 @@ public class BlockMagicModelAssemblyTable extends BlockBase {
                 copy.shrink(1);
                 playerEntity.setItemInHand(hand, copy);
                 blockEntity.inventory.addItem(anotherCopy);
-                blockEntity.setChanged();
-                return ActionResultType.SUCCESS;
+                blockEntity.inventory.setChanged();
             } else if (itemInHand.isEmpty() && playerEntity.isShiftKeyDown()) {
                 List<ItemStack> itemStacks = blockEntity.inventory.removeAllItems();
                 for (ItemStack itemStack : itemStacks) {
                     ItemHandlerHelper.giveItemToPlayer(playerEntity, itemStack);
                 }
-                blockEntity.setChanged();
-                return ActionResultType.SUCCESS;
+                blockEntity.inventory.setChanged();
             } else {
                 TileMagicModelAssemblyTable tileEntity = (TileMagicModelAssemblyTable) world.getBlockEntity(pos);
                 NetworkHooks.openGui((ServerPlayerEntity) playerEntity, tileEntity, (PacketBuffer packerBuffer) -> {
                     packerBuffer.writeBlockPos(tileEntity.getBlockPos());
                 });
-                return ActionResultType.SUCCESS;
             }
         }
-        return super.use(blockState, world, pos, playerEntity, hand, blockRayTraceResult);
+        return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -78,6 +77,7 @@ public class BlockMagicModelAssemblyTable extends BlockBase {
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileMagicModelAssemblyTable();
     }
+
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return ASSEMBLY_TABLE_SHAPE;

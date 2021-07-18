@@ -1,7 +1,6 @@
 package mfrf.magic_circle.entity.barrage;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.magicutil.RGBA;

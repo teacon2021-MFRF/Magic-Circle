@@ -2,8 +2,8 @@ package mfrf.magic_circle.network.magic_model_sync;
 
 import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
-import mfrf.magic_circle.world_saved_data.CachedMagicModels;
+import mfrf.magic_circle.util.CachedEveryThingForClient;
+import mfrf.magic_circle.world_saved_data.StoredMagicModels;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
@@ -26,18 +26,21 @@ public class SendPack {
         modelName = buffer.readUtf(Short.MAX_VALUE);
         playerUUID = buffer.readUUID();
         modelNBT = buffer.readAnySizeNbt();
+        hasModel = buffer.readBoolean();
     }
 
-    public SendPack(String modelName, CompoundNBT modelNBT, UUID playerUUID) {
+    public SendPack(String modelName, CompoundNBT modelNBT, UUID playerUUID, boolean hasModel) {
         this.modelName = modelName;
         this.playerUUID = playerUUID;
         this.modelNBT = modelNBT;
+        this.hasModel = hasModel;
     }
 
     public void toBytes(PacketBuffer buf) {
         buf.writeCharSequence(modelName, StandardCharsets.UTF_8);
         buf.writeUUID(playerUUID);
         buf.writeNbt(modelNBT);
+        buf.writeBoolean(hasModel);
     }
 
     public void handler(Supplier<NetworkEvent.Context> ctx) {
@@ -47,25 +50,21 @@ public class SendPack {
             ServerPlayerEntity sender = ctx.get().getSender();
             if (direction == NetworkDirection.PLAY_TO_CLIENT) {
                 if (hasModel) {
-                    CachedMagicModels cachedMagicModels = CachedMagicModels.getOrCreate(sender.getLevel());
-                    HashMap<String, MagicCircleComponentBase<?>> orCreateRenderCache = RequestMagicModelsData.getOrCreateRenderCache(playerUUID);
-                    HashMap<String, MagicModelBase> orCreateModelCache = cachedMagicModels.getOrCreateModelCache(playerUUID);
+                    HashMap<String, MagicModelBase> orCreateModels = CachedEveryThingForClient.getOrCreateModels(playerUUID);
                     MagicNodeBase nodeBase = MagicNodeBase.deserializeNBT(modelNBT);
-                    orCreateModelCache.put(modelName, (MagicModelBase) nodeBase);
-                    orCreateRenderCache.put(modelName, nodeBase.getRender());
+                    orCreateModels.put(modelName, (MagicModelBase) nodeBase);
                 }
             } else if (direction == NetworkDirection.PLAY_TO_SERVER) {
 
-                HashMap<String, MagicModelBase> modelCache = CachedMagicModels.getOrCreate(sender.getLevel()).getOrCreateModelCache(playerUUID);
+                MagicModelBase modelCache = StoredMagicModels.getOrCreate(sender.getLevel()).request(playerUUID, modelName);
                 CompoundNBT modelNbt = new CompoundNBT();
-                if (modelCache.containsKey(modelName)) {
-                    MagicModelBase magicModelBase = modelCache.get(modelName);
-                    CompoundNBT compoundNBT = magicModelBase.serializeNBT();
+                if (modelCache != null) {
+                    CompoundNBT compoundNBT = modelCache.serializeNBT();
                     modelNBT = compoundNBT;
                     hasModel = true;
                 }
 
-                RequestMagicModelsData.INSTANCE.send(PacketDistributor.PLAYER.with(() -> sender), new SendPack(modelName, modelNbt, playerUUID));
+                RequestMagicModelsData.INSTANCE.send(PacketDistributor.PLAYER.with(() -> sender), new SendPack(modelName, modelNbt, playerUUID, hasModel));
 
             }
 

@@ -17,12 +17,13 @@ import net.minecraft.util.text.StringTextComponent;
 
 import javax.annotation.Nullable;
 
-public class TileMagicModelAssemblyTable extends NamedContainerTileBase {
+public class TileMagicModelAssemblyTable extends NamedContainerTileBase{
     public Inventory inventory = new Inventory(1) {
         @Override
         public boolean canPlaceItem(int p_94041_1_, ItemStack itemStack) {
             return itemStack.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
         }
+
 
         @Override
         public void setChanged() {
@@ -52,12 +53,17 @@ public class TileMagicModelAssemblyTable extends NamedContainerTileBase {
 
     @Override
     public ITextComponent getDisplayName() {
-        return new StringTextComponent("magic_model_assembly_table");
+        return new StringTextComponent("magic_circle.magic_model_assembly_table");
     }
 
     @Nullable
     @Override
     public Container createMenu(int syncID, PlayerInventory inventory, PlayerEntity playerEntity) {
         return new AssemblyTableContainer(syncID, inventory, worldPosition, level);
+    }
+
+    @Override
+    public void requestModelDataUpdate() {
+        super.requestModelDataUpdate();
     }
 }

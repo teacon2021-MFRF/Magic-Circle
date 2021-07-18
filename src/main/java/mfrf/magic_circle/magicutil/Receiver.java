@@ -1,13 +1,8 @@
 package mfrf.magic_circle.magicutil;
 
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-
-import java.util.logging.Level;
 
 public class Receiver {
     public ReceiverType type;

@@ -1,7 +1,6 @@
 package mfrf.magic_circle.util;
 
 import mfrf.magic_circle.magicutil.Receiver;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3i;
 

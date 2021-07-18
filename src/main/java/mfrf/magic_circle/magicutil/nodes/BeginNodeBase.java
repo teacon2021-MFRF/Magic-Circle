@@ -1,6 +1,9 @@
 package mfrf.magic_circle.magicutil.nodes;
 
-import mfrf.magic_circle.magicutil.*;
+import mfrf.magic_circle.magicutil.Invoker;
+import mfrf.magic_circle.magicutil.MagicNodeBase;
+import mfrf.magic_circle.magicutil.MagicStream;
+import mfrf.magic_circle.magicutil.Receiver;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;

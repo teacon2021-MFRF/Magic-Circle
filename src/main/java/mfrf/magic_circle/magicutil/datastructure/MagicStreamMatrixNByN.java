@@ -1,9 +1,8 @@
 package mfrf.magic_circle.magicutil.datastructure;
 
+import net.minecraft.nbt.CompoundNBT;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
-
-import net.minecraft.nbt.CompoundNBT;
 
 public class MagicStreamMatrixNByN extends DenseMatrix64F {
 

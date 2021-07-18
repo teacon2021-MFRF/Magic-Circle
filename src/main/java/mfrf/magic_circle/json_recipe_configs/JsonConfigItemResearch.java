@@ -2,8 +2,8 @@ package mfrf.magic_circle.json_recipe_configs;
 
 import com.google.common.base.Charsets;
 import com.google.gson.JsonObject;
-import com.mojang.realmsclient.util.JsonUtils;
 import mfrf.magic_circle.registry_lists.JsonConfigs;
+import mfrf.magic_circle.util.Utils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
@@ -11,6 +11,8 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+
+import javax.annotation.Nullable;
 
 public class JsonConfigItemResearch extends JsonConfigBase {
 
@@ -24,9 +26,10 @@ public class JsonConfigItemResearch extends JsonConfigBase {
     protected int requiredMysteryKnowledge;
     protected int requiredPhysicalKnowledge;
     protected boolean repeatable;
+    protected ResourceLocation questionLocation;
     protected String researchContain;
 
-    public JsonConfigItemResearch(ResourceLocation id, Ingredient ingredient, int baguaKnowledge, int mathKnowledge, int mysteryKnowledge, int physicalKnowledge, int requiredBaguaKnowledge, int requiredMathKnowledge, int requiredMysteryKnowledge, int requiredPhysicalKnowledge, boolean repeatable, String researchContain) {
+    public JsonConfigItemResearch(ResourceLocation id, Ingredient ingredient, int baguaKnowledge, int mathKnowledge, int mysteryKnowledge, int physicalKnowledge, int requiredBaguaKnowledge, int requiredMathKnowledge, int requiredMysteryKnowledge, int requiredPhysicalKnowledge, boolean repeatable, String researchContain, @Nullable ResourceLocation questionLocation) {
         super(id);
         this.ingredient = ingredient;
         this.baguaKnowledge = baguaKnowledge;
@@ -39,6 +42,7 @@ public class JsonConfigItemResearch extends JsonConfigBase {
         this.requiredPhysicalKnowledge = requiredPhysicalKnowledge;
         this.repeatable = repeatable;
         this.researchContain = researchContain;
+        this.questionLocation = questionLocation;
     }
 
     @Override
@@ -90,6 +94,14 @@ public class JsonConfigItemResearch extends JsonConfigBase {
         return researchContain;
     }
 
+    public ResourceLocation getQuestionLocation() {
+        return questionLocation;
+    }
+
+    public boolean hasEnoughKnowledge(int mathKnowledge, int physicalKnowledge, int baguaKnowledge, int mysteryKnowledge) {
+        return mathKnowledge >= requiredMathKnowledge && physicalKnowledge >= requiredPhysicalKnowledge && baguaKnowledge >= requiredBaguaKnowledge && mysteryKnowledge >= requiredMysteryKnowledge;
+    }
+
     @Override
     public IRecipeSerializer<?> getSerializer() {
         return new Serializer();
@@ -104,18 +116,22 @@ public class JsonConfigItemResearch extends JsonConfigBase {
 
         @Override
         public JsonConfigItemResearch fromJson(ResourceLocation p_199425_1_, JsonObject p_199425_2_) {
-            Ingredient ingredient = Ingredient.fromJson(p_199425_2_.get("item_or_tag"));
-            int bagua_knowledge = JsonUtils.getIntOr("bagua_knowledge", p_199425_2_, 0);
-            int math_knowledge = JsonUtils.getIntOr("math_knowledge", p_199425_2_, 0);
-            int mystery_knowledge = JsonUtils.getIntOr("mystery_knowledge", p_199425_2_, 0);
-            int physical_knowledge = JsonUtils.getIntOr("physical_knowledge", p_199425_2_, 0);
-            int required_bagua_knowledge = JsonUtils.getIntOr("required_bagua_knowledge", p_199425_2_, 0);
-            int required_math_knowledge = JsonUtils.getIntOr("required_math_knowledge", p_199425_2_, 0);
-            int required_mystery_knowledge = JsonUtils.getIntOr("required_mystery_knowledge", p_199425_2_, 0);
-            int required_physical_knowledge = JsonUtils.getIntOr("required_physical_knowledge", p_199425_2_, 0);
-            boolean repeatable = JsonUtils.getBooleanOr("repeatable", p_199425_2_, false);
-            String research_contain = JsonUtils.getStringOr("research_contain", p_199425_2_, "");
-            return new JsonConfigItemResearch(p_199425_1_, ingredient, bagua_knowledge, math_knowledge, mystery_knowledge, physical_knowledge, required_bagua_knowledge, required_math_knowledge, required_mystery_knowledge, required_physical_knowledge, repeatable, research_contain);
+            Ingredient ingredient = Ingredient.fromJson(p_199425_2_.get("tag_or_item"));
+            int bagua_knowledge = Utils.getIntOr("bagua_knowledge", p_199425_2_, 0);
+            int math_knowledge = Utils.getIntOr("math_knowledge", p_199425_2_, 0);
+            int mystery_knowledge = Utils.getIntOr("mystery_knowledge", p_199425_2_, 0);
+            int physical_knowledge = Utils.getIntOr("physical_knowledge", p_199425_2_, 0);
+            int required_bagua_knowledge = Utils.getIntOr("required_bagua_knowledge", p_199425_2_, 0);
+            int required_math_knowledge = Utils.getIntOr("required_math_knowledge", p_199425_2_, 0);
+            int required_mystery_knowledge = Utils.getIntOr("required_mystery_knowledge", p_199425_2_, 0);
+            int required_physical_knowledge = Utils.getIntOr("required_physical_knowledge", p_199425_2_, 0);
+            boolean repeatable = Utils.getBooleanOr("repeatable", p_199425_2_, false);
+            String research_contain = Utils.getStringOr("research_contain", p_199425_2_, "");
+            ResourceLocation questionLocation = null;
+            if (p_199425_2_.has("question_location")) {
+                questionLocation = ResourceLocation.tryParse(p_199425_2_.get("question_location").getAsString());
+            }
+            return new JsonConfigItemResearch(p_199425_1_, ingredient, bagua_knowledge, math_knowledge, mystery_knowledge, physical_knowledge, required_bagua_knowledge, required_math_knowledge, required_mystery_knowledge, required_physical_knowledge, repeatable, research_contain, questionLocation);
         }
 
         @Override
@@ -131,11 +147,12 @@ public class JsonConfigItemResearch extends JsonConfigBase {
             int requiredPhysicalKnowledge = buffer.readInt();
             boolean repeatable = buffer.readBoolean();
             String researchContain = "";
-            int length = buffer.readInt();
-            if (length > 0) {
-                researchContain = buffer.readCharSequence(length, Charsets.UTF_8).toString();
+            researchContain = buffer.readUtf();
+            ResourceLocation question_location = null;
+            if (buffer.readBoolean()) {
+                question_location = ResourceLocation.tryParse(buffer.readUtf());
             }
-            return new JsonConfigItemResearch(location, ingredient, baguaKnowledge, mathKnowledge, mysteryKnowledge, physicalKnowledge, requiredBaguaKnowledge, requiredMathKnowledge, requiredMysteryKnowledge, requiredPhysicalKnowledge, repeatable, researchContain);
+            return new JsonConfigItemResearch(location, ingredient, baguaKnowledge, mathKnowledge, mysteryKnowledge, physicalKnowledge, requiredBaguaKnowledge, requiredMathKnowledge, requiredMysteryKnowledge, requiredPhysicalKnowledge, repeatable, researchContain, question_location);
         }
 
         @Override
@@ -150,9 +167,14 @@ public class JsonConfigItemResearch extends JsonConfigBase {
             buffer.writeInt(jsonConfigItemResearch.requiredMysteryKnowledge);
             buffer.writeInt(jsonConfigItemResearch.requiredPhysicalKnowledge);
             buffer.writeBoolean(jsonConfigItemResearch.repeatable);
-            int length = jsonConfigItemResearch.researchContain.length();
-            buffer.writeInt(length);
-            if (length > 0) buffer.writeCharSequence(jsonConfigItemResearch.researchContain, Charsets.UTF_8);
+            buffer.writeUtf(jsonConfigItemResearch.researchContain);
+            if (jsonConfigItemResearch.questionLocation != null) {
+                buffer.writeBoolean(true);
+                String s = jsonConfigItemResearch.questionLocation.toString();
+                buffer.writeUtf(s);
+            } else {
+                buffer.writeBoolean(false);
+            }
         }
 
     }

@@ -1,10 +1,10 @@
 package mfrf.magic_circle.magicutil;
 
-import java.awt.Color;
-
 import mfrf.magic_circle.util.Colors;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import java.awt.*;
 
 public class BaguaPrefer implements INBTSerializable<CompoundNBT> {
     public float drysky;

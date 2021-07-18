@@ -1,16 +1,10 @@
 package mfrf.magic_circle.util;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import mfrf.magic_circle.events.InWorldRenderingMagics;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.magicutil.MagicStream;
-import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
 import mfrf.magic_circle.registry_lists.Capabilities;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
-import mfrf.magic_circle.world_saved_data.CachedMagicModels;
+import mfrf.magic_circle.world_saved_data.StoredMagicModels;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -24,6 +18,8 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -271,11 +267,8 @@ public class MagicalItemSimpleImplement implements IMagicalItem, ICapabilityProv
                     iMagicalItem.executeMagic(true, world, uuid, stream);
                 });
             } else if (prefix.matches("normal_")) {
-                if (world.isClientSide()) {
-                    MagicCircleComponentBase<?> render = RequestMagicModelsData.getRender(uuid, name);
-                    InWorldRenderingMagics.getOrCreate(uuid).put(name, 0);
-                }
-                MagicModelBase magicModelBase = CachedMagicModels.getOrCreate(world).getOrCreateModelCache(uuid).get(name);
+                CachedEveryThingForClient.executeMap.get(uuid).put(name, 0);
+                MagicModelBase magicModelBase = StoredMagicModels.getOrCreate(world).request(uuid, name);
                 if (magicModelBase != null) {
                     magicModelBase.invoke(new MagicStream(stream));
                 }

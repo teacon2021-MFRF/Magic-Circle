@@ -2,12 +2,8 @@ package mfrf.magic_circle.entity.barrage;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
-import mfrf.magic_circle.magicutil.RGBA;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 
 public class ModelDanmakuEntity extends EntityModel<DanmakuEntity> {
     private final ModelRenderer bb_main;

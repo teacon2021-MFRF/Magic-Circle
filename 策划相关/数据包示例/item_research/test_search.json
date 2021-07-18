@@ -1,6 +1,8 @@
 {
   "type": "magic_circle:item_research",
-  "item_or_tag": "minecraft:dirt",
+  "tag_or_item": {
+    "tag": "forge:eggs"
+  },
   "bagua_knowledge": 0,
   "math_knowledge": 0,
   "mystery_knowledge": 0,
@@ -10,5 +12,6 @@
   "required_math_knowledge": 0,
   "required_mystery_knowledge": 0,
   "required_physical_knowledge": 0,
+  "question_location": "magic_circle:research_test/test",
   "repeatable": true
 }

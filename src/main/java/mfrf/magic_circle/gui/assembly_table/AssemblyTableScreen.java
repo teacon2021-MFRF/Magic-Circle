@@ -3,11 +3,9 @@ package mfrf.magic_circle.gui.assembly_table;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.gui.ScreenBase;
-import mfrf.magic_circle.gui.research_table.ResearchTableContainer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 
 public class AssemblyTableScreen extends ScreenBase<AssemblyTableContainer> {
     public AssemblyTableScreen(AssemblyTableContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {

@@ -4,12 +4,9 @@ import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Expression;
 import mfrf.magic_circle.Config;
 import net.minecraft.util.math.vector.Vector3f;
-import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class PositionExpression {
     public int samplingCount = 100;

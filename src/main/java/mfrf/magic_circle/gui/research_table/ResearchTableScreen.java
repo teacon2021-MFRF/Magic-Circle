@@ -6,13 +6,14 @@ import mfrf.magic_circle.gui.ScreenBase;
 import mfrf.magic_circle.gui.widgets.FigureBox;
 import mfrf.magic_circle.json_recipe_configs.JsonConfigItemResearch;
 import mfrf.magic_circle.json_recipe_configs.research_test.ResearchTestBase;
+import mfrf.magic_circle.registry_lists.JsonConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
     private TextFieldWidget answer;
     private FigureBox figure;
+    private JsonConfigItemResearch item_research;
 
     public ResearchTableScreen(ResearchTableContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
         super(p_i51105_1_, p_i51105_2_, p_i51105_3_, 300, 250);
@@ -35,6 +37,12 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
         }
         if (figure != null) {
             figure.render(matrixStack, x, y, partialTick);
+        }
+        if (item_research != null) {
+            font.draw(matrixStack, new TranslationTextComponent("gui.research.bagua_require").getString() + ":" + item_research.getRequiredBaguaKnowledge() + "/" + menu.getKnowledge().getBagua(), this.getGuiLeft() - 100, this.getGuiTop(), 0xffffffff);
+            font.draw(matrixStack, new TranslationTextComponent("gui.research.math_require").getString() + ":" + item_research.getMathKnowledge() + "/" + menu.getKnowledge().getBagua(), this.getGuiLeft() - 100, this.getGuiTop() + 10, 0xffffffff);
+            font.draw(matrixStack, new TranslationTextComponent("gui.research.mystery_require").getString() + ":" + item_research.getRequiredMysteryKnowledge() + "/" + menu.getKnowledge().getBagua(), this.getGuiLeft() - 100, this.getGuiTop() + 20, 0xffffffff);
+            font.draw(matrixStack, new TranslationTextComponent("gui.research.physical_require").getString() + ":" + item_research.getRequiredPhysicalKnowledge() + "/" + menu.getKnowledge().getBagua(), this.getGuiLeft() - 100, this.getGuiTop() + 30, 0xffffffff);
         }
 
         renderTooltip(matrixStack, x, y);
@@ -75,8 +83,25 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
                 e.printStackTrace();
             }
         } else if (itemResearchContain.isPresent()) {
-//            JsonConfigItemResearch jsonConfigItemResearch = itemResearchContain.get();
-//            jsonConfigItemResearch.getResearchContain();
+            item_research = itemResearchContain.get();
+            ResourceLocation questionLocation = item_research.getQuestionLocation();
+            if (questionLocation != null) {
+                Optional<ResearchTestBase> any = menu.getResearch_table().getLevel().getRecipeManager()
+                        .getAllRecipesFor(JsonConfigs.Type.RESEARCH_TEST_JSONCONFIG_TYPE)
+                        .stream()
+                        .filter(researchTestBase -> researchTestBase.getId().equals(questionLocation))
+                        .findFirst();
+                if (any.isPresent()) {
+                    ResearchTestBase researchTestBase = any.get();
+                    ResearchTestBase dataContainer = researchTestBase;
+                    try {
+                        ResourceLocation figurePath = ResourceLocation.tryParse(dataContainer.getFigure());
+                        figure = this.addWidget(new FigureBox(getGuiLeft() + 91, getGuiTop() + 28, 177, 70, new StringTextComponent("figure"), figurePath));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             //todo render ItemResearch
         }
 

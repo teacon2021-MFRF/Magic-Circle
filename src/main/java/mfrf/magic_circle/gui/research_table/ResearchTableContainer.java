@@ -33,7 +33,9 @@ public class ResearchTableContainer extends ContainerBase {
         this.research_table = (TileResearchTable) world.getBlockEntity(pos);
         final Inventory inventory = research_table.getInventory();
 
-        this.itemResearchContain = world.getRecipeManager().getAllRecipesFor(JsonConfigs.Type.ITEM_RESEARCH_JSONCONFIG_TYPE).stream().filter(jsonConfigItemResearch -> jsonConfigItemResearch.getIngredient().test(inventory.getItem(TileResearchTable.Slot.ITEM_TO_ANALYSIS.ordinal()))).findFirst();
+        this.itemResearchContain = world.getRecipeManager().getAllRecipesFor(JsonConfigs.Type.ITEM_RESEARCH_JSONCONFIG_TYPE).stream().filter(
+                jsonConfigItemResearch -> jsonConfigItemResearch.getIngredient().test(inventory.getItem(TileResearchTable.Slot.ITEM_TO_ANALYSIS.ordinal()))
+        ).findFirst();
         this.testPaperResearchContain = Optional.ofNullable(ItemTestPaper.getTest(inventory.getItem(TileResearchTable.Slot.TEST_PAPER.ordinal())));
 
         addSlot(new Slot(inventory, TileResearchTable.Slot.PEN_AND_INK.ordinal(), 43, 42) {

@@ -1,8 +1,5 @@
 package mfrf.magic_circle.magicutil;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
@@ -12,6 +9,9 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class MagicModelBase extends MagicNodeBase {
     protected MagicNodeBase begin;

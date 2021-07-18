@@ -1,7 +1,6 @@
 package mfrf.magic_circle.json_recipe_configs;
 
 import com.google.gson.JsonObject;
-
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8.INDEX;
 import mfrf.magic_circle.registry_lists.JsonConfigs;

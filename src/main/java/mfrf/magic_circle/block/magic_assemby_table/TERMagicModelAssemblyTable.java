@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 
@@ -53,6 +52,7 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
                     magicCount.set(24);
 
                 double angle1 = Math.PI * 2 / magicCount.get();
+//                double angle1 = Math.PI * 2 / 24;
                 double angle2 = Math.PI * 2 / items.size();
 
                 matrixStack.translate(0.45, 0.6, 0.45);
@@ -75,17 +75,28 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
                     matrixStack.popPose();
                 }
 
-                for (int i = 1; i <= magicCount.get(); i++) {
+//                for (int i = 1; i <= magicCount.get(); i++) {
+                for (int i = 1; i <= 24; i++) {
                     BlockState state = blockState.setValue(BlockRune.STATE, i);
 
                     matrixStack.pushPose();
-                    matrixStack.translate(Math.cos(angle2 * i + level.getGameTime() / 100d) * 2.5, Math.sin((level.getGameTime() % 1000) / 2.7 + i) / 100 + 0.3, Math.sin(angle2 * i + level.getGameTime() / 100d) * 2.5);
+                    matrixStack.translate(Math.cos(angle1 * i + level.getGameTime() / 100d) * 2.5, Math.sin((level.getGameTime() % 1000) / 2.7 + i) / 100 + 0.3, Math.sin(angle1 * i + level.getGameTime() / 100d) * 2.5);
                     blockRenderer.renderBlock(state, matrixStack, bufferIn, MagicCircleComponentBase.maxLight, p_225616_6_, EmptyModelData.INSTANCE);
                     matrixStack.popPose();
                 }
 
             }
 
+            matrixStack.pushPose();
+            matrixStack.translate(0.5, 0.9, 0.5);
+            matrixStack.scale(0.3f, 0.3f, 0.3f);
+            matrixStack.mulPose(new Quaternion(0, -level.getGameTime(), 0, true));
+            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+            IBakedModel ibakedmodel = itemRenderer.getModel(item, level, null);
+            itemRenderer.render(item, ItemCameraTransforms.TransformType.FIXED, true, matrixStack, bufferIn, MagicCircleComponentBase.maxLight, p_225616_6_, ibakedmodel);
+            matrixStack.popPose();
+
         }
     }
+
 }

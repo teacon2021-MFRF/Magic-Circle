@@ -1,22 +1,17 @@
 package mfrf.magic_circle.magicutil;
 
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.BiFunction;
-
-import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
 
 public class MagicStream {
     public ArrayList<BiFunction<MagicStream, MagicStreamInfo, MagicStream>> functions = new ArrayList<>();

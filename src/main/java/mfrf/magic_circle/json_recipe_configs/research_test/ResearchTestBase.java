@@ -21,7 +21,7 @@ public class ResearchTestBase extends JsonConfigBase {
     protected float difficulty;
     protected String figure;
     protected String answer; //regex
-    protected String research; //resourceLocation
+    protected String research; //researchName
 
     public ResearchTestBase(ResourceLocation id, Serializer.DataContainer container) {
         super(id);
@@ -48,6 +48,25 @@ public class ResearchTestBase extends JsonConfigBase {
         return JsonConfigs.Type.RESEARCH_TEST_JSONCONFIG_TYPE;
     }
 
+    public float getDifficulty() {
+        return difficulty;
+    }
+
+    public String getFigure() {
+        return figure;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getResearch() {
+        return research;
+    }
+
+    public Serializer.DataContainer toDataContainer() {
+        return new Serializer.DataContainer(difficulty, figure, answer, research);
+    }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ResearchTestBase> {
 
@@ -92,12 +111,9 @@ public class ResearchTestBase extends JsonConfigBase {
         @Override
         public void toNetwork(PacketBuffer packetBuffer, ResearchTestBase researchTestBase) {
             packetBuffer.writeFloat(researchTestBase.difficulty);
-            packetBuffer.writeInt(researchTestBase.figure.length());
-            packetBuffer.writeCharSequence(researchTestBase.figure, Charsets.UTF_8);
-            packetBuffer.writeInt(researchTestBase.answer.length());
-            packetBuffer.writeCharSequence(researchTestBase.answer, Charsets.UTF_8);
-            packetBuffer.writeInt(researchTestBase.research.length());
-            packetBuffer.writeCharSequence(researchTestBase.research, Charsets.UTF_8);
+            packetBuffer.writeUtf(researchTestBase.figure);
+            packetBuffer.writeUtf(researchTestBase.answer);
+            packetBuffer.writeUtf(researchTestBase.research);
         }
 
         public static class DataContainer {
@@ -115,9 +131,9 @@ public class ResearchTestBase extends JsonConfigBase {
 
             public DataContainer(PacketBuffer buffer) {
                 this.difficulty = buffer.readFloat();
-                this.figure = buffer.readCharSequence(buffer.readInt(), Charsets.UTF_8).toString();
-                this.answer = Pattern.compile(buffer.readCharSequence(buffer.readInt(), Charsets.UTF_8).toString());
-                this.research = buffer.readCharSequence(buffer.readInt(), Charsets.UTF_8).toString();
+                this.figure = buffer.readUtf();
+                this.answer = Pattern.compile(buffer.readUtf());
+                this.research = buffer.readUtf();
             }
 
             public DataContainer(float difficulty, String figure, String answer, String research) {

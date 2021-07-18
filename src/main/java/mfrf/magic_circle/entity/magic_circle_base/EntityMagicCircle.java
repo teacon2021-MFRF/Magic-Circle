@@ -1,6 +1,5 @@
 package mfrf.magic_circle.entity.magic_circle_base;
 
-import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;

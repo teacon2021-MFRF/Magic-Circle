@@ -1,28 +1,50 @@
 package mfrf.magic_circle.util;
 
-import java.util.HashMap;
-import java.util.function.Function;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import mfrf.magic_circle.magicutil.MagicModelBase;
-import net.minecraft.item.Item;
-import net.minecraft.tags.Tag;
+import java.util.Date;
+import java.util.UUID;
 
 public class Utils {
-
-    public static HashMap<Tag<Item>, Properties> EFFECT_MAP = new HashMap();
-
-    public class Properties {
-        public final Function<MagicModelBase, MagicModelBase> function;
-        private final Function<Integer, Integer> manaCapacityEffect;
-        private final Function<Integer, Integer> manaRecoverEffect;
-        public int complexity;
-
-        Properties(Function<MagicModelBase, MagicModelBase> function, Function<Integer, Integer> manaCapacityEffect, Function<Integer, Integer> manaRecoverEffect, int complexity) {
-            this.function = function;
-            this.manaCapacityEffect = manaCapacityEffect;
-            this.manaRecoverEffect = manaRecoverEffect;
-            this.complexity = complexity;
+    public static String getStringOr(String p_225171_0_, JsonObject p_225171_1_, String p_225171_2_) {
+        JsonElement jsonelement = p_225171_1_.get(p_225171_0_);
+        if (jsonelement != null) {
+            return jsonelement.isJsonNull() ? p_225171_2_ : jsonelement.getAsString();
+        } else {
+            return p_225171_2_;
         }
+    }
 
+    public static int getIntOr(String p_225172_0_, JsonObject p_225172_1_, int p_225172_2_) {
+        JsonElement jsonelement = p_225172_1_.get(p_225172_0_);
+        if (jsonelement != null) {
+            return jsonelement.isJsonNull() ? p_225172_2_ : jsonelement.getAsInt();
+        } else {
+            return p_225172_2_;
+        }
+    }
+
+    public static long getLongOr(String p_225169_0_, JsonObject p_225169_1_, long p_225169_2_) {
+        JsonElement jsonelement = p_225169_1_.get(p_225169_0_);
+        if (jsonelement != null) {
+            return jsonelement.isJsonNull() ? p_225169_2_ : jsonelement.getAsLong();
+        } else {
+            return p_225169_2_;
+        }
+    }
+
+    public static boolean getBooleanOr(String p_225170_0_, JsonObject p_225170_1_, boolean p_225170_2_) {
+        JsonElement jsonelement = p_225170_1_.get(p_225170_0_);
+        if (jsonelement != null) {
+            return jsonelement.isJsonNull() ? p_225170_2_ : jsonelement.getAsBoolean();
+        } else {
+            return p_225170_2_;
+        }
+    }
+
+    public static Date getDateOr(String p_225173_0_, JsonObject p_225173_1_) {
+        JsonElement jsonelement = p_225173_1_.get(p_225173_0_);
+        return jsonelement != null ? new Date(Long.parseLong(jsonelement.getAsString())) : new Date();
     }
 }

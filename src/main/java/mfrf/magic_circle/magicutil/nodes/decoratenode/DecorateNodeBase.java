@@ -1,13 +1,8 @@
 package mfrf.magic_circle.magicutil.nodes.decoratenode;
 
-import mfrf.magic_circle.magicutil.BGMPreferences;
-import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
-import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import net.minecraft.nbt.CompoundNBT;
-
-import java.util.function.Predicate;
 
 public abstract class DecorateNodeBase extends MagicNodeBase {
     public final DecorateType decorateType;

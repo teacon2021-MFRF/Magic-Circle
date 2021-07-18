@@ -1,6 +1,6 @@
 package mfrf.magic_circle.util;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class Colors {
     public static final Colors YIN = new Colors(255, 255, 255);

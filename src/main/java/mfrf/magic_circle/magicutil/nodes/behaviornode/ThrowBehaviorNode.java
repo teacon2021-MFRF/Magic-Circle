@@ -1,10 +1,5 @@
 package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
 import mfrf.magic_circle.entity.barrage.DanmakuEntity;
 import mfrf.magic_circle.events.InGameCaches;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
@@ -17,15 +12,11 @@ import mfrf.magic_circle.registry_lists.Entities;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import mfrf.magic_circle.util.MathUtil;
 import mfrf.magic_circle.util.PositionExpression;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -35,6 +26,11 @@ import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ThrowBehaviorNode extends BehaviorNodeBase {
     protected boolean expressionModified = false;

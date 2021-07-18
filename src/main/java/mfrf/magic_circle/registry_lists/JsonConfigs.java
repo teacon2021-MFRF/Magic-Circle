@@ -3,7 +3,7 @@ package mfrf.magic_circle.registry_lists;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.json_recipe_configs.JsonConfigGemEffect;
 import mfrf.magic_circle.json_recipe_configs.JsonConfigItemResearch;
-import mfrf.magic_circle.json_recipe_configs.research_test.*;
+import mfrf.magic_circle.json_recipe_configs.research_test.ResearchTestBase;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraftforge.fml.RegistryObject;

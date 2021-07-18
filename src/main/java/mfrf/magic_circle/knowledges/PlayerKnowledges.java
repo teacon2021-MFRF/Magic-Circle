@@ -1,12 +1,11 @@
 package mfrf.magic_circle.knowledges;
 
+import net.minecraft.nbt.CompoundNBT;
+
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import net.minecraft.nbt.CompoundNBT;
 
 public class PlayerKnowledges {
     private int math;
@@ -31,7 +30,6 @@ public class PlayerKnowledges {
         unlockedResearchs.addAll(researches);
         analysedItem.addAll(items);
     }
-
 
 
     public int getMath() {
@@ -82,7 +80,7 @@ public class PlayerKnowledges {
         this.math += math;
     }
 
-    public void addEightDiragrams(int eightDiragrams) {
+    public void addBagua(int eightDiragrams) {
         this.bagua += eightDiragrams;
     }
 

@@ -3,7 +3,6 @@ package mfrf.magic_circle.item.resources;
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.interfaces.ItemMagicArmorMatrial;
 import mfrf.magic_circle.item.ItemBase;
-import mfrf.magic_circle.magicutil.BaguaPrefer;
 import mfrf.magic_circle.registry_lists.Items;
 import mfrf.magic_circle.util.MagicalItemContainer;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
@@ -17,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
-
-import javax.annotation.Nonnull;
 
 public class ItemMagicCrystal extends ItemBase implements ItemMagicArmorMatrial {
     public static final MagicalItemSimpleImplement DEFAULT_INSTANCE = new MagicalItemSimpleImplement(new MagicalItemContainer(), 200f, 1.1, 0, 1f, 1.1, 3, ItemStack.EMPTY);

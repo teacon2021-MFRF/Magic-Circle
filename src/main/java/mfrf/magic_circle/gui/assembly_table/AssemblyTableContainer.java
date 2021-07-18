@@ -1,6 +1,5 @@
 package mfrf.magic_circle.gui.assembly_table;
 
-import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.magic_assemby_table.TileMagicModelAssemblyTable;
 import mfrf.magic_circle.gui.ContainerBase;
 import mfrf.magic_circle.interfaces.IMagicalItem;
@@ -15,9 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;

@@ -1,9 +1,6 @@
 package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
-import java.util.function.Predicate;
-
 import mfrf.magic_circle.magicutil.MagicNodeBase;
-import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import net.minecraft.nbt.CompoundNBT;
 
