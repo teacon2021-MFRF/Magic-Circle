@@ -75,7 +75,7 @@ public class PositionExpression {
             if (z > max) {
                 z = max;
             }
-        } catch (ClassCastException e) {
+        } catch (Exception e) {
 //            LogManager.getLogger().info("type error! your expression result is not a number! check your expression!");
             return null;
         }

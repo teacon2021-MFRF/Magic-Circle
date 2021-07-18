@@ -4,12 +4,11 @@ import mfrf.magic_circle.magicutil.Invoker;
 import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.Receiver;
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
 import mfrf.magic_circle.registry_lists.TileEntities;
-import mfrf.magic_circle.util.CachedEveryThingForClient;
-import mfrf.magic_circle.util.Utils;
-import mfrf.magic_circle.world_saved_data.StoredMagicModels;
+import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -32,27 +31,30 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-        // if (!world.isRemote()) {
-        if (time >= maxTime) {
-            time = 0;
-            BeginNodeBase beginNodeBase = new BeginNodeBase(Invoker.InvokerType.BLOCK, Receiver.ReceiverType.BLOCK);
-            ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
-            beginNodeBase.appendNodeL(throwBehaviorNode);
+        if (!level.isClientSide()) {
+            if (time >= maxTime) {
+                time = 0;
+                BeginNodeBase beginNodeBase = new BeginNodeBase(Invoker.InvokerType.BLOCK, Receiver.ReceiverType.BLOCK);
+                ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
+                throwBehaviorNode.setPositionExpression(new PositionExpression("2*(2*math.cos(t)-math.cos(2*t))", "0", "2*(2*math.sin(t)-math.sin(2*t))", null, null));
+                beginNodeBase.appendNodeL(throwBehaviorNode);
 
-            magicCircleComponentBase = new MagicModelBase(beginNodeBase);
+                magicCircleComponentBase = new MagicModelBase(beginNodeBase);
 
-            Invoker invoker = new Invoker(getBlockPos(), level.dimensionType(), ItemStack.EMPTY, null, null, level, Invoker.InvokerType.BLOCK);
-            Receiver receiver = new Receiver(new Vector3f(0, 0, 1), getBlockPos().offset(0, 1, 0), new Receiver.WeatherType(level.rainLevel, level.thunderLevel), Receiver.RangeType.CIRCLE, 16, 16, 16, 16, level, Receiver.ReceiverType.BLOCK);
-            MagicStream magicStream = new MagicStream(new MagicStream.MagicStreamInfo(null, new MagicStream.DataContain(invoker, receiver)));
-            MagicStream apply = magicCircleComponentBase.invoke(magicStream);
-            apply.apply();
+                Invoker invoker = new Invoker(getBlockPos(), level.dimensionType(), ItemStack.EMPTY, null, null, level, Invoker.InvokerType.BLOCK);
+                Receiver receiver = new Receiver(new Vector3f(0, 0, 1), getBlockPos().offset(0, 1, 0), new Receiver.WeatherType(level.rainLevel, level.thunderLevel), Receiver.RangeType.CIRCLE, 16, 16, 16, 16, level, Receiver.ReceiverType.BLOCK);
+                MagicStream.DataContain dataContain = new MagicStream.DataContain(invoker, receiver);
+                dataContain.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 40);
+                dataContain.targetVec = new Vector3f(0, 0, 1);
+                MagicStream magicStream = new MagicStream(new MagicStream.MagicStreamInfo(null, dataContain));
+                MagicStream apply = magicCircleComponentBase.invoke(magicStream);
+                apply.apply();
+                setChanged();
+
+            }
+            time += 1f;
             setChanged();
-
         }
-        time += 1f;
-        setChanged();
-        // }
-        // getUpdatePacket();
     }
 
     @Override

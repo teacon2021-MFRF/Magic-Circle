@@ -1,7 +1,6 @@
 package mfrf.magic_circle.magicutil;
 
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
@@ -36,6 +35,7 @@ public class MagicStream {
     public static class MagicStreamInfo {
         public MagicStreamInfo(@Nullable MagicNodeBase lastNode, DataContain data) {
             this.lastNode = lastNode;
+            this.data = data;
         }
 
         public DataContain data;
@@ -54,11 +54,11 @@ public class MagicStream {
         public BlockPos targetPos = new BlockPos(0, 0, 0);
         public Receiver.WeatherType weatherType = new Receiver.WeatherType(0, 0);
         public Receiver.RangeType rangeType = Receiver.RangeType.BOX;
-        public World world = Minecraft.getInstance().level;
+        public World world = null;
         public BlockPos beginPos = new BlockPos(0, 0, 0);
         public ItemStack invokerStack = ItemStack.EMPTY;
-        public UUID player = Minecraft.getInstance().player != null ? Minecraft.getInstance().player.getUUID() : null;
-        public UUID entity = player;
+        public UUID player = null;
+        public UUID entity = null;
         public MagicStream lastMagicStream = null;
         public HashMap<String, Integer> cached_Data;
         public double complexityAddition = 0;

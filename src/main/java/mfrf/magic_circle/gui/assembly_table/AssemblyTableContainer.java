@@ -107,8 +107,6 @@ public class AssemblyTableContainer extends ContainerBase {
                             iMagicalItem.setEffectContainer(items.serializeNBT());
                         });
                         table.setChanged();
-
-                        Minecraft.getInstance().getSoundManager().play(new SimpleSound(Sounds.PIANO_SOUNDS.get("piano_" + finalI).get(), SoundCategory.BLOCKS, 16, 16, table.getBlockPos()));
                     }
 
                     @Override

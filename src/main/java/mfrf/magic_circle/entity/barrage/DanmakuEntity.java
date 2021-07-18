@@ -24,14 +24,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class DanmakuEntity extends ThrowableEntity {
-    public static final DataParameter<Float> DAMAGE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
+    public static final DataParameter<Integer> DAMAGE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.INT);
     public static final DataParameter<Integer> R = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.INT);
     public static final DataParameter<Integer> G = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.INT);
     public static final DataParameter<Integer> B = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.INT);
     public static final DataParameter<Integer> ALPHA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.INT);
     public static final DataParameter<Float> SPEED_SCALE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
-    public static final DataParameter<Float> TIME = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
-    public static final DataParameter<Float> MAX_TIME = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
+    public static final DataParameter<Integer> MAX_TIME = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.INT);
     public static final DataParameter<Float> X_TARGET = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> Y_TARGET = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> Z_TARGET = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
@@ -85,7 +84,7 @@ public class DanmakuEntity extends ThrowableEntity {
         return this.entityData.get(PENETRATE_ABLE);
     }
 
-    public DanmakuEntity setRequiredVariables(float damage, float max_time, DanmakuType type) {
+    public DanmakuEntity setRequiredVariables(int damage, int max_time, DanmakuType type) {
         this.entityData.set(DAMAGE, damage);
         this.entityData.set(MAX_TIME, max_time);
         this.entityData.set(TYPE, type.toString());
@@ -105,13 +104,12 @@ public class DanmakuEntity extends ThrowableEntity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(DAMAGE, 0f);
+        this.entityData.define(DAMAGE, 0);
         this.entityData.define(R, 0);
         this.entityData.define(G, 0);
         this.entityData.define(B, 0);
         this.entityData.define(ALPHA, 1);
-        this.entityData.define(TIME, 0f);
-        this.entityData.define(MAX_TIME, 20f);
+        this.entityData.define(MAX_TIME, 20);
         this.entityData.define(VELOCITY_X_FORMULA, "0");
         this.entityData.define(VELOCITY_Y_FORMULA, "0");
         this.entityData.define(VELOCITY_Z_FORMULA, "0");
@@ -126,9 +124,8 @@ public class DanmakuEntity extends ThrowableEntity {
 
     @Override
     protected void readAdditionalSaveData(CompoundNBT compoundNBT) {
-        this.entityData.set(DAMAGE, compoundNBT.getFloat("danmaku_damage"));
-        this.entityData.set(TIME, compoundNBT.getFloat("danmaku_time"));
-        this.entityData.set(MAX_TIME, compoundNBT.getFloat("danmaku_max_existing_time"));
+        this.entityData.set(DAMAGE, compoundNBT.getInt("danmaku_damage"));
+        this.entityData.set(MAX_TIME, compoundNBT.getInt("danmaku_max_existing_time"));
         this.entityData.set(R, compoundNBT.getInt("danmaku_red"));
         this.entityData.set(G, compoundNBT.getInt("danmaku_green"));
         this.entityData.set(B, compoundNBT.getInt("danmaku_blue"));
@@ -149,7 +146,6 @@ public class DanmakuEntity extends ThrowableEntity {
     @Override
     protected void addAdditionalSaveData(CompoundNBT compoundNBT) {
         compoundNBT.putFloat("danmaku_damage", this.entityData.get(DAMAGE));
-        compoundNBT.putFloat("danmaku_time", this.entityData.get(TIME));
         compoundNBT.putFloat("danmaku_max_existing_time", this.entityData.get(MAX_TIME));
         compoundNBT.putInt("danmaku_red", this.entityData.get(R));
         compoundNBT.putInt("danmaku_green", this.entityData.get(G));
@@ -175,25 +171,26 @@ public class DanmakuEntity extends ThrowableEntity {
     @Override
     public void tick() {
         super.tick();
-        Float timePassed = this.getEntityData().get(TIME) + 1;
-//        Float max_time = this.getEntityData().get(MAX_TIME);
-        Float max_time = 20f;
-        if (timePassed >= max_time) {
+        int max_time = this.entityData.get(MAX_TIME);
+        if (tickCount >= max_time) {
             this.remove();
         } else {
             String xFormula = this.entityData.get(VELOCITY_X_FORMULA);
             String yFormula = this.entityData.get(VELOCITY_Y_FORMULA);
             String zFormula = this.entityData.get(VELOCITY_Z_FORMULA);
             Float speed_scale = this.entityData.get(SPEED_SCALE);
+            if (Math.abs(speed_scale) > 10 || speed_scale.isNaN() || speed_scale.isInfinite())
+                speed_scale = 1f;
             PositionExpression positionExpression = new PositionExpression(xFormula, yFormula, zFormula, null, null);
             positionExpression.setTargetVec(new Vector3f(this.entityData.get(X_TARGET), this.entityData.get(Y_TARGET), this.entityData.get(Z_TARGET)));
-            Vector3f execute = positionExpression.execute(Double.valueOf(timePassed));
-            float offsetX = execute.x() * speed_scale;
-            float offsetY = execute.y() * speed_scale;
-            float offsetZ = execute.z() * speed_scale;
-            float mean = (Math.abs(offsetX) + Math.abs(offsetY) + Math.abs(offsetZ)) / 3;
-            this.shoot(offsetX, offsetY, offsetZ, mean, 0);
-            this.entityData.set(TIME, timePassed);
+            Vector3f execute = positionExpression.execute((double) tickCount);
+            if (execute != null) {
+                float offsetX = execute.x() * speed_scale;
+                float offsetY = execute.y() * speed_scale;
+                float offsetZ = execute.z() * speed_scale;
+                float mean = (Math.abs(offsetX) + Math.abs(offsetY) + Math.abs(offsetZ)) / 3;
+                this.shoot(offsetX, offsetY, offsetZ, mean, 0);
+            }
         }
 
     }

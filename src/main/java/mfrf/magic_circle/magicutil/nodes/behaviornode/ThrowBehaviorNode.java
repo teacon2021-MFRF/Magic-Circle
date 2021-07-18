@@ -29,6 +29,7 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -252,21 +253,21 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             }
 
             if (world instanceof ServerWorld) {
-                for (int i = 0; i <= duration; i += cooldown) {
-                    for (long l = 0; l < (int) (count / (cooldown / execute_speed)); l++) {
-                        DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn((ServerWorld) world, null, null, data.player == null ? null : world.getPlayerByUUID(data.player), data.beginPos, SpawnReason.TRIGGERED, true, true);
-                        spawn.setRGBA(streamEigenMatrix.getRGBA());
-                        spawn.setTargetVec(data.targetVec);
-                        spawn.setRequiredVariables(danmakuDamage, danmakuDuration, type);
-                        spawn.setSpeedScale(speedScale);
-                        spawn.setPositionExpression(actualExpression);
-                        spawn.setPenetrateAble(penetrate_able);
-                        if (damage_consumer != null) {
-                            InGameCaches.onDanmakuAttack.put(spawn.getUUID(), damage_consumer);
-                        }
-                        if (crash_consumer != null) {
-                            InGameCaches.onDanmakuCrash.put(spawn.getUUID(), crash_consumer);
-                        }
+                Random rand = world.getRandom();
+                for (int l = 0; l <= count; l++) {
+                    BlockPos offset = data.beginPos.offset(rand.nextInt((int) range) / 10, rand.nextInt((int) range) / 10, rand.nextInt((int) range) / 10);
+                    DanmakuEntity spawn = Entities.DANMAKU_ENTITY.get().spawn((ServerWorld) world, null, null, data.player == null ? null : world.getPlayerByUUID(data.player), offset, SpawnReason.TRIGGERED, true, true);
+                    spawn.setRGBA(streamEigenMatrix.getRGBA());
+                    spawn.setTargetVec(data.targetVec);
+                    spawn.setRequiredVariables((int) danmakuDamage, (int) danmakuDuration, type);
+                    spawn.setSpeedScale(speedScale);
+                    spawn.setPositionExpression(actualExpression);
+                    spawn.setPenetrateAble(penetrate_able);
+                    if (damage_consumer != null) {
+                        InGameCaches.onDanmakuAttack.put(spawn.getUUID(), damage_consumer);
+                    }
+                    if (crash_consumer != null) {
+                        InGameCaches.onDanmakuCrash.put(spawn.getUUID(), crash_consumer);
                     }
                 }
             }
