@@ -17,6 +17,8 @@ public class EngraverTableContainer extends ContainerBase {
         knowledges = CachedEveryThingForClient.requestKnowledge(world, playerInventory.player.getUUID());
     }
 
+//    public String currentMagics todo get current magic
+
     @Override
     public boolean stillValid(PlayerEntity p_75145_1_) {
         return true;
