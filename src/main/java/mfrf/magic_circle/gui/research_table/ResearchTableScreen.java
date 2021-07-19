@@ -1,11 +1,14 @@
 package mfrf.magic_circle.gui.research_table;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.gui.ScreenBase;
 import mfrf.magic_circle.gui.widgets.FigureBox;
 import mfrf.magic_circle.json_recipe_configs.JsonConfigItemResearch;
 import mfrf.magic_circle.json_recipe_configs.research_test.ResearchTestBase;
+import mfrf.magic_circle.network.send_answer.SendAnswer;
+import mfrf.magic_circle.network.send_answer.SendPack;
 import mfrf.magic_circle.registry_lists.JsonConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -22,9 +25,10 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
     private TextFieldWidget answer;
     private FigureBox figure;
     private JsonConfigItemResearch item_research;
+    private Button button;
 
     public ResearchTableScreen(ResearchTableContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
-        super(p_i51105_1_, p_i51105_2_, p_i51105_3_, 300, 250);
+        super(p_i51105_1_, p_i51105_2_, p_i51105_3_, 300, 250, 400, 300);
     }
 
     @Override
@@ -47,7 +51,6 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
 
         renderTooltip(matrixStack, x, y);
     }
-
 
     @Override
     public void tick() {
@@ -102,8 +105,12 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
                     }
                 }
             }
-            //todo render ItemResearch
         }
+
+        button = this.addButton(new Button(this.getGuiLeft() + 222, this.getGuiTop() + 180, 15, 15, new TranslationTextComponent("magic_circle.gui.submit"), p_onPress_1_ -> {
+            SendAnswer.INSTANCE.sendToServer(new SendPack(answer.getValue(), menu.getResearch_table().getBlockPos()));
+        }));
+        button.visible = true;
 
         //todo render writeable.
     }
@@ -111,6 +118,31 @@ public class ResearchTableScreen extends ScreenBase<ResearchTableContainer> {
     @Override
     protected ResourceLocation getTexture() {
         return new ResourceLocation(MagicCircle.MOD_ID, "textures/gui/research_table.png");
+    }
+
+    private class Button extends net.minecraft.client.gui.widget.button.Button {
+
+        public Button(int p_i232255_1_, int p_i232255_2_, int p_i232255_3_, int p_i232255_4_, ITextComponent p_i232255_5_, IPressable p_i232255_6_) {
+            super(p_i232255_1_, p_i232255_2_, p_i232255_3_, p_i232255_4_, p_i232255_5_, p_i232255_6_);
+        }
+
+        @Override
+        public void renderButton(MatrixStack p_230431_1_, int p_230431_2_, int p_230431_3_, float p_230431_4_) {
+            Minecraft minecraft = Minecraft.getInstance();
+            minecraft.getTextureManager().bind(getTexture());
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
+            int i = this.getYImage(this.isHovered()) - 1;
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.enableDepthTest();
+            this.blit(p_230431_1_, this.x, this.y, 385, 15 - 15 * i, this.width, this.height,400,300);
+            this.renderBg(p_230431_1_, minecraft, p_230431_2_, p_230431_3_);
+            int j = getFGColor();
+
+            if (this.isHovered()) {
+                this.renderToolTip(p_230431_1_, p_230431_2_, p_230431_3_);
+            }
+        }
     }
 
 }

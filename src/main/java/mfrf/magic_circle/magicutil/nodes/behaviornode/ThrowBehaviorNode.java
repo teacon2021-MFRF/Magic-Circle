@@ -106,7 +106,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                         }
                         case KANSHUI: {
                             damage_consumer = event -> {
-                                event.getEntityLiving().addEffect(new EffectInstance(Effects.WATER_BREATHING, (int) strength, (int) duration * 2));
+                                event.getEntityLiving().addEffect(new EffectInstance(Effects.WATER_BREATHING, (int) duration * 2, (int) strength));
                             };
                             break;
                         }
@@ -182,7 +182,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                         case BEAM: {
                             damage_consumer = event -> {
                                 LivingEntity entityLiving = event.getEntityLiving();
-                                entityLiving.addEffect(new EffectInstance(Effects.GLOWING, (int) duration * 16));
+                                entityLiving.addEffect(new EffectInstance(Effects.GLOWING, (int) duration * 16,1));
                             };
                             break;
                         }

@@ -147,10 +147,10 @@ public class JsonConfigItemResearch extends JsonConfigBase {
             int requiredPhysicalKnowledge = buffer.readInt();
             boolean repeatable = buffer.readBoolean();
             String researchContain = "";
-            researchContain = buffer.readUtf();
+            researchContain = buffer.readUtf(32767);
             ResourceLocation question_location = null;
             if (buffer.readBoolean()) {
-                question_location = ResourceLocation.tryParse(buffer.readUtf());
+                question_location = ResourceLocation.tryParse(buffer.readUtf(32767));
             }
             return new JsonConfigItemResearch(location, ingredient, baguaKnowledge, mathKnowledge, mysteryKnowledge, physicalKnowledge, requiredBaguaKnowledge, requiredMathKnowledge, requiredMysteryKnowledge, requiredPhysicalKnowledge, repeatable, researchContain, question_location);
         }

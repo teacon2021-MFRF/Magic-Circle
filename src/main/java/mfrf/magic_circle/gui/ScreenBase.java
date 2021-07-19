@@ -10,13 +10,17 @@ import net.minecraft.util.text.ITextComponent;
 public abstract class ScreenBase<T extends ContainerBase> extends ContainerScreen<T> {
     private int xSize;
     private int ySize;
+    private int textureWidth;
+    private int textureHeight;
 
-    public ScreenBase(T p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_, int xSize, int ySize) {
+    public ScreenBase(T p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_, int xSize, int ySize, int textureWidth, int textureHeight) {
         super(p_i51105_1_, p_i51105_2_, p_i51105_3_);
         this.xSize = xSize;
         this.imageWidth = xSize;
         this.imageHeight = ySize;
         this.ySize = ySize;
+        this.textureWidth = textureWidth;
+        this.textureHeight = textureHeight;
     }
 
     @Override
@@ -30,7 +34,7 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
             this.minecraft.getTextureManager().bind(getTexture());
             int relX = (this.width - xSize) / 2;
             int relY = (this.height - ySize) / 2;
-            this.blit(matrixStack, relX, relY, 0, 0, xSize, ySize, xSize, ySize);
+            this.blit(matrixStack, relX, relY, 0, 0, xSize, ySize, textureWidth, textureHeight);
         }
     }
 

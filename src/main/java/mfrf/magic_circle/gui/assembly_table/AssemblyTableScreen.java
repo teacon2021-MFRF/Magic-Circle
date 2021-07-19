@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 
 public class AssemblyTableScreen extends ScreenBase<AssemblyTableContainer> {
     public AssemblyTableScreen(AssemblyTableContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
-        super(p_i51105_1_, p_i51105_2_, p_i51105_3_, 300, 250);
+        super(p_i51105_1_, p_i51105_2_, p_i51105_3_, 300, 250, 300, 250);
     }
 
     @Override

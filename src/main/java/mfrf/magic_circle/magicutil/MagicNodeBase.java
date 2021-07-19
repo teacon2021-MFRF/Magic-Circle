@@ -22,6 +22,7 @@ public abstract class MagicNodeBase {
     protected MagicNodeBase leftNode = null;
     protected MagicNodeBase rightNode = null;
 
+
     public MagicNodeBase(NodeType nodeType, float strengthModify, float rangeModify, float durationModify,
                          float executeSpeedModify, float coolDownModify, float efficientModify, float weaknessModify,
                          float shrinkModify, float brevityModify, float relayModify, float heatupModify, float wasteModify,
@@ -95,6 +96,13 @@ public abstract class MagicNodeBase {
         return eigenMatrix;
     }
 
+    public MagicNodeBase getLeftNode() {
+        return leftNode;
+    }
+
+    public MagicNodeBase getRightNode() {
+        return rightNode;
+    }
 
     public ArrayList<MagicNodeBase> getNodes(ArrayList<MagicNodeBase> nodes) {
         if (!nodes.contains(this)) {

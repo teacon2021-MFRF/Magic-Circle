@@ -131,9 +131,9 @@ public class ResearchTestBase extends JsonConfigBase {
 
             public DataContainer(PacketBuffer buffer) {
                 this.difficulty = buffer.readFloat();
-                this.figure = buffer.readUtf();
-                this.answer = Pattern.compile(buffer.readUtf());
-                this.research = buffer.readUtf();
+                this.figure = buffer.readUtf(32767);
+                this.answer = Pattern.compile(buffer.readUtf(32767));
+                this.research = buffer.readUtf(32767);
             }
 
             public DataContainer(float difficulty, String figure, String answer, String research) {

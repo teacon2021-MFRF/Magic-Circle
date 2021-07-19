@@ -25,12 +25,12 @@ public class SendPack {
     }
 
     public SendPack(PacketBuffer buffer) {
-        answer = buffer.readUtf();
+        answer = buffer.readUtf(32767);
         pos = buffer.readBlockPos();
     }
 
     public void toBytes(PacketBuffer buf) {
-        buf.writeCharSequence(this.answer, StandardCharsets.UTF_8);
+        buf.writeUtf(answer);
         buf.writeBlockPos(pos);
     }
 
@@ -45,10 +45,10 @@ public class SendPack {
                     TileResearchTable tileResearchTable = (TileResearchTable) blockEntity;
                     boolean flag = tileResearchTable.checkAnswer(answer, sender.getUUID());
                     if (flag) {
-                        sender.addEffect(new EffectInstance(Effects.LUCK, 3, 600));
+                        sender.addEffect(new EffectInstance(Effects.LUCK, 600, 3));
                     } else {
-                        sender.addEffect(new EffectInstance(Effects.UNLUCK, 1, 600));
-                        sender.addEffect(new EffectInstance(Effects.CONFUSION, 1, 200));
+                        sender.addEffect(new EffectInstance(Effects.UNLUCK, 600, 1));
+                        sender.addEffect(new EffectInstance(Effects.CONFUSION, 200, 1));
 
                         if (level.getRandom().nextFloat() < 0.00002) {
                             sender.hurt(new DamageSource(new StringTextComponent("magic_circle.research.death").getString()).setMagic().setScalesWithDifficulty(), sender.getMaxHealth());

@@ -92,6 +92,14 @@ public class PlayerKnowledges {
         this.physical += physical;
     }
 
+    public HashSet<String> getUnlockedResearchs() {
+        return unlockedResearchs;
+    }
+
+    public HashSet<String> getAnalysedItem() {
+        return analysedItem;
+    }
+
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();
         compoundNBT.putInt("math", math);
