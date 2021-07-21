@@ -223,13 +223,13 @@ public class DanmakuEntity extends ThrowableEntity {
         }
 
         if (thrower != null && !hit.is(thrower)) {
-            DamageSource source = new EntityDamageSourceDanmaku(this, thrower);
+            DamageSource source = new EntityDamageSourceDanmaku(this, thrower).setMagic();
             hit.hurt(source, this.entityData.get(DAMAGE));
             needRemove = true;
         }
 
         if (thrower == null) {
-            DamageSource source = new EntityDamageSourceDanmaku(this, this);
+            DamageSource source = new EntityDamageSourceDanmaku(this, this).setMagic();
             hit.hurt(source, this.entityData.get(DAMAGE));
             needRemove = true;
         }

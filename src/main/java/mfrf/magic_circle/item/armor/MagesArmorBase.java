@@ -20,8 +20,6 @@ public class MagesArmorBase extends ArmorItem{
 
     public MagesArmorBase(EquipmentSlotType p_i48534_2_, Properties p_i48534_3_, MagicalItemSimpleImplement implement) {
         super(MATERIAL, p_i48534_2_, p_i48534_3_);
-        //todo finish me
-        //todo study the modernui lib
         this.implement = implement;
     }
 
@@ -35,7 +33,7 @@ public class MagesArmorBase extends ArmorItem{
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
         super.onArmorTick(stack, world, player);
         stack.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
-
+            iMagicalItem.onTick();
         });
     }
 }

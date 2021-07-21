@@ -19,8 +19,6 @@ public class EngraverTableContainer extends ContainerBase {
         playerEntity = playerInventory.player;
     }
 
-//    public String currentMagics todo get current magic
-
     @Override
     public boolean stillValid(PlayerEntity p_75145_1_) {
         return true;
