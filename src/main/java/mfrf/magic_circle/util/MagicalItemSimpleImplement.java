@@ -267,7 +267,7 @@ public class MagicalItemSimpleImplement implements IMagicalItem, ICapabilityProv
                     iMagicalItem.executeMagic(true, world, uuid, stream);
                 });
             } else if (prefix.matches("normal_")) {
-                CachedEveryThingForClient.executeMap.get(uuid).put(name, 0);
+                CachedEveryThingForClient.setExecute(uuid,name,0);
                 MagicModelBase magicModelBase = StoredMagicModels.getOrCreate(world).request(uuid, name);
                 if (magicModelBase != null) {
                     magicModelBase.invoke(new MagicStream(stream));

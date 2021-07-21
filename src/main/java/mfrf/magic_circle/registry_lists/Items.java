@@ -25,10 +25,18 @@ import java.util.Map;
 public class Items {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, MagicCircle.MOD_ID);
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES);
+    public static final Item.Properties GEM_ITEM_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1);
     public static final Item.Properties STAFF_PROPERTY = new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant();
 
-    public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("ruby,starlight_ruby,sappsire,starlight_sappsire,sunstone,moonstone,magic_fragment,dusty_gem".split(","));
-    public static final RegistryObject<Item> MAGIC_CRYSTAL = registerObject(new ItemMagicCrystal(DEFAULT_ITEM_PROPERTY), "magic_crystal");
+    public static final Map<String, RegistryObject<Item>> DEFAULT_ITEMS = registerNormalItems("magic_fragment,dusty_gem".split(","));
+    public static final RegistryObject<Item> MAGIC_CRYSTAL = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "magic_crystal");
+    public static final RegistryObject<Item> RUBY = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "ruby");
+    public static final RegistryObject<Item> STARLIGHT_RUBY = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "starlight_ruby");
+    public static final RegistryObject<Item> SAPPSIRE = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "sappsire");
+    public static final RegistryObject<Item> STARTLIGHT_SAPPSIRE = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "starlight_sappsire");
+    public static final RegistryObject<Item> SUNSTONE = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "sunstone");
+    public static final RegistryObject<Item> MOONSTONE = registerObject(new ItemMagicCrystal(GEM_ITEM_PROPERTY), "moonston");
+
 
     // Mage's
     // Armor===============================================================================================================================================================================================

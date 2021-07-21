@@ -1,5 +1,6 @@
 package mfrf.magic_circle.magicutil.nodes;
 
+import mfrf.magic_circle.gui.widgets.Argument;
 import mfrf.magic_circle.magicutil.Invoker;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
@@ -8,20 +9,22 @@ import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 
-public class BeginNodeBase extends MagicNodeBase {
-    public Invoker.InvokerType invokerType;
-    public Receiver.ReceiverType receiverType;
+import java.util.ArrayList;
 
-    public BeginNodeBase(Invoker.InvokerType invokerType, Receiver.ReceiverType reciverType) {
+public class BeginNodeBase extends MagicNodeBase {
+    public Invoker.InvokerType invokerType = Invoker.InvokerType.AUTO;
+    public Receiver.ReceiverType receiverType = Receiver.ReceiverType.BLOCK;
+
+    public BeginNodeBase() {
         super(NodeType.BEGIN);
-        this.invokerType = invokerType;
-        this.receiverType = reciverType;
     }
 
     public static MagicNodeBase deserializeNBT(CompoundNBT nbt, int layer, MagicNodePropertyMatrix8By8 matrix) {
         Invoker.InvokerType invoker = Invoker.InvokerType.valueOf(nbt.getString("invoker"));
         Receiver.ReceiverType receiver = Receiver.ReceiverType.valueOf(nbt.getString("receiver"));
-        BeginNodeBase beginNodeBase = new BeginNodeBase(invoker, receiver);
+        BeginNodeBase beginNodeBase = new BeginNodeBase();
+        beginNodeBase.invokerType = invoker;
+        beginNodeBase.receiverType = receiver;
         beginNodeBase.layer = layer;
         beginNodeBase.eigenMatrix = matrix;
         return beginNodeBase;
@@ -49,6 +52,11 @@ public class BeginNodeBase extends MagicNodeBase {
     @Override
     public MagicCircleComponentBase<?> getRender() {
         return null;
+    }
+
+    @Override
+    public ArrayList<Argument<?>> getArguments() {
+        return new ArrayList<>();
     }
 
 }

@@ -1,4 +1,6 @@
-package mfrf.magic_circle.network.magic_model_sync;
+package mfrf.magic_circle.network.magic_model_request;
+
+
 
 import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.magicutil.MagicNodeBase;

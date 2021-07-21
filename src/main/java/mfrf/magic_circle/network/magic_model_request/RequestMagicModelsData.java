@@ -1,18 +1,9 @@
-package mfrf.magic_circle.network.magic_model_sync;
+package mfrf.magic_circle.network.magic_model_request;
 
 import mfrf.magic_circle.MagicCircle;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class RequestMagicModelsData {
     public static SimpleChannel INSTANCE;

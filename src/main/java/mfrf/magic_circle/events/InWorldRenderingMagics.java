@@ -25,7 +25,7 @@ public class InWorldRenderingMagics {
     public static void onWorldTick(RenderWorldLastEvent event) {
         MatrixStack matrixStack = event.getMatrixStack();
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        for (Map.Entry<UUID, HashMap<String, Integer>> uuidHashMapEntry : CachedEveryThingForClient.executeMap.entrySet()) {
+        for (Map.Entry<UUID, HashMap<String, Integer>> uuidHashMapEntry : CachedEveryThingForClient.getExecuteMap().entrySet()) {
             for (Map.Entry<String, Integer> stringIntegerEntry : uuidHashMapEntry.getValue().entrySet()) {
                 ClientWorld level = Minecraft.getInstance().level;
                 if (level != null) {

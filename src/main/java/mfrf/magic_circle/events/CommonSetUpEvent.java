@@ -2,7 +2,7 @@ package mfrf.magic_circle.events;
 
 import mfrf.magic_circle.interfaces.IComfortableCapabilityStorage;
 import mfrf.magic_circle.interfaces.IMagicalItem;
-import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
+import mfrf.magic_circle.network.magic_model_request.RequestMagicModelsData;
 import mfrf.magic_circle.network.send_answer.SendAnswer;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

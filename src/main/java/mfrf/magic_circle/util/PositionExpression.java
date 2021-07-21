@@ -84,6 +84,30 @@ public class PositionExpression {
         return new Vector3f(x, y, z);
     }
 
+    public String getX() {
+        return x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public String getZ() {
+        return z;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
+
+    public void setZ(String z) {
+        this.z = z;
+    }
+
     public PositionExpression() {
 
     }

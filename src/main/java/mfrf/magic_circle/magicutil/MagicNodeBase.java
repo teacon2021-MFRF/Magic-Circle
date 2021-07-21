@@ -1,5 +1,7 @@
 package mfrf.magic_circle.magicutil;
 
+import mfrf.magic_circle.gui.engraver_table.EngraverTableScreen;
+import mfrf.magic_circle.gui.widgets.Argument;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
@@ -126,13 +128,16 @@ public abstract class MagicNodeBase {
         }
         if (this.rightNode != null) {
             int j = nodeMaps.indexOf(rightNode);
-            magicStreamMatrixNByN.set(i, j, 1);
+            magicStreamMatrixNByN.set(i, j, 2);
             leftNode.getConnectivityMatrix(magicStreamMatrixNByN, nodeMaps);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public abstract MagicCircleComponentBase<?> getRender();
+
+    @OnlyIn(Dist.CLIENT)
+    public abstract ArrayList<Argument<?>> getArguments();
 
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();

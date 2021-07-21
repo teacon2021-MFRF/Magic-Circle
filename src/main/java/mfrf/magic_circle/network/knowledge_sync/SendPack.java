@@ -1,7 +1,7 @@
 package mfrf.magic_circle.network.knowledge_sync;
 
 import mfrf.magic_circle.knowledges.PlayerKnowledges;
-import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
+import mfrf.magic_circle.network.magic_model_request.RequestMagicModelsData;
 import mfrf.magic_circle.util.CachedEveryThingForClient;
 import mfrf.magic_circle.world_saved_data.PlayerKnowledge;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -40,7 +40,7 @@ public class SendPack {
             ServerPlayerEntity sender = ctx.get().getSender();
             if (direction == NetworkDirection.PLAY_TO_CLIENT) {
 
-                CachedEveryThingForClient.knowledgeMap.put(playerUUID, PlayerKnowledges.deserializeNBT(knowledges));
+                CachedEveryThingForClient.getKnowledgeMap().put(playerUUID, PlayerKnowledges.deserializeNBT(knowledges));
 
             } else if (direction == NetworkDirection.PLAY_TO_SERVER) {
 

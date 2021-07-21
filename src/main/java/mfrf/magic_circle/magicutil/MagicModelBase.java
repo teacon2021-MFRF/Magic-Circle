@@ -1,5 +1,6 @@
 package mfrf.magic_circle.magicutil;
 
+import mfrf.magic_circle.gui.widgets.Argument;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
@@ -11,24 +12,47 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class MagicModelBase extends MagicNodeBase {
     protected MagicNodeBase begin;
     private ArrayList<MagicNodeBase> nodes = null;
-    private int edgeCounts = 0;
+    private int edgeCounts = -1;
     private MagicStreamMatrixNByN connectivityMatrix = null;
 
     public MagicModelBase(MagicNodeBase graph) {
         super(NodeType.MODEL);
-        this.eigenMatrix = null;
         this.begin = graph;
         appendNodeL(graph);
     }
 
+    public MagicModelBase(MagicStreamMatrixNByN connectivityMatrix, ArrayList<MagicNodeBase> nodes) {
+        super(NodeType.MODEL);
+
+        if (nodes.size() != 0) {
+            for (int i = 0; i < connectivityMatrix.numRows; i++) {
+                double[] row = connectivityMatrix.getRow(i);
+                MagicNodeBase nodeBase = nodes.get(i);
+                for (int j = 0; j < row.length; j++) {
+                    if (row[j] == 1) {
+                        nodeBase.appendNodeL(nodes.get(j));
+                    }
+                    if (row[j] == 2) {
+                        nodeBase.appendNodeR(nodes.get(j));
+                    }
+                }
+            }
+
+            this.begin = nodes.get(0);
+            this.connectivityMatrix = connectivityMatrix;
+            this.nodes = nodes;
+        }
+    }
+
     public int getEdges() {
         if (edgeCounts == -1) {
-            edgeCounts = (int) getConnectivityMatrix().sumAll();
+            edgeCounts = (int) Arrays.stream(getConnectivityMatrix().data).map(operand -> operand != 0 ? 1 : 0).sum();
         }
         return edgeCounts;
     }
@@ -48,9 +72,6 @@ public class MagicModelBase extends MagicNodeBase {
             ArrayList<MagicNodeBase> nodes = getNodes();
             int nodeCounts = nodes.size();
             connectivityMatrix = new MagicStreamMatrixNByN(nodeCounts, nodeCounts);
-            for (int i = 0; i < nodeCounts; i++) {
-                connectivityMatrix.set(i, i, 1);
-            }
             begin.getConnectivityMatrix(connectivityMatrix, nodes);
         }
         return connectivityMatrix;
@@ -77,6 +98,11 @@ public class MagicModelBase extends MagicNodeBase {
             magicCircleRenderBase.appendNextParallelComponent(node.getRender());
         }
         return magicCircleRenderBase;
+    }
+
+    @Override
+    public ArrayList<Argument<?>> getArguments() {
+        return new ArrayList<>();
     }
 
     public CompoundNBT serializeNBT() {

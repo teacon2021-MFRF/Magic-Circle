@@ -17,13 +17,17 @@ import net.minecraft.util.text.StringTextComponent;
 
 import javax.annotation.Nullable;
 
-public class TileMagicModelAssemblyTable extends NamedContainerTileBase{
+public class TileMagicModelAssemblyTable extends NamedContainerTileBase {
     public Inventory inventory = new Inventory(1) {
         @Override
         public boolean canPlaceItem(int p_94041_1_, ItemStack itemStack) {
             return itemStack.getCapability(Capabilities.MAGICAL_ITEM).isPresent();
         }
 
+        @Override
+        public int getMaxStackSize() {
+            return 1;
+        }
 
         @Override
         public void setChanged() {

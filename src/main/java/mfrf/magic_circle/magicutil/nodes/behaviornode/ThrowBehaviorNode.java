@@ -2,6 +2,8 @@ package mfrf.magic_circle.magicutil.nodes.behaviornode;
 
 import mfrf.magic_circle.entity.barrage.DanmakuEntity;
 import mfrf.magic_circle.events.InGameCaches;
+import mfrf.magic_circle.gui.engraver_table.EngraverTableScreen;
+import mfrf.magic_circle.gui.widgets.Argument;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
@@ -27,6 +29,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -182,7 +185,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                         case BEAM: {
                             damage_consumer = event -> {
                                 LivingEntity entityLiving = event.getEntityLiving();
-                                entityLiving.addEffect(new EffectInstance(Effects.GLOWING, (int) duration * 16,1));
+                                entityLiving.addEffect(new EffectInstance(Effects.GLOWING, (int) duration * 16, 1));
                             };
                             break;
                         }
@@ -286,6 +289,15 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
     @Override
     public MagicCircleComponentBase<?> getRender() {
         return null;
+    }
+
+    @Override
+    public ArrayList<Argument<?>> getArguments() {
+        ArrayList<Argument<?>> arguments = new ArrayList<>();
+        arguments.add(new Argument<>("xPositionExpression", positionExpression::setX, positionExpression::getX, EngraverTableScreen.ArgumentType.STRING));
+        arguments.add(new Argument<>("yPositionExpression", positionExpression::setY, positionExpression::getY, EngraverTableScreen.ArgumentType.STRING));
+        arguments.add(new Argument<>("zPositionExpression", positionExpression::setZ, positionExpression::getZ, EngraverTableScreen.ArgumentType.STRING));
+        return arguments;
     }
 
     public boolean setPositionExpression(PositionExpression expression) {

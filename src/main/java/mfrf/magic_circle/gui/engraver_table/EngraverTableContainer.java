@@ -11,10 +11,12 @@ import net.minecraft.world.World;
 
 public class EngraverTableContainer extends ContainerBase {
     public final PlayerKnowledges knowledges;
+    public final PlayerEntity playerEntity;
 
     public EngraverTableContainer(int id, PlayerInventory playerInventory, BlockPos pos, World world) {
         super(GuiContainers.ENGRAVER_TABLE_CONTAINER.get(), id);
         knowledges = CachedEveryThingForClient.requestKnowledge(world, playerInventory.player.getUUID());
+        playerEntity = playerInventory.player;
     }
 
 //    public String currentMagics todo get current magic

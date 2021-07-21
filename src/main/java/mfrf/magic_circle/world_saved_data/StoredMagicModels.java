@@ -37,7 +37,6 @@ public class StoredMagicModels extends WorldSavedData {
 
     public boolean add(UUID uuid, String name, MagicModelBase modelBase) {
         if (!isFull(uuid)) {
-
             getOrCreateModelCache(uuid).put(name, modelBase);
             setDirty();
             return true;

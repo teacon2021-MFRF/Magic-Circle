@@ -1,8 +1,8 @@
 package mfrf.magic_circle.util;
 
 import mfrf.magic_circle.magicutil.MagicModelBase;
-import mfrf.magic_circle.network.magic_model_sync.RequestMagicModelsData;
-import mfrf.magic_circle.network.magic_model_sync.SendPack;
+import mfrf.magic_circle.network.magic_model_request.RequestMagicModelsData;
+import mfrf.magic_circle.network.magic_model_request.SendPack;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,11 +28,16 @@ public class RenderCache {
     @Nullable
     public static MagicCircleComponentBase<?> getRender(UUID uuid, String name) {
         HashMap<String, MagicCircleComponentBase<?>> renderCache = getOrCreateRenderCache(uuid);
-        if (!renderCache.containsKey(name)) {
+        boolean flag = CachedEveryThingForClient.hasUpdate(uuid, name);
+        if (!renderCache.containsKey(name) || flag) {
             RequestMagicModelsData.INSTANCE.send(PacketDistributor.SERVER.with(() -> null),
                     new SendPack(name, new CompoundNBT(), uuid, false));
 
             renderCache.put(name, CachedEveryThingForClient.getOrCreateModels(uuid).getOrDefault(name, new MagicModelBase(null)).getRender());
+
+            if (flag) {
+                CachedEveryThingForClient.setUpdated(uuid, name);
+            }
         }
         return renderCache.get(name);
     }

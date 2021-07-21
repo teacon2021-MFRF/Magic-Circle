@@ -34,7 +34,7 @@ public class TileProjector extends TileEntity implements ITickableTileEntity {
         if (!level.isClientSide()) {
             if (time >= maxTime) {
                 time = 0;
-                BeginNodeBase beginNodeBase = new BeginNodeBase(Invoker.InvokerType.BLOCK, Receiver.ReceiverType.BLOCK);
+                BeginNodeBase beginNodeBase = new BeginNodeBase();
                 ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
                 throwBehaviorNode.setPositionExpression(new PositionExpression("2*(2*math.cos(t)-math.cos(2*t))", "0", "2*(2*math.sin(t)-math.sin(2*t))", null, null));
                 beginNodeBase.appendNodeL(throwBehaviorNode);
