@@ -34,9 +34,7 @@ public class DanmakuEntity extends ThrowableEntity {
     public static final DataParameter<Float> X_TARGET = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> Y_TARGET = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
     public static final DataParameter<Float> Z_TARGET = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.FLOAT);
-    public static final DataParameter<String> VELOCITY_X_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
-    public static final DataParameter<String> VELOCITY_Y_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
-    public static final DataParameter<String> VELOCITY_Z_FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
+    public static final DataParameter<CompoundNBT> FORMULA = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.COMPOUND_TAG);
     public static final DataParameter<String> TYPE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.STRING);
     public static final DataParameter<Boolean> HAS_TICK_CONSUMER = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.BOOLEAN);
     public static final DataParameter<Boolean> PENETRATE_ABLE = EntityDataManager.defineId(DanmakuEntity.class, DataSerializers.BOOLEAN);
@@ -54,9 +52,7 @@ public class DanmakuEntity extends ThrowableEntity {
     }
 
     public DanmakuEntity setPositionExpression(PositionExpression expression) {
-        this.entityData.set(VELOCITY_X_FORMULA, expression.x);
-        this.entityData.set(VELOCITY_Y_FORMULA, expression.y);
-        this.entityData.set(VELOCITY_Z_FORMULA, expression.z);
+        this.entityData.set(FORMULA, expression.serializeNBT());
         return this;
     }
 
@@ -110,9 +106,7 @@ public class DanmakuEntity extends ThrowableEntity {
         this.entityData.define(B, 0);
         this.entityData.define(ALPHA, 1);
         this.entityData.define(MAX_TIME, 20);
-        this.entityData.define(VELOCITY_X_FORMULA, "0");
-        this.entityData.define(VELOCITY_Y_FORMULA, "0");
-        this.entityData.define(VELOCITY_Z_FORMULA, "0");
+        this.entityData.define(FORMULA, new PositionExpression().serializeNBT());
         this.entityData.define(SPEED_SCALE, 1f);
         this.entityData.define(X_TARGET, 0F);
         this.entityData.define(Y_TARGET, 0F);
@@ -130,9 +124,7 @@ public class DanmakuEntity extends ThrowableEntity {
         this.entityData.set(G, compoundNBT.getInt("danmaku_green"));
         this.entityData.set(B, compoundNBT.getInt("danmaku_blue"));
         this.entityData.set(ALPHA, compoundNBT.getInt("danmaku_alpha"));
-        this.entityData.set(VELOCITY_X_FORMULA, compoundNBT.getString("x_formula"));
-        this.entityData.set(VELOCITY_Y_FORMULA, compoundNBT.getString("y_formula"));
-        this.entityData.set(VELOCITY_Z_FORMULA, compoundNBT.getString("z_formula"));
+        this.entityData.set(FORMULA, compoundNBT.getCompound("formula"));
         this.entityData.set(X_TARGET, compoundNBT.getFloat("x_target"));
         this.entityData.set(Y_TARGET, compoundNBT.getFloat("y_target"));
         this.entityData.set(Z_TARGET, compoundNBT.getFloat("z_target"));
@@ -151,9 +143,7 @@ public class DanmakuEntity extends ThrowableEntity {
         compoundNBT.putInt("danmaku_green", this.entityData.get(G));
         compoundNBT.putInt("danmaku_blue", this.entityData.get(B));
         compoundNBT.putInt("danmaku_alpha", this.entityData.get(ALPHA));
-        compoundNBT.putString("x_formula", this.entityData.get(VELOCITY_X_FORMULA));
-        compoundNBT.putString("y_formula", this.entityData.get(VELOCITY_Y_FORMULA));
-        compoundNBT.putString("z_formula", this.entityData.get(VELOCITY_Z_FORMULA));
+        compoundNBT.put("formula", this.entityData.get(FORMULA));
         compoundNBT.putFloat("x_target", this.entityData.get(X_TARGET));
         compoundNBT.putFloat("y_target", this.entityData.get(Y_TARGET));
         compoundNBT.putFloat("z_target", this.entityData.get(Z_TARGET));
@@ -175,13 +165,11 @@ public class DanmakuEntity extends ThrowableEntity {
         if (tickCount >= max_time) {
             this.remove();
         } else {
-            String xFormula = this.entityData.get(VELOCITY_X_FORMULA);
-            String yFormula = this.entityData.get(VELOCITY_Y_FORMULA);
-            String zFormula = this.entityData.get(VELOCITY_Z_FORMULA);
+            PositionExpression positionExpression = new PositionExpression();
+            positionExpression.deserializeNBT(this.entityData.get(FORMULA));
             Float speed_scale = this.entityData.get(SPEED_SCALE);
             if (Math.abs(speed_scale) > 10 || speed_scale.isNaN() || speed_scale.isInfinite())
                 speed_scale = 1f;
-            PositionExpression positionExpression = new PositionExpression(xFormula, yFormula, zFormula, null, null);
             positionExpression.setTargetVec(new Vector3f(this.entityData.get(X_TARGET), this.entityData.get(Y_TARGET), this.entityData.get(Z_TARGET)));
             Vector3f execute = positionExpression.execute((double) tickCount);
             if (execute != null) {

@@ -1,6 +1,10 @@
 package mfrf.magic_circle.item;
 
 import mfrf.magic_circle.interfaces.IMagicalItem;
+import mfrf.magic_circle.magicutil.Invoker;
+import mfrf.magic_circle.magicutil.MagicStream;
+import mfrf.magic_circle.magicutil.Receiver;
+import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.registry_lists.Capabilities;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import net.minecraft.entity.Entity;
@@ -10,11 +14,13 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 
 public class ItemStaff extends ItemBase {
 
@@ -32,18 +38,30 @@ public class ItemStaff extends ItemBase {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World p_77659_1_, PlayerEntity p_77659_2_, Hand p_77659_3_) {
-        ItemStack heldItem = p_77659_2_.getItemInHand(p_77659_3_);
-        if (!p_77659_1_.isClientSide()) {
-            if(p_77659_2_.isShiftKeyDown()){
-                heldItem.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
-                    iMagicalItem.setMana((int) p_77659_1_.getDayTime());
-                });
-            }else {
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand p_77659_3_) {
+        ItemStack heldItem = player.getItemInHand(p_77659_3_);
+        if (!world.isClientSide()) {
             heldItem.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
-                p_77659_2_.sendMessage(new StringTextComponent(iMagicalItem.getMana()+""), p_77659_2_.getUUID());
+                iMagicalItem.executeMagic(true, world, player.getUUID(), new MagicStream.MagicStreamInfo(null,
+                        new MagicStream.DataContain(
+                                MagicNodePropertyMatrix8By8.IDENTITY.copy(),
+                                Receiver.ReceiverType.BLOCK,
+                                Invoker.InvokerType.ENTITY,
+                                new Vector3f(player.getLookAngle()),
+                                getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.ANY).getBlockPos(),
+                                new Receiver.WeatherType(world.rainLevel, world.thunderLevel),
+                                Receiver.RangeType.CIRCLE,
+                                world,
+                                player.blockPosition().above(),
+                                heldItem,
+                                player.getUUID(),
+                                player.getUUID(),
+                                null,
+                                new HashMap<>(),
+                                0
+                        )
+                ));
             });
-            }
         }
         return new ActionResult<ItemStack>(ActionResultType.SUCCESS, heldItem);
     }

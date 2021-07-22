@@ -46,7 +46,7 @@ public class SendPack {
 
                 PlayerKnowledges knowledges = PlayerKnowledge.getOrCreate(sender.getLevel()).getOrCreate(playerUUID);
 
-                RequestMagicModelsData.INSTANCE.send(PacketDistributor.PLAYER.with(() -> sender), new SendPack(knowledges.serializeNBT(), playerUUID));
+                RequestKnowledges.INSTANCE.send(PacketDistributor.PLAYER.with(() -> sender), new SendPack(knowledges.serializeNBT(), playerUUID));
 
             }
 

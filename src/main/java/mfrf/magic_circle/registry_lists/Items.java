@@ -11,6 +11,7 @@ import mfrf.magic_circle.item.armor.MagesGaiters;
 import mfrf.magic_circle.item.resources.ItemMagicCrystal;
 import mfrf.magic_circle.item.resources.ItemTestPaper;
 import mfrf.magic_circle.item.tool.ItemPenAndInk;
+import mfrf.magic_circle.item.RevalStaff;
 import mfrf.magic_circle.util.MagicalItemContainer;
 import mfrf.magic_circle.util.MagicalItemSimpleImplement;
 import net.minecraft.item.Item;
@@ -93,6 +94,9 @@ public class Items {
                     }),
             400, 1.2, 400, 50, 2, 5, null)));
     // staff===============================================================================================================================================================================================
+
+    //temp
+    public static final RegistryObject<RevalStaff> REVAL_STAFF = ITEM_DEFERRED_REGISTER.register("reveal_staff", () -> new RevalStaff(STAFF_PROPERTY));
 
     public static RegistryObject<Item> registerObject(Item item, String name) {
         return ITEM_DEFERRED_REGISTER.register(name, () -> item);

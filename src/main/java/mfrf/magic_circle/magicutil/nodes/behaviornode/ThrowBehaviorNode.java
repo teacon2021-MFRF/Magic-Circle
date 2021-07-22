@@ -19,6 +19,7 @@ import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -63,8 +64,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             double efficient = streamEigenMatrix.getEfficient();
 
             PositionExpression actualExpression = expressionModified ? positionExpression : new PositionExpression(data.targetVec);
-            double minCount = Math.min((execute_speed - cooldown) * strength / 20, 50);
-            int count = (int) minCount;
+            int count = (int) ((execute_speed - cooldown) * strength / 20);
             float danmakuDamage = (float) strength;
             float speedScale = (float) (strength / efficient);
             float danmakuDuration = (float) duration;
@@ -256,6 +256,7 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
             }
 
             if (world instanceof ServerWorld) {
+                CompoundNBT compoundNBT = actualExpression.serializeNBT();
                 Random rand = world.getRandom();
                 for (int l = 0; l <= count; l++) {
                     BlockPos offset = data.beginPos.offset(rand.nextInt((int) range) / 10, rand.nextInt((int) range) / 10, rand.nextInt((int) range) / 10);
@@ -264,8 +265,13 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
                     spawn.setTargetVec(data.targetVec);
                     spawn.setRequiredVariables((int) danmakuDamage, (int) danmakuDuration, type);
                     spawn.setSpeedScale(speedScale);
-                    spawn.setPositionExpression(actualExpression);
                     spawn.setPenetrateAble(penetrate_able);
+
+                    PositionExpression expression = new PositionExpression();
+                    expression.deserializeNBT(compoundNBT);
+                    expression.setAddition(l);
+
+                    spawn.setPositionExpression(expression);
                     if (damage_consumer != null) {
                         InGameCaches.onDanmakuAttack.put(spawn.getUUID(), damage_consumer);
                     }

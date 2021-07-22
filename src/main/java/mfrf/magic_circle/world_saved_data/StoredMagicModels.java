@@ -2,7 +2,10 @@ package mfrf.magic_circle.world_saved_data;
 
 import mfrf.magic_circle.Config;
 import mfrf.magic_circle.magicutil.MagicModelBase;
+import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
+import mfrf.magic_circle.magicutil.nodes.behaviornode.ThrowBehaviorNode;
 import mfrf.magic_circle.util.CachedEveryThingForClient;
+import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -26,7 +29,19 @@ public class StoredMagicModels extends WorldSavedData {
 
     public HashMap<String, MagicModelBase> getOrCreateModelCache(UUID id) {
         if (!Magic_Models.containsKey(id)) {
-            Magic_Models.put(id, new HashMap<>());
+            HashMap<String, MagicModelBase> stringMagicModelBaseHashMap = new HashMap<>();
+            //todo remove after reval
+            //==============================================
+            BeginNodeBase beginNodeBase = new BeginNodeBase();
+            ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
+            beginNodeBase.appendNodeL(throwBehaviorNode);
+            PositionExpression expression = new PositionExpression("math.sin(t + addition % 10)", "t", "math.cos(t + addition % 10)", null, null, null);
+            throwBehaviorNode.setPositionExpression(expression);
+
+            stringMagicModelBaseHashMap.put("fireball", new MagicModelBase(beginNodeBase));
+            //==============================================
+
+            Magic_Models.put(id, stringMagicModelBaseHashMap);
         }
         return Magic_Models.get(id);
     }

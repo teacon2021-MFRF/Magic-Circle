@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +26,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.function.Supplier;
 
@@ -60,6 +62,8 @@ public class EngraverTableScreen extends ScreenBase<EngraverTableContainer> {
     public void render(MatrixStack matrixStack, int x, int y, float partialTick) {
         super.render(matrixStack, x, y, partialTick);
 
+        font.draw(matrixStack, "WIP", getGuiLeft() + getXSize() / 2, getGuiTop() + getYSize() / 2, 0xffffffff);
+
         renderTooltip(matrixStack, x, y);
     }
 
@@ -68,7 +72,11 @@ public class EngraverTableScreen extends ScreenBase<EngraverTableContainer> {
         super.init(p_231158_1_, p_231158_2_, p_231158_3_);
 
         this.nodeListBar = addWidget(new VScrollBar(33, 9, 8, 9, new TranslationTextComponent("magic_circle.gui.v_scroll_bar")));
-        this.nodeList = addWidget(new NodeList(nodeListBar, new ArrayList<>(menu.knowledges.getUnlockedResearchs())));
+
+        HashSet<String> unlockedResearchs = CachedEveryThingForClient.requestKnowledge(menu.playerEntity.level, menu.playerEntity.getUUID()).getUnlockedResearchs();
+        if (unlockedResearchs != null) {
+            this.nodeList = addWidget(new NodeList(nodeListBar, new ArrayList<>(unlockedResearchs)));
+        }
 
         this.nodeInstantBar = addWidget(new WScrollBar(0, 159, 176, 10, new TranslationTextComponent("magic_circle.gui.w_scroll_bar")));
         this.nodeInstanceList = addWidget(new NodeInstanceList(nodeInstantBar));
@@ -112,13 +120,21 @@ public class EngraverTableScreen extends ScreenBase<EngraverTableContainer> {
             }
         }));
 
+        new SliderPercentageOption("magic_circle.slide_bar_w", 0, 100, 1, gameSettings -> Double.valueOf(0), (gameSettings, aDouble) -> {
+        }, (gameSettings, sliderPercentageOption) -> new TranslationTextComponent("magic_circle.gui.slidebar_w"));
+
 
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (currentIndex > modelNames.size() - 1) {
+
+        if (modelNames == null) {
+            getModelMap();
+        }
+
+        if (modelNames != null && currentIndex > modelNames.size() - 1) {
             currentIndex = modelNames.size() - 1;
         }
     }
@@ -143,11 +159,6 @@ public class EngraverTableScreen extends ScreenBase<EngraverTableContainer> {
 
         @Override
         public void render(MatrixStack matrixStack, int mouseX, int mouseY, float p_230430_4_) {
-            minecraft.getTextureManager().bind(getTexture());
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.enableDepthTest();
 
             blit(matrixStack, this.x, this.y + currentPos, 194, 0, 8, 9, 256, 256);
         }

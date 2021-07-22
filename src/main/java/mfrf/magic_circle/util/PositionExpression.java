@@ -3,22 +3,25 @@ package mfrf.magic_circle.util;
 import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Expression;
 import mfrf.magic_circle.Config;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
-public class PositionExpression {
+public class PositionExpression implements INBTSerializable<CompoundNBT> {
     public int samplingCount = 100;
     public float samplingAccuracy = Config.CURVE_PRECISION.get();
     public String x = "0.0";
     public String y = "0.0";
     public String z = "0.0";
+    public int addition = 0;
     public boolean hasTarget = false;
     public Vector3f targetVec = new Vector3f();
     //parameter is t
 
-    public PositionExpression(@Nullable String x, @Nullable String y, @Nullable String z, @Nullable Float samplingAccuracy, @Nullable Integer samplingCount) {
+    public PositionExpression(@Nullable String x, @Nullable String y, @Nullable String z, @Nullable Float samplingAccuracy, @Nullable Integer samplingCount, @Nullable Integer addition) {
         if (x != null) {
             this.x = "double(" + x + ")";
         }
@@ -27,6 +30,9 @@ public class PositionExpression {
         }
         if (z != null) {
             this.z = "double(" + z + ")";
+        }
+        if (addition != null) {
+            this.addition = addition;
         }
         if (samplingAccuracy != null) {
             this.samplingAccuracy = samplingAccuracy;
@@ -40,6 +46,32 @@ public class PositionExpression {
         this.x = Float.toString(vector3f.x() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.x());
         this.y = Float.toString(vector3f.y() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.y());
         this.z = Float.toString(vector3f.z() > Config.MAX_VELOCITY_OF_DANMAKU.get() ? 20f : vector3f.z());
+    }
+
+    @Override
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = new CompoundNBT();
+        compoundNBT.putString("x",x);
+        compoundNBT.putString("y",y);
+        compoundNBT.putString("z",z);
+        compoundNBT.putInt("sampling",samplingCount);
+        compoundNBT.putInt("addition",addition);
+        compoundNBT.putBoolean("hastarget",hasTarget);
+        compoundNBT.putFloat("target_x",targetVec.x());
+        compoundNBT.putFloat("target_y",targetVec.y());
+        compoundNBT.putFloat("target_z",targetVec.z());
+        return compoundNBT;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundNBT nbt) {
+        this.x = nbt.getString("x");
+        this.y = nbt.getString("y");
+        this.z = nbt.getString("z");
+        this.samplingCount = nbt.getInt("sampling");
+        this.addition = nbt.getInt("addition");
+        this.hasTarget = nbt.getBoolean("has_target");
+        this.targetVec = new Vector3f(nbt.getFloat("target_x"),nbt.getFloat("target_y"),nbt.getFloat("target_z"));
     }
 
     public void setTargetVec(Vector3f vector3f) {
@@ -57,6 +89,7 @@ public class PositionExpression {
         env.put("targetX", targetVec.x());
         env.put("targetY", targetVec.y());
         env.put("targetZ", targetVec.z());
+        env.put("addition", addition);
         float x = 0;
         float y = 0;
         float z = 0;
@@ -108,7 +141,16 @@ public class PositionExpression {
         this.z = z;
     }
 
+    public int getAddition() {
+        return addition;
+    }
+
+    public void setAddition(int addition) {
+        this.addition = addition;
+    }
+
     public PositionExpression() {
 
     }
+
 }
