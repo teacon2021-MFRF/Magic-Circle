@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "magic_circle:items/staff_1",
-		"particle": "magic_circle:items/staff_1"
+		"0": "magic_circle:items/reveal_staff",
+		"particle": "magic_circle:items/reveal_staff"
 	},
 	"elements": [
 		{
