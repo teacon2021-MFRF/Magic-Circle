@@ -25,6 +25,7 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<Float> PURITY_MANA_RECOVERY_SCALE;
     public static ForgeConfigSpec.ConfigValue<Float> SIZE_MANA_CAPACITY_PRIMED_SCALE;
     public static ForgeConfigSpec.ConfigValue<Float> PURITY_MANA_RECOVERY_PRIMED_SCALE;
+    public static ForgeConfigSpec.ConfigValue<Double> MAGIC_RENDERING_RANGE;
 
 
     static {
@@ -87,6 +88,8 @@ public class Config {
         CONFIG_BUILDER.pop();
 
         CONFIG_BUILDER.comment("Magic settings").push("magics");
+
+        MAGIC_RENDERING_RANGE = CONFIG_BUILDER.comment("This value defines render radius of magic", "ratial number").define("magic_rendering_range", 64d);
 
         MAX_MEMORIZED_MODEL_PER_PLAYER = CONFIG_BUILDER.comment("This value definite max magic model memorable per player.", "Should not be negative", "Integer number").define("max_memorable_model_per_player", 20);
 

@@ -52,28 +52,25 @@ public class MagicModelBase extends MagicNodeBase {
 
     public int getEdges() {
         if (edgeCounts == -1) {
-            edgeCounts = (int) Arrays.stream(getConnectivityMatrix().data).map(operand -> operand != 0 ? 1 : 0).sum();
+            edgeCounts = (int) Arrays.stream(updateConnectivityMatrix().data).map(operand -> operand != 0 ? 1 : 0).sum();
         }
         return edgeCounts;
     }
 
-    public ArrayList<MagicNodeBase> getNodes() {
-        if (nodes == null) {
-            if (begin != null) {
-                nodes = begin.getNodes(new ArrayList<>());
-            }
+    public ArrayList<MagicNodeBase> updateNodes() {
+        if (begin != null) {
+            nodes = begin.getNodes(new ArrayList<>());
+        } else {
             nodes = new ArrayList<>();
         }
         return nodes;
     }
 
-    public MagicStreamMatrixNByN getConnectivityMatrix() {
-        if (connectivityMatrix == null) {
-            ArrayList<MagicNodeBase> nodes = getNodes();
-            int nodeCounts = nodes.size();
-            connectivityMatrix = new MagicStreamMatrixNByN(nodeCounts, nodeCounts);
-            begin.getConnectivityMatrix(connectivityMatrix, nodes);
-        }
+    public MagicStreamMatrixNByN updateConnectivityMatrix() {
+        ArrayList<MagicNodeBase> nodes = updateNodes();
+        int nodeCounts = nodes.size();
+        connectivityMatrix = new MagicStreamMatrixNByN(nodeCounts, nodeCounts);
+        begin.getConnectivityMatrix(connectivityMatrix, nodes);
         return connectivityMatrix;
     }
 
@@ -81,7 +78,7 @@ public class MagicModelBase extends MagicNodeBase {
     public MagicNodePropertyMatrix8By8 getEigenMatrix() {
         if (eigenMatrix == null) {
             MagicNodePropertyMatrix8By8 eigen = MagicNodePropertyMatrix8By8.IDENTITY;
-            for (MagicNodeBase node : getNodes()) {
+            for (MagicNodeBase node : updateNodes()) {
                 eigen = eigen.leftTimes(node.eigenMatrix);
             }
             this.eigenMatrix = eigen;
@@ -93,7 +90,7 @@ public class MagicModelBase extends MagicNodeBase {
     @OnlyIn(Dist.CLIENT)
     public MagicCircleComponentBase<?> getRender() {
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase();
-        ArrayList<MagicNodeBase> nodes = getNodes();
+        ArrayList<MagicNodeBase> nodes = updateNodes();
         for (MagicNodeBase node : nodes) {
             magicCircleRenderBase.appendNextParallelComponent(node.getRender());
         }
@@ -107,8 +104,8 @@ public class MagicModelBase extends MagicNodeBase {
 
     public CompoundNBT serializeNBT() {
         CompoundNBT compoundNBT = new CompoundNBT();
-        MagicStreamMatrixNByN connectivityMatrix = getConnectivityMatrix();
-        ArrayList<MagicNodeBase> nodes = getNodes();
+        MagicStreamMatrixNByN connectivityMatrix = updateConnectivityMatrix();
+        ArrayList<MagicNodeBase> nodes = updateNodes();
 
         compoundNBT.put("connectivity_matrix", connectivityMatrix.serializeNBT());
 

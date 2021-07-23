@@ -33,10 +33,14 @@ public class RenderCache {
             RequestMagicModelsData.INSTANCE.send(PacketDistributor.SERVER.with(() -> null),
                     new SendPack(name, new CompoundNBT(), uuid, false));
 
-            renderCache.put(name, CachedEveryThingForClient.getOrCreateModels(uuid).getOrDefault(name, new MagicModelBase(null)).getRender());
+            MagicModelBase put = CachedEveryThingForClient.getOrCreateModels(uuid).get(name);
+            if (put != null) {
+                renderCache.put(name, put.getRender());
 
-            if (flag) {
-                CachedEveryThingForClient.setUpdated(uuid, name);
+                if (flag) {
+                    CachedEveryThingForClient.setUpdated(uuid, name);
+                }
+
             }
         }
         return renderCache.get(name);

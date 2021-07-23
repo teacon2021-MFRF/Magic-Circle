@@ -39,7 +39,7 @@ public class SendPack {
     }
 
     public void toBytes(PacketBuffer buf) {
-        buf.writeCharSequence(modelName, StandardCharsets.UTF_8);
+        buf.writeUtf(modelName);
         buf.writeUUID(playerUUID);
         buf.writeNbt(modelNBT);
         buf.writeBoolean(hasModel);

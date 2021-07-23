@@ -1,6 +1,7 @@
 package mfrf.magic_circle.rendering;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -75,6 +76,7 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             Matrix4f matrix = matrixStackIn.last().pose();
 
             matrixStackIn.pushPose();
+            RenderSystem.enableDepthTest();
 
             Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
             matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
@@ -122,6 +124,7 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             Matrix4f matrix = matrixStackIn.last().pose();
 
             matrixStackIn.pushPose();
+            RenderSystem.enableDepthTest();
 
             Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
             matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);

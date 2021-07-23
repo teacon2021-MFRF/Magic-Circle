@@ -2,6 +2,7 @@ package mfrf.magic_circle.events;
 
 import mfrf.magic_circle.interfaces.IComfortableCapabilityStorage;
 import mfrf.magic_circle.interfaces.IMagicalItem;
+import mfrf.magic_circle.network.execute_render_data.ExecuteRenderDataSync;
 import mfrf.magic_circle.network.gui_model_sync.SyncModelData;
 import mfrf.magic_circle.network.knowledge_sync.RequestKnowledges;
 import mfrf.magic_circle.network.magic_model_request.RequestMagicModelsData;
@@ -24,5 +25,6 @@ public class CommonSetUpEvent {
         SendAnswer.registerMessage();
         RequestKnowledges.registerMessage();
         SyncModelData.registerMessage();
+        ExecuteRenderDataSync.registerMessage();
     }
 }

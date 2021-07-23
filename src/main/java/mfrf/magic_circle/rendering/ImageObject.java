@@ -1,6 +1,7 @@
 package mfrf.magic_circle.rendering;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mfrf.magic_circle.MagicCircle;
 import net.minecraft.client.Minecraft;
@@ -71,6 +72,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         }
 
         matrixStackIn.pushPose();
+        RenderSystem.enableDepthTest();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
         for (int i = 0; i < vector3fArrayList.size(); i += 4) {
             Vector3f vector3f1 = vector3fArrayList.get(i);
@@ -129,6 +131,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         }
 
         matrixStackIn.pushPose();
+        RenderSystem.enableDepthTest();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
         for (int i = 0; i < vector3fArrayList.size(); i += 4) {
             Vector3f vector3f1 = vector3fArrayList.get(i);

@@ -129,14 +129,17 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     }
 
     public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        if (time - delay <= 0) {
+        if (time - delay < 0) {
             return false;
         } else {
             boolean flag = renderingSelf(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, useActualPosition ? actualPosition : stablePosition, renderer);
 
             if (flag) {
                 for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
-                    boolean rendering = nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    boolean rendering = true;
+                    if (nextParallelComponent != null) {
+                        rendering = nextParallelComponent.rendering(time - renderTime - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    }
                     flag = flag && rendering;
                 }
             }
@@ -277,6 +280,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
             Matrix4f matrix = matrixStack.last().pose();
 
             matrixStack.pushPose();
+            RenderSystem.enableDepthTest();
 
             Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
             matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);

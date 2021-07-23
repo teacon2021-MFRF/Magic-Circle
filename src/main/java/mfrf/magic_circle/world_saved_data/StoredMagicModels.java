@@ -35,7 +35,7 @@ public class StoredMagicModels extends WorldSavedData {
             BeginNodeBase beginNodeBase = new BeginNodeBase();
             ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
             beginNodeBase.appendNodeL(throwBehaviorNode);
-            PositionExpression expression = new PositionExpression("math.sin(t + addition % 10)", "t", "math.cos(t + addition % 10)", null, null, null);
+            PositionExpression expression = new PositionExpression("t * math.sin(t + addition % 10)", "0", "t * math.cos(t + addition % 10)", null, null, null);
             throwBehaviorNode.setPositionExpression(expression);
 
             stringMagicModelBaseHashMap.put("fireball", new MagicModelBase(beginNodeBase));

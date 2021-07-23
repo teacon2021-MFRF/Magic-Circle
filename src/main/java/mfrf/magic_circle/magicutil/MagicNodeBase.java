@@ -1,6 +1,5 @@
 package mfrf.magic_circle.magicutil;
 
-import mfrf.magic_circle.gui.engraver_table.EngraverTableScreen;
 import mfrf.magic_circle.gui.widgets.Argument;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
@@ -121,15 +120,17 @@ public abstract class MagicNodeBase {
 
     public void getConnectivityMatrix(MagicStreamMatrixNByN magicStreamMatrixNByN, final ArrayList<MagicNodeBase> nodeMaps) {
         int i = nodeMaps.indexOf(this);
-        if (this.leftNode != null) {
-            int j = nodeMaps.indexOf(leftNode);
-            magicStreamMatrixNByN.set(i, j, 1);
-            leftNode.getConnectivityMatrix(magicStreamMatrixNByN, nodeMaps);
-        }
-        if (this.rightNode != null) {
-            int j = nodeMaps.indexOf(rightNode);
-            magicStreamMatrixNByN.set(i, j, 2);
-            leftNode.getConnectivityMatrix(magicStreamMatrixNByN, nodeMaps);
+        if (i != -1) {
+            if (this.leftNode != null) {
+                int j = nodeMaps.indexOf(leftNode);
+                magicStreamMatrixNByN.set(i, j, 1);
+                leftNode.getConnectivityMatrix(magicStreamMatrixNByN, nodeMaps);
+            }
+            if (this.rightNode != null) {
+                int j = nodeMaps.indexOf(rightNode);
+                magicStreamMatrixNByN.set(i, j, 2);
+                leftNode.getConnectivityMatrix(magicStreamMatrixNByN, nodeMaps);
+            }
         }
     }
 
@@ -144,40 +145,43 @@ public abstract class MagicNodeBase {
         compoundNBT.putInt("layer", layer);
         compoundNBT.putString("type", nodeType.name());
         compoundNBT.put("matrix", eigenMatrix.serializeNBT());
-        return null;
+        return compoundNBT;
     }
 
     public static MagicNodeBase deserializeNBT(CompoundNBT nbt) {
-        NodeType type = NodeType.valueOf(nbt.getString("type"));
-        int layer = nbt.getInt("layer");
-        MagicNodePropertyMatrix8By8 matrix = MagicNodePropertyMatrix8By8.deserializeNBT(nbt.getCompound("matrix"));
+        if (!nbt.isEmpty()) {
+            NodeType type = NodeType.valueOf(nbt.getString("type"));
+            int layer = nbt.getInt("layer");
+            MagicNodePropertyMatrix8By8 matrix = MagicNodePropertyMatrix8By8.deserializeNBT(nbt.getCompound("matrix"));
 
-        MagicNodeBase nodeBase;
-        switch (type) {
-            case DECORATE: {
-                nodeBase = DecorateNodeBase.deserializeNBT(nbt, layer, matrix);
-                break;
+            MagicNodeBase nodeBase;
+            switch (type) {
+                case DECORATE: {
+                    nodeBase = DecorateNodeBase.deserializeNBT(nbt, layer, matrix);
+                    break;
+                }
+                case BEHAVIOR: {
+                    nodeBase = BehaviorNodeBase.deserializeNBT(nbt, layer, matrix);
+                    break;
+                }
+                case EFFECT: {
+                    nodeBase = EffectNodeBase.deserializeNBT(nbt, layer, matrix);
+                    break;
+                }
+                case MODEL: {
+                    nodeBase = MagicModelBase.deserializeNBT(nbt);
+                    break;
+                }
+                case BEGIN: {
+                    nodeBase = BeginNodeBase.deserializeNBT(nbt, layer, matrix);
+                    break;
+                }
+                default:
+                    throw new IllegalStateException("Unexpected value: " + type);
             }
-            case BEHAVIOR: {
-                nodeBase = BehaviorNodeBase.deserializeNBT(nbt, layer, matrix);
-                break;
-            }
-            case EFFECT: {
-                nodeBase = EffectNodeBase.deserializeNBT(nbt, layer, matrix);
-                break;
-            }
-            case MODEL: {
-                nodeBase = MagicModelBase.deserializeNBT(nbt);
-                break;
-            }
-            case BEGIN: {
-                nodeBase = BeginNodeBase.deserializeNBT(nbt, layer, matrix);
-                break;
-            }
-            default:
-                throw new IllegalStateException("Unexpected value: " + type);
+            return nodeBase;
         }
-        return nodeBase;
+        return null;
     }
 
     public enum NodeType {

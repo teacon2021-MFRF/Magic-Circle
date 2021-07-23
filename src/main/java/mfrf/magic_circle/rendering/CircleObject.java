@@ -45,6 +45,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
+        RenderSystem.enableDepthTest();
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
@@ -75,6 +76,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         Matrix4f matrix = matrixStackIn.last().pose();
 
         matrixStackIn.pushPose();
+        RenderSystem.enableDepthTest();
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);

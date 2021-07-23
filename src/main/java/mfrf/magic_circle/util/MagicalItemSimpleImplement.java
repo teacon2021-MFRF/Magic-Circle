@@ -1,10 +1,10 @@
 package mfrf.magic_circle.util;
 
+import mfrf.magic_circle.Config;
 import mfrf.magic_circle.interfaces.IMagicalItem;
 import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.magicutil.MagicStream;
 import mfrf.magic_circle.registry_lists.Capabilities;
-import mfrf.magic_circle.world_saved_data.StoredMagicModels;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -267,8 +267,8 @@ public class MagicalItemSimpleImplement implements IMagicalItem, ICapabilityProv
                     iMagicalItem.executeMagic(true, world, uuid, stream);
                 });
             } else if (prefix.matches("normal_")) {
-                CachedEveryThingForClient.setExecute(uuid,name,0);
-                MagicModelBase magicModelBase = CachedEveryThingForClient.requestModels(world,uuid).get(name);
+                CachedEveryThingForClient.setExecute(uuid, name, 0, world, Config.MAGIC_RENDERING_RANGE.get(), stream.data.beginPos);
+                MagicModelBase magicModelBase = CachedEveryThingForClient.requestModels(world, uuid).get(name);
                 if (magicModelBase != null) {
                     MagicStream invoke = magicModelBase.invoke(new MagicStream(stream));
                     invoke.apply();

@@ -2,15 +2,21 @@ package mfrf.magic_circle.util;
 
 import mfrf.magic_circle.knowledges.PlayerKnowledges;
 import mfrf.magic_circle.magicutil.MagicModelBase;
+import mfrf.magic_circle.network.execute_render_data.ExecuteRenderDataSync;
 import mfrf.magic_circle.network.gui_model_sync.SyncModelData;
 import mfrf.magic_circle.network.knowledge_sync.RequestKnowledges;
 import mfrf.magic_circle.network.knowledge_sync.SendPack;
 import mfrf.magic_circle.world_saved_data.PlayerKnowledge;
 import mfrf.magic_circle.world_saved_data.StoredMagicModels;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.UUID;
 
 public class CachedEveryThingForClient {
     private static final HashMap<UUID, HashMap<String, MagicModelBase>> MAGIC_MODELS = new HashMap<>();
@@ -65,8 +71,11 @@ public class CachedEveryThingForClient {
         UPDATED_MODELS.add(new UpdateCache(player, name));
     }
 
-    public static void setExecute(UUID uuid, String name, Integer integer) {
+    public static void setExecute(UUID uuid, String name, Integer integer, World world, double range, BlockPos pos) {
         getOrCreateMap(uuid).put(name, integer);
+        if (world != null && !world.isClientSide()) {
+            ExecuteRenderDataSync.INSTANCE.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), range, world.dimension())), new mfrf.magic_circle.network.execute_render_data.SendPack(uuid, name, 0, range, pos));
+        }
     }
 
     public static HashMap<UUID, HashMap<String, MagicModelBase>> getMagicModels() {

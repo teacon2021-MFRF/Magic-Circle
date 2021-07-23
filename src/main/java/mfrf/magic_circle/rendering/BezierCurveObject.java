@@ -141,6 +141,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
         IVertexBuilder builder = buffer.getBuffer(renderType);
 
         matrixStackIn.pushPose();
+        RenderSystem.enableDepthTest();
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);
@@ -172,6 +173,7 @@ public class BezierCurveObject extends MagicCircleComponentBase<BezierCurveObjec
         IVertexBuilder builder = buffer.getBuffer(renderType);
 
         matrixStackIn.pushPose();
+        RenderSystem.enableDepthTest();
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         matrixStackIn.translate(-projectedView.x, -projectedView.y, -projectedView.z);

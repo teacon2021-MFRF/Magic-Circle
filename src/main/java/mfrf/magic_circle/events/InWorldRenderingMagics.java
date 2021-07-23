@@ -1,6 +1,7 @@
 package mfrf.magic_circle.events;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import mfrf.magic_circle.util.CachedEveryThingForClient;
 import mfrf.magic_circle.util.RenderCache;
 import net.minecraft.client.Minecraft;
@@ -31,13 +32,17 @@ public class InWorldRenderingMagics {
                 if (level != null) {
                     PlayerEntity playerByUUID = level.getPlayerByUUID(uuidHashMapEntry.getKey());
                     if (playerByUUID != null) {
-                        boolean rendering = RenderCache.getRender(uuidHashMapEntry.getKey(), stringIntegerEntry.getKey()).rendering(stringIntegerEntry.getValue(), matrixStack, buffer, playerByUUID.getLookAngle(), playerByUUID.getUpVector(1.0f), new Vector3f(playerByUUID.position()), Minecraft.getInstance().getEntityRenderDispatcher());
-                        if (rendering) {
-                            uuidHashMapEntry.getValue().remove(stringIntegerEntry.getKey());
+                        MagicCircleComponentBase<?> rendering = RenderCache.getRender(uuidHashMapEntry.getKey(), stringIntegerEntry.getKey());
+                        if (rendering != null) {
+                            boolean flag = rendering.rendering(stringIntegerEntry.getValue(), matrixStack, buffer, playerByUUID.getLookAngle(), playerByUUID.getUpVector(1.0f), new Vector3f(playerByUUID.position()), Minecraft.getInstance().getEntityRenderDispatcher());
+                            if (flag) {
+                                uuidHashMapEntry.getValue().remove(stringIntegerEntry.getKey());
+                            } else {
+                                stringIntegerEntry.setValue(stringIntegerEntry.getValue() + 1);
+                            }
                         }
                     }
                 }
-                stringIntegerEntry.setValue(stringIntegerEntry.getValue() + 1);
             }
         }
     }
