@@ -82,12 +82,12 @@ public class RevalStaff extends ItemStaff {
                             0
                     ));
 
-//            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 2000);
-//            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 200);
-//            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT,20);
-            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 1);
-            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 1);
-            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT,1);
+            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 2000);
+            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 200);
+            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT,20);
+//            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 1);
+//            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 1);
+//            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT,1);
 
             stack.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
                 iMagicalItem.executeMagic(false, world, player.getUUID(), magicStreamInfo);
