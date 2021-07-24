@@ -29,8 +29,8 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase<MagicCircleR
 
     @Override
     public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        boolean flag = time - renderTime <= 0;
-        if (flag || renderTime == 0) {
+        boolean flag = time - renderTime <= 0 || renderTime == 0;
+        if (flag) {
 
             for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
                 boolean rendering = true;
@@ -46,9 +46,8 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase<MagicCircleR
 
     @Override
     public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, TileEntityRendererDispatcher renderer) {
-        boolean flag = time - renderTime <= 0;
-        if (flag || renderTime == 0) {
-
+        boolean flag = time - renderTime <= 0 || renderTime == 0;
+        if (flag) {
             for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
                 boolean rendering = true;
                 if (nextParallelComponent != null) {

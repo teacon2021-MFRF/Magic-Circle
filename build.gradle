@@ -8,10 +8,16 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version "5.2.0"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+
 
 version = '1.0'
 group = 'mfrf' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -91,12 +97,12 @@ dependencies {
     runtimeOnly 'com.googlecode.efficient-java-matrix-library:ejml:0.24'
     compileOnly 'com.googlecode.aviator:aviator:5.0.0'
     runtimeOnly 'com.googlecode.aviator:aviator:5.0.0'
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}:api")
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51")
-    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
-    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}@pom")
+//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}")
+//    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curious_version}:api")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-51")
+//    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
+//    compile fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}@pom")
 //    implementation fg.deobf("curse.maven:worldstripper-250603:3142092")
 //    compile fg.deobf("com.youbenzi:MDTool:1.2.4")
 //    compileOnly fg.deobf("icyllis.modernui:ModernUI-Forge:${modernui_version}")
@@ -114,6 +120,19 @@ jar {
                 "Implementation-Vendor"   : "examplemodsareus",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
+    }
+}
+
+reobf {
+    shadowJar {}
+}
+
+shadowJar {
+    exclude "**/*.pdn"
+    archiveClassifier.set('')
+    dependencies {
+        include(dependency("com.googlecode.efficient-java-matrix-library:ejml"))
+        include(dependency("com.googlecode.aviator:aviator"))
     }
 }
 
