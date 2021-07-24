@@ -32,29 +32,31 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase<MagicCircleR
         if (renderTime == 0) {
             boolean flag = true;
 
-            if (flag) {
-
-                for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
-                    boolean rendering = true;
-                    if (nextParallelComponent != null) {
-                        rendering = nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
-                    }
-                    flag = flag && rendering;
-                }
-            }
-            return flag;
-        } else {
-
-            boolean flag = time - renderTime <= 0;
             for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
+                boolean rendering = true;
                 if (nextParallelComponent != null) {
-                    nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    rendering = nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
                 }
+                flag = flag && rendering;
             }
 
             return flag;
+        } else if (renderTime > 0) {
+
+            if (time <= renderTime) {
+                for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
+                    if (nextParallelComponent != null) {
+                        nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    }
+                }
+            } else {
+                return true;
+            }
+
 
         }
+
+        return false;
 
     }
 
