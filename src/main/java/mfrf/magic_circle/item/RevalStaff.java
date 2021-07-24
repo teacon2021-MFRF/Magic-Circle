@@ -85,7 +85,7 @@ public class RevalStaff extends ItemStaff {
 //            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 2000);
 //            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 200);
 //            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT,20);
-          magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 1);
+            magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.STRENGTH, 1);
             magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.DURATION, 1);
             magicStreamInfo.data.eigenMatrix.set(MagicNodePropertyMatrix8By8.INDEX.EFFICIENT,1);
 
