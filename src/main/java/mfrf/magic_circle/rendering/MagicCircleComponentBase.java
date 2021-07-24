@@ -23,6 +23,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBase> {
@@ -39,7 +40,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     protected float zRotateSpeedRadius;
     protected int renderTime;
     protected Vector3f positionOffset = new Vector3f(0, 0, 0);
-    protected Quaternion rotation = Quaternion.ONE;
+    protected Function<Integer, Quaternion> rotation = (time) -> Quaternion.ONE;
     protected boolean enableAlphaGradient = false;
     protected int defaultAlpha = 255;
     protected boolean enableRGBGradient = false;
@@ -56,7 +57,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         return (T) this;
     }
 
-    public T setRotation(Quaternion rotation) {
+    public T setRotation(Function<Integer, Quaternion> rotation) {
         this.rotation = rotation;
         return (T) this;
     }
@@ -307,7 +308,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
 
     protected Quaternion makeRotate(float time) {
         Quaternion baseRot = new Quaternion(time * xRotateSpeedRadius, time * yRotateSpeedRadius, time * zRotateSpeedRadius, true);
-        baseRot.mul(rotation);
+        baseRot.mul(rotation.apply((int) time));
         return baseRot;
     }
 
@@ -416,14 +417,16 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         private Axis X;
         private Axis Y;
         private Axis Z;
-        private PositionExpression[] functions;
+        private PositionExpression[] functions = new PositionExpression[]{};
         // paramater is t
 
         public Coordinates(@Nullable Axis x, @Nullable Axis y, @Nullable Axis z, @Nullable PositionExpression... function) {
             X = x;
             Y = y;
             Z = z;
-            this.functions = function;
+            if (function != null) {
+                this.functions = function;
+            }
         }
 
         @Override

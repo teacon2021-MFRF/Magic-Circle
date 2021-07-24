@@ -37,7 +37,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         float timePassed = flag ? renderTime : time;
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
+        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec), time);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
@@ -68,7 +68,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         float timePassed = flag ? renderTime : time;
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec));
+        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec), time);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
@@ -92,10 +92,11 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         return flag;
     }
 
-    public ArrayList<Vector3f> getCircle(float percent, float timePassed, boolean rotate, Vector3f direction, Vector3f verticalVec) {
+    public ArrayList<Vector3f> getCircle(float percent, float timePassed, boolean rotate, Vector3f direction, Vector3f verticalVec, float actualTime) {
         ArrayList<Vector3f> points = new ArrayList<>();
         float actualAngle = (float) (percent * Math.PI * 2);
         float v = Config.CURVE_PRECISION.get() / actualAngle;
+        Quaternion apply = rotation.apply((int) actualTime);
 
 
         for (float i = 0; i <= actualAngle; i += v) {
@@ -113,13 +114,14 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
             Vector3f pos = new Vector3f(x, y, z);
 
             if (rotate) {
-                Quaternion copy = rotation.copy();
-                copy.mul(new Quaternion(xRotateSpeedRadius * timePassed, yRotateSpeedRadius * timePassed, zRotateSpeedRadius * timePassed, true));
+                Quaternion copy = apply.copy();
+                copy.mul(new Quaternion(xRotateSpeedRadius * actualTime, yRotateSpeedRadius * actualTime, zRotateSpeedRadius * actualTime, true));
                 pos.transform(copy);
             }
 
             pos.add(positionOffset);
             pos.transform(transform);
+            pos.transform(apply);
             points.add(pos);
         }
         if (percent == 1 && !points.isEmpty()) {

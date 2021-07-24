@@ -36,6 +36,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         IVertexBuilder buffer = bufferIn.getBuffer(type);
         Color colorsAdd = getColorsAdd(time).toAWT();
         Matrix4f pose = matrixStackIn.last().pose();
+        Quaternion apply = rotation.apply((int) time);
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 //        matrixStackIn.translate(positionOffset.x(), positionOffset.y(), positionOffset.z());
@@ -57,7 +58,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
             Vector3f copy = f.copy();
 
             Quaternion quaternion = makeRotate(time);
-            quaternion.mul(rotation);
+            quaternion.mul(apply);
             copy.transform(quaternion);
 
             copy.add(positionOffset);
@@ -95,6 +96,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
         IVertexBuilder buffer = bufferIn.getBuffer(type);
         Color colorsAdd = getColorsAdd(time).toAWT();
         Matrix4f pose = matrixStackIn.last().pose();
+        Quaternion apply = rotation.apply((int) time);
 
         Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 //        matrixStackIn.translate(positionOffset.x(), positionOffset.y(), positionOffset.z());
@@ -117,7 +119,7 @@ public class ImageObject extends MagicCircleComponentBase<ImageObject> {
 
             Quaternion quaternion = makeRotate(time);
             copy.transform(transform);
-            quaternion.mul(rotation);
+            quaternion.mul(apply);
             copy.transform(quaternion);
 
             copy.add(positionOffset);

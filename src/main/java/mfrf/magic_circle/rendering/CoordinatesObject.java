@@ -122,14 +122,17 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
 
         Quaternion baseRot = makeRotate(time);
         xAxisPoints.forEach(vector3f -> {
+            vector3f.add(positionOffset);
             vector3f.transform(baseRot);
             vector3f.transform(transform);
         });
         yAxisPoints.forEach(vector3f -> {
+            vector3f.add(positionOffset);
             vector3f.transform(baseRot);
             vector3f.transform(transform);
         });
         zAxisPoints.forEach(vector3f -> {
+            vector3f.add(positionOffset);
             vector3f.transform(baseRot);
             vector3f.transform(transform);
         });
@@ -137,6 +140,7 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             functionPoints.forEach(
                     function -> function.forEach(
                             vector3d -> {
+                                vector3d.add(positionOffset);
                                 vector3d.transform(baseRot);
                                 vector3d.transform(transform);
                             }
@@ -144,6 +148,7 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
             );
         }
         labels.forEach(vector3f -> {
+            vector3f.add(positionOffset);
             vector3f.transform(baseRot);
             vector3f.transform(transform);
         });

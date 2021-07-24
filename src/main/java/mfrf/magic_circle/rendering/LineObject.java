@@ -54,7 +54,7 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             float xRot = xRotateSpeedRadius == 0 ? 0 : time * xRotateSpeedRadius;
             float yRot = yRotateSpeedRadius == 0 ? 0 : time * yRotateSpeedRadius;
             float zRot = zRotateSpeedRadius == 0 ? 0 : time * zRotateSpeedRadius;
-            Quaternion rot = rotation.copy();
+            Quaternion rot = rotation.apply((int) time);
             rot.mul(new Quaternion(xRot, yRot, zRot, true));
 
             float percent = flag ? 1 : (time / renderTime);
@@ -101,7 +101,7 @@ public class LineObject extends MagicCircleComponentBase<LineObject> {
             float xRot = xRotateSpeedRadius == 0 ? 0 : time * xRotateSpeedRadius;
             float yRot = yRotateSpeedRadius == 0 ? 0 : time * yRotateSpeedRadius;
             float zRot = zRotateSpeedRadius == 0 ? 0 : time * zRotateSpeedRadius;
-            Quaternion rot = rotation.copy();
+            Quaternion rot = rotation.apply((int) time);
             rot.mul(new Quaternion(xRot, yRot, zRot, true));
 
             float percent = flag ? 1 : (time / renderTime);
