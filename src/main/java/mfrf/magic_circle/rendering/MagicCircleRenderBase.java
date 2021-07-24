@@ -29,19 +29,33 @@ public class MagicCircleRenderBase extends MagicCircleComponentBase<MagicCircleR
 
     @Override
     public boolean rendering(float time, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, Vector3d lookVec, Vector3d verticalVec, Vector3f actualPosition, EntityRendererManager renderer) {
-        boolean flag = time - renderTime <= 0 || renderTime == 0;
-        if (flag) {
+        if (renderTime == 0) {
+            boolean flag = true;
 
-            for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
-                boolean rendering = true;
-                if (nextParallelComponent != null) {
-                    rendering = nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+            if (flag) {
+
+                for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
+                    boolean rendering = true;
+                    if (nextParallelComponent != null) {
+                        rendering = nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                    }
+                    flag = flag && rendering;
                 }
-                flag = flag && rendering;
+            }
+            return flag;
+        } else {
+
+            boolean flag = time - renderTime <= 0;
+            for (MagicCircleComponentBase<?> nextParallelComponent : nextParallelComponents) {
+                if (nextParallelComponent != null) {
+                    nextParallelComponent.rendering(time - delay, matrixStackIn, bufferIn, lookVec, verticalVec, actualPosition, renderer);
+                }
             }
 
+            return flag;
+
         }
-        return flag;
+
     }
 
     @Override
