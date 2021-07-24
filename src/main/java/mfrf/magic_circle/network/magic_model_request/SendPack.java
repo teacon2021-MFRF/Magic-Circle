@@ -1,7 +1,6 @@
 package mfrf.magic_circle.network.magic_model_request;
 
 
-
 import mfrf.magic_circle.magicutil.MagicModelBase;
 import mfrf.magic_circle.magicutil.MagicNodeBase;
 import mfrf.magic_circle.util.CachedEveryThingForClient;
@@ -13,7 +12,6 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -53,20 +51,18 @@ public class SendPack {
             if (direction == NetworkDirection.PLAY_TO_CLIENT) {
                 if (hasModel) {
                     HashMap<String, MagicModelBase> orCreateModels = CachedEveryThingForClient.getOrCreateModels(playerUUID);
-                    MagicNodeBase nodeBase = MagicNodeBase.deserializeNBT(modelNBT);
-                    orCreateModels.put(modelName, (MagicModelBase) nodeBase);
+                    MagicModelBase nodeBase = MagicModelBase.deserializeNBT(modelNBT);
+                    orCreateModels.put(modelName, nodeBase);
                 }
             } else if (direction == NetworkDirection.PLAY_TO_SERVER) {
 
                 MagicModelBase modelCache = StoredMagicModels.getOrCreate(sender.getLevel()).request(playerUUID, modelName);
-                CompoundNBT modelNbt = new CompoundNBT();
                 if (modelCache != null) {
-                    CompoundNBT compoundNBT = modelCache.serializeNBT();
-                    modelNBT = compoundNBT;
+                    modelNBT = modelCache.serializeNBT();
                     hasModel = true;
                 }
 
-                RequestMagicModelsData.INSTANCE.send(PacketDistributor.PLAYER.with(() -> sender), new SendPack(modelName, modelNbt, playerUUID, hasModel));
+                RequestMagicModelsData.INSTANCE.send(PacketDistributor.PLAYER.with(() -> sender), new SendPack(modelName, modelNBT, playerUUID, hasModel));
 
             }
 

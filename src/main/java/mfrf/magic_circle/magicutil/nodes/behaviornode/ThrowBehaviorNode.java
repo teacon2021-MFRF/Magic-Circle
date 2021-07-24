@@ -11,11 +11,6 @@ import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.RedStoneNode;
 import mfrf.magic_circle.registry_lists.Entities;
-import mfrf.magic_circle.rendering.CircleObject;
-import mfrf.magic_circle.rendering.LineObject;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
-import mfrf.magic_circle.rendering.MagicCircleRenderBase;
-import mfrf.magic_circle.util.Colors;
 import mfrf.magic_circle.util.MathUtil;
 import mfrf.magic_circle.util.PositionExpression;
 import net.minecraft.block.Blocks;
@@ -29,8 +24,6 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -297,25 +290,25 @@ public class ThrowBehaviorNode extends BehaviorNodeBase {
 
     }
 
+    public static MagicNodeBase deserializeNBT(CompoundNBT nbt, int layer, MagicNodePropertyMatrix8By8 matrix) {
+        boolean expression_modified = nbt.getBoolean("expression_modified");
+        CompoundNBT expressionNBT = nbt.getCompound("expression");
+        PositionExpression expression = new PositionExpression();
+        expression.deserializeNBT(expressionNBT);
+        ThrowBehaviorNode throwBehaviorNode = new ThrowBehaviorNode();
+        throwBehaviorNode.layer = layer;
+        throwBehaviorNode.eigenMatrix = matrix;
+        throwBehaviorNode.expressionModified = expression_modified;
+        throwBehaviorNode.positionExpression = expression;
+        return throwBehaviorNode;
+    }
 
     @Override
-    public MagicCircleComponentBase<?> getRender() {
-        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(-1, 0, 0, 0);
-
-        CircleObject circleObject0 = new CircleObject(0, 0, 0, 0, 20, 7).setAlpha(255).setColor(Colors.DRYSKY);
-        CircleObject circleObject1 = new CircleObject(2, 0, 0, 0, 18, 7 * 0.5f).setAlpha(255).setColor(Colors.DRYSKY);
-
-
-        LineObject l0 = new LineObject(0, 0, 0, 0, 20).point(0, 0, 7).point(-6.0523f, 0, -3.517f).point(6.0523f, 0, -3.517f).close();
-        LineObject l1 = new LineObject(0, 0, 0, 0, 20).point(0, 0, 7).point(-6.0523f, 0, -3.517f).point(6.0523f, 0, -3.517f).close().setRotation(new Quaternion(0, 180, 0, true));
-        LineObject l2 = new LineObject(0, 0, 0, 0, 18).setPositionOffset(new Vector3f(0, 1.5f, 0)).point(0, 0f, 7 * 0.5f).point(-6.0523f * 0.5f, 0f, -3.517f * 0.5f).point(6.0523f * 0.5f, 0f, -3.517f * 0.5f).close();
-        LineObject l3 = new LineObject(0, 0, 0, 0, 18).setPositionOffset(new Vector3f(0, 1.5f, 0)).point(0, 0f, 7 * 0.5f).point(-6.0523f * 0.5f, 0f, -3.517f * 0.5f).point(6.0523f * 0.5f, 0f, -3.517f * 0.5f).close().setRotation(new Quaternion(0, 180, 0, true));
-
-        circleObject1.appendNextParallelComponents().appendNextParallelComponents(l2, l3);
-        magicCircleRenderBase.appendNextParallelComponents(circleObject0, l0, l1, circleObject1);
-
-
-        return magicCircleRenderBase;
+    public CompoundNBT serializeNBT() {
+        CompoundNBT compoundNBT = super.serializeNBT();
+        compoundNBT.putBoolean("expression_modified", expressionModified);
+        compoundNBT.put("expression", positionExpression.serializeNBT());
+        return compoundNBT;
     }
 
     @Override

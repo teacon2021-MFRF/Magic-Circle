@@ -72,10 +72,6 @@ public class BeamNode extends BehaviorNodeBase {
         return new DataContainer(magic, flag);
     }
 
-    @Override
-    public MagicCircleComponentBase<?> getRender() {
-        return null;
-    }
 
     @Override
     public ArrayList<Argument<?>> getArguments() {

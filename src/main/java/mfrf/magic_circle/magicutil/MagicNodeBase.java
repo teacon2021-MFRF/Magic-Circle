@@ -7,7 +7,6 @@ import mfrf.magic_circle.magicutil.nodes.BeginNodeBase;
 import mfrf.magic_circle.magicutil.nodes.behaviornode.BehaviorNodeBase;
 import mfrf.magic_circle.magicutil.nodes.decoratenode.DecorateNodeBase;
 import mfrf.magic_circle.magicutil.nodes.effectnode.EffectNodeBase;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -133,9 +132,6 @@ public abstract class MagicNodeBase {
             }
         }
     }
-
-    @OnlyIn(Dist.CLIENT)
-    public abstract MagicCircleComponentBase<?> getRender();
 
     @OnlyIn(Dist.CLIENT)
     public abstract ArrayList<Argument<?>> getArguments();

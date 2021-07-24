@@ -32,7 +32,7 @@ public class InWorldRenderingMagics {
                 if (level != null) {
                     PlayerEntity playerByUUID = level.getPlayerByUUID(uuidHashMapEntry.getKey());
                     if (playerByUUID != null) {
-                        MagicCircleComponentBase<?> rendering = RenderCache.getRender(uuidHashMapEntry.getKey(), stringIntegerEntry.getKey());
+                        MagicCircleComponentBase<?> rendering = RenderCache.getRender(uuidHashMapEntry.getKey(), stringIntegerEntry.getKey(), playerByUUID.level);
                         if (rendering != null) {
                             boolean flag = rendering.rendering(stringIntegerEntry.getValue(), matrixStack, buffer, playerByUUID.getLookAngle(), playerByUUID.getUpVector(1.0f), new Vector3f(playerByUUID.position()), Minecraft.getInstance().getEntityRenderDispatcher());
                             if (flag) {

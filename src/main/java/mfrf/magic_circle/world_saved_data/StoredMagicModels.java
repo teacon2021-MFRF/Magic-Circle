@@ -28,7 +28,7 @@ public class StoredMagicModels extends WorldSavedData {
     }
 
     public HashMap<String, MagicModelBase> getOrCreateModelCache(UUID id) {
-        if (!Magic_Models.containsKey(id)) {
+//        if (!Magic_Models.containsKey(id)) {
             HashMap<String, MagicModelBase> stringMagicModelBaseHashMap = new HashMap<>();
             //todo remove after reval
             //==============================================
@@ -42,7 +42,8 @@ public class StoredMagicModels extends WorldSavedData {
             //==============================================
 
             Magic_Models.put(id, stringMagicModelBaseHashMap);
-        }
+            setDirty();
+//        }
         return Magic_Models.get(id);
     }
 

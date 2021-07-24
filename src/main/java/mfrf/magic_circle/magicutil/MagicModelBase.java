@@ -3,12 +3,8 @@ package mfrf.magic_circle.magicutil;
 import mfrf.magic_circle.gui.widgets.Argument;
 import mfrf.magic_circle.magicutil.datastructure.MagicNodePropertyMatrix8By8;
 import mfrf.magic_circle.magicutil.datastructure.MagicStreamMatrixNByN;
-import mfrf.magic_circle.rendering.MagicCircleComponentBase;
-import mfrf.magic_circle.rendering.MagicCircleRenderBase;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
@@ -87,17 +83,6 @@ public class MagicModelBase extends MagicNodeBase {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public MagicCircleComponentBase<?> getRender() {
-        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase();
-        ArrayList<MagicNodeBase> nodes = updateNodes();
-        for (MagicNodeBase node : nodes) {
-            magicCircleRenderBase.appendNextParallelComponent(node.getRender());
-        }
-        return magicCircleRenderBase;
-    }
-
-    @Override
     public ArrayList<Argument<?>> getArguments() {
         return new ArrayList<>();
     }
@@ -122,13 +107,15 @@ public class MagicModelBase extends MagicNodeBase {
 
             for (int i = 0; i < collect.size(); i++) {
                 double[] row = connectivity_matrix.getRow(i);
-                for (int j = 0; j < row.length; j++) {
-                    if (j != i && row[j] != 0) {
-                        MagicNodeBase node = collect.get(i);
-                        if (node.leftNode == null) {
-                            node.appendNodeL(collect.get(j));
-                        } else if (node.rightNode == null) {
-                            node.appendNodeR(collect.get(j));
+                MagicNodeBase node = collect.get(i);
+                if (node != null) {
+                    for (int j = 0; j < row.length; j++) {
+                        if (j != i && row[j] != 0) {
+                            if (row[j] == 1 && node.leftNode == null) {
+                                node.leftNode = (collect.get(j));
+                            } else if (row[j] == 2 && node.rightNode == null) {
+                                node.rightNode = (collect.get(j));
+                            }
                         }
                     }
                 }

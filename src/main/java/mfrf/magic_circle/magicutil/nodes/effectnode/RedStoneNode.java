@@ -20,11 +20,6 @@ public class RedStoneNode extends EffectNodeBase {
     }
 
     @Override
-    public MagicCircleComponentBase<?> getRender() {
-        return null;
-    }
-
-    @Override
     public ArrayList<Argument<?>> getArguments() {
         return null;
     }

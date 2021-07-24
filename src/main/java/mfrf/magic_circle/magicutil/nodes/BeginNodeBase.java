@@ -50,11 +50,6 @@ public class BeginNodeBase extends MagicNodeBase {
     }
 
     @Override
-    public MagicCircleComponentBase<?> getRender() {
-        return null;
-    }
-
-    @Override
     public ArrayList<Argument<?>> getArguments() {
         return new ArrayList<>();
     }

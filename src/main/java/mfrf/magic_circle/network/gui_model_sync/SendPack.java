@@ -52,7 +52,7 @@ public class SendPack {
                 ServerWorld level = sender.getLevel();
                 StoredMagicModels orCreate = StoredMagicModels.getOrCreate(level);
 
-                if (playerUUID == sender.getUUID()) {
+//                if (playerUUID == sender.getUUID()) {
                     switch (state) {
                         case DELETE: {
                             orCreate.forgot(playerUUID, name);
@@ -83,7 +83,7 @@ public class SendPack {
                         }
 
                     }
-                }
+//                }
 
             } else if (direction == NetworkDirection.PLAY_TO_CLIENT) {
 
@@ -104,6 +104,7 @@ public class SendPack {
                     case REQUEST: {
                         for (String key : modelData.getAllKeys()) {
                             CachedEveryThingForClient.updateModel(playerUUID, key, MagicModelBase.deserializeNBT(modelData.getCompound(key)));
+                            //todo check
                         }
 
                         break;

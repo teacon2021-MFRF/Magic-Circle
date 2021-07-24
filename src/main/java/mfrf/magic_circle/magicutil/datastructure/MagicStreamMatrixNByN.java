@@ -83,10 +83,10 @@ public class MagicStreamMatrixNByN extends DenseMatrix64F {
     }
 
     public double[] getRow(int i) {
-        int begin = (i - 1) * numCols;
+        int begin = i * numCols;
         double[] matrixObjectComponents = new double[numCols];
         if (numRows >= 0)
-            System.arraycopy(data, begin, matrixObjectComponents, 0, numRows);
+            System.arraycopy(data, begin, matrixObjectComponents, 0, numCols);
         return matrixObjectComponents;
     }
 

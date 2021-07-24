@@ -26,11 +26,6 @@ public class TriggerNode extends BehaviorNodeBase {
     }
 
     @Override
-    public MagicCircleComponentBase<?> getRender() {
-        return null;
-    }
-
-    @Override
     public ArrayList<Argument<?>> getArguments() {
         return null;
     }

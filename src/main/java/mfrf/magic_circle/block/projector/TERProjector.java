@@ -30,7 +30,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         //test
         // =====================================================================================
 //        MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase(1, 0, 0, 0);
-        BlockPos pos = tileProjector.getBlockPos();
+//        BlockPos pos = tileProjector.getBlockPos();
 
 //        ImageObject p1 = new ImageObject(0, 16, 24, -16, 30, new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/block.png")).setRotateWithLookVec().setTransform(Matrix3f.createScaleMatrix(16, 16, 16));
 //        ImageObject p2 = new ImageObject(0, 16, 24, -16, 30, new ResourceLocation(MagicCircle.MOD_ID, "textures/magic_circle/block.png")).setRotateWithLookVec().setPositionOffset(new Vector3f(0, 4, 0)).setTransform(Matrix3f.createScaleMatrix(10, 10, 10));
@@ -42,8 +42,8 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
 //        magicCircleRenderBase.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, new Vector3d(1, 1, 1), new Vector3d(1, 0, -1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()), this.renderer);
         // =====================================================================================
 
-        MagicCircleComponentBase<?> render = tileProjector.magicCircleComponentBase.getRender();
-        render.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, new Vector3d(1, 1, 1), new Vector3d(1, 0, -1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()), this.renderer);
+//        MagicCircleComponentBase<?> render = tileProjector.magicCircleComponentBase.getRender();
+//        render.rendering(tileProjector.time, matrixStack, iRenderTypeBuffer, new Vector3d(1, 1, 1), new Vector3d(1, 0, -1), new Vector3f(pos.getX(), pos.getY(), pos.getZ()), this.renderer);
     }
 
     @Override
