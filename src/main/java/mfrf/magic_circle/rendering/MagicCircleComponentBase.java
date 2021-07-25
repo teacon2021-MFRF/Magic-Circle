@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBase> {
@@ -168,6 +169,9 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
     }
 
 
+    /**
+     * it's not projection, but transformation.
+     */
     public Vector3f getLookVecTransform(float x, float y, float z, Vector3f lookVec, Vector3f verticalVec) {
         lookVec.normalize();
         verticalVec.normalize();
@@ -300,7 +304,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         renderer.draw(matrixStack, text, 100, 200, 300);
     }
 
-    protected static void renderALotAxisLabels(MatrixStack matrixStack, Vector3f pos, Color color, boolean enableRGBGradient, boolean enableAlphaGradient, ArrayList<Vector3f> points) {
+    protected static void renderALotAxisLabels(MatrixStack matrixStack, Vector3f pos, Color color, boolean enableRGBGradient, boolean enableAlphaGradient, List<Vector3f> points) {
         for (int i = 0; i < points.size(); i += 2) {
             doRender(matrixStack, pos, color, enableRGBGradient, enableAlphaGradient, points.subList(i, i + 2), RenderType.LINES);
         }
@@ -444,8 +448,8 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
             return points;
         }
 
-        public ArrayList<ArrayList<Vector3f>> getFunctionPoints(float percent) {
-            ArrayList<ArrayList<Vector3f>> list_of_points_s = new ArrayList<>();
+        public Stream<Stream<Vector3f>> getFunctionPoints(float percent) {
+            ArrayList<Stream<Vector3f>> list_of_points_s = new ArrayList<>();
             for (PositionExpression function : functions) {
 
                 ArrayList<Vector3f> points = new ArrayList<>();
@@ -459,9 +463,9 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
                         }
                     }
                 }
-                list_of_points_s.add(points);
+                list_of_points_s.add(points.stream());
             }
-            return list_of_points_s;
+            return list_of_points_s.stream();
         }
 
         public ArrayList<Vector3f> getXAxisPoints(float percent) {

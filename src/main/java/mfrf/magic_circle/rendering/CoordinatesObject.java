@@ -14,6 +14,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObject> {
 
@@ -39,65 +41,65 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         if (progress >= 1) {
             progress = 1;
         }
-        ArrayList<Vector3f> xAxisPoints = coordinates.getXAxisPoints(progress);
-        ArrayList<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress);
-        ArrayList<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress);
-        ArrayList<Vector3f> labels = new ArrayList<>();
-        ArrayList<ArrayList<Vector3f>> functionPoints = coordinates.getFunctionPoints(progress);
+        Stream<Vector3f> xAxisPoints = coordinates.getXAxisPoints(progress).stream();
+        Stream<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress).stream();
+        Stream<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress).stream();
+        Stream<Vector3f> labels = new ArrayList<Vector3f>().stream();
+        Stream<Stream<Vector3f>> functionPoints = coordinates.getFunctionPoints(progress);
 
         if (progress >= 1)
-            labels = coordinates.getLabels();
+            labels = coordinates.getLabels().stream();
 
         Vector3f copy = actualPosition.copy();
         copy.add(positionOffset);
 
         Quaternion baseRot = makeRotate(time);
-        xAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
-        yAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
-        zAxisPoints.forEach(vector3f -> vector3f.transform(baseRot));
+        xAxisPoints = xAxisPoints.peek(vector3f -> vector3f.transform(baseRot));
+        yAxisPoints = yAxisPoints.peek(vector3f -> vector3f.transform(baseRot));
+        zAxisPoints = zAxisPoints.peek(vector3f -> vector3f.transform(baseRot));
         if (functionPoints != null) {
-            functionPoints.forEach(
-                    function -> function.forEach(
+            functionPoints = functionPoints.map(
+                    function -> function.peek(
                             vector3d -> vector3d.transform(baseRot)
                     )
             );
         }
-        labels.forEach(vector3f -> vector3f.transform(baseRot));
+        labels = labels.peek(vector3f -> vector3f.transform(baseRot));
 
         if (rotateWithLookVec) {
             Vector3f look = new Vector3f(lookVec);
             Vector3f verticalVecF = new Vector3f(verticalVec);
-            xAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
-            yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
-            zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            xAxisPoints = xAxisPoints.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            yAxisPoints = yAxisPoints.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            zAxisPoints = zAxisPoints.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             if (functionPoints != null) {
-                functionPoints.forEach(
-                        function -> function.forEach(
+                functionPoints = functionPoints.map(
+                        function -> function.map(
                                 vector3f -> getLookVecTransform(vector3f, look, verticalVecF)
                         )
                 );
             }
-            labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            labels = labels.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
 
         RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, renderType);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints.collect(Collectors.toList()), renderType);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, renderType);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints.collect(Collectors.toList()), renderType);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, renderType);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints.collect(Collectors.toList()), renderType);
 
         if (functionPoints != null) {
-            for (ArrayList<Vector3f> functionPoint : functionPoints) {
-                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, renderType);
-            }
+            functionPoints.forEachOrdered(vector3fStream -> {
+                doRender(matrixStackIn, copy, Color.GREEN, true, false, vector3fStream.collect(Collectors.toList()), renderType);
+            });
         } else {
             //todo render error
             renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.getFont());
         }
 
-        renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels);
+        renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels.collect(Collectors.toList()));
 
         return time >= renderTick;
     }
@@ -108,85 +110,65 @@ public class CoordinatesObject extends MagicCircleComponentBase<CoordinatesObjec
         if (progress >= 1) {
             progress = 1;
         }
-        ArrayList<Vector3f> xAxisPoints = coordinates.getXAxisPoints(progress);
-        ArrayList<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress);
-        ArrayList<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress);
-        ArrayList<Vector3f> labels = new ArrayList<>();
-        ArrayList<ArrayList<Vector3f>> functionPoints = coordinates.getFunctionPoints(progress);
+        Stream<Vector3f> xAxisPoints = coordinates.getXAxisPoints(progress).stream();
+        Stream<Vector3f> yAxisPoints = coordinates.getYAxisPoints(progress).stream();
+        Stream<Vector3f> zAxisPoints = coordinates.getZAxisPoints(progress).stream();
+        Stream<Vector3f> labels = new ArrayList<Vector3f>().stream();
+        Stream<Stream<Vector3f>> functionPoints = coordinates.getFunctionPoints(progress);
 
         if (progress >= 1)
-            labels = coordinates.getLabels();
+            labels = coordinates.getLabels().stream();
 
         Vector3f copy = actualPosition.copy();
         copy.add(positionOffset);
 
         Quaternion baseRot = makeRotate(time);
-        xAxisPoints.forEach(vector3f -> {
-            vector3f.add(positionOffset);
-            vector3f.transform(baseRot);
-            vector3f.transform(transform);
-        });
-        yAxisPoints.forEach(vector3f -> {
-            vector3f.add(positionOffset);
-            vector3f.transform(baseRot);
-            vector3f.transform(transform);
-        });
-        zAxisPoints.forEach(vector3f -> {
-            vector3f.add(positionOffset);
-            vector3f.transform(baseRot);
-            vector3f.transform(transform);
-        });
+        xAxisPoints = xAxisPoints.peek(vector3f -> vector3f.transform(baseRot));
+        yAxisPoints = yAxisPoints.peek(vector3f -> vector3f.transform(baseRot));
+        zAxisPoints = zAxisPoints.peek(vector3f -> vector3f.transform(baseRot));
         if (functionPoints != null) {
-            functionPoints.forEach(
-                    function -> function.forEach(
-                            vector3d -> {
-                                vector3d.add(positionOffset);
-                                vector3d.transform(baseRot);
-                                vector3d.transform(transform);
-                            }
+            functionPoints = functionPoints.map(
+                    function -> function.peek(
+                            vector3d -> vector3d.transform(baseRot)
                     )
             );
         }
-        labels.forEach(vector3f -> {
-            vector3f.add(positionOffset);
-            vector3f.transform(baseRot);
-            vector3f.transform(transform);
-        });
+        labels = labels.peek(vector3f -> vector3f.transform(baseRot));
 
         if (rotateWithLookVec) {
             Vector3f look = new Vector3f(lookVec);
             Vector3f verticalVecF = new Vector3f(verticalVec);
-            xAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
-            yAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
-            zAxisPoints.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            xAxisPoints = xAxisPoints.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            yAxisPoints = yAxisPoints.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            zAxisPoints = zAxisPoints.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
             if (functionPoints != null) {
-                functionPoints.forEach(
-                        function -> function.forEach(
+                functionPoints = functionPoints.map(
+                        function -> function.map(
                                 vector3f -> getLookVecTransform(vector3f, look, verticalVecF)
                         )
                 );
             }
-            labels.forEach(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
+            labels = labels.map(vector3f -> getLookVecTransform(vector3f, look, verticalVecF));
         }
 
         RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints, renderType);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, xAxisPoints.collect(Collectors.toList()), renderType);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints, renderType);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, yAxisPoints.collect(Collectors.toList()), renderType);
 
-        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints, renderType);
+        doRender(matrixStackIn, copy, Color.CYAN, false, false, zAxisPoints.collect(Collectors.toList()), renderType);
 
         if (functionPoints != null) {
-            for (ArrayList<Vector3f> functionPoint : functionPoints) {
-                doRender(matrixStackIn, copy, Color.GREEN, true, false, functionPoint, renderType);
-            }
+            functionPoints.forEachOrdered(vector3fStream -> {
+                doRender(matrixStackIn, copy, Color.GREEN, true, false, vector3fStream.collect(Collectors.toList()), renderType);
+            });
         } else {
             //todo render error
-            renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.font);
+            renderText(matrixStackIn, color.toAWT(), new TranslationTextComponent(MagicCircle.MOD_ID + ".type_cast_error"), renderer.getFont());
         }
 
-        renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels);
+        renderALotAxisLabels(matrixStackIn, copy, Color.CYAN, false, false, labels.collect(Collectors.toList()));
 
         return time >= renderTick;
     }

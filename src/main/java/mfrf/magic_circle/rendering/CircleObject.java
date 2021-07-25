@@ -37,7 +37,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         float timePassed = flag ? renderTime : time;
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec), time);
+        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, new Vector3f(lookVec), new Vector3f(verticalVec), time);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
@@ -68,7 +68,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         float timePassed = flag ? renderTime : time;
 
 
-        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, xRotateSpeedRadius + yRotateSpeedRadius + zRotateSpeedRadius != 0, new Vector3f(lookVec), new Vector3f(verticalVec), time);
+        ArrayList<Vector3f> circleArcPoints = getCircle(percent, timePassed, new Vector3f(lookVec), new Vector3f(verticalVec), time);
 
         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderType renderType = RenderTypes.makeCircleLine(lineWidth);
@@ -92,7 +92,7 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
         return flag;
     }
 
-    public ArrayList<Vector3f> getCircle(float percent, float timePassed, boolean rotate, Vector3f direction, Vector3f verticalVec, float actualTime) {
+    public ArrayList<Vector3f> getCircle(float percent, float timePassed, Vector3f direction, Vector3f verticalVec, float actualTime) {
         ArrayList<Vector3f> points = new ArrayList<>();
         float actualAngle = (float) (percent * Math.PI * 2);
         float v = Config.CURVE_PRECISION.get() / actualAngle;
@@ -105,23 +105,17 @@ public class CircleObject extends MagicCircleComponentBase<CircleObject> {
             float y = 0;
             float z = (float) (radius * Math.sin(i));
 
-            if (rotateWithLookVec) {
-                Vector3f lookVecTransform = getLookVecTransform(x, y, z, direction, verticalVec);
-                x = lookVecTransform.x();
-                y = lookVecTransform.y();
-                z = lookVecTransform.z();
-            }
             Vector3f pos = new Vector3f(x, y, z);
 
-            if (rotate) {
-                Quaternion copy = apply.copy();
-                copy.mul(new Quaternion(xRotateSpeedRadius * actualTime, yRotateSpeedRadius * actualTime, zRotateSpeedRadius * actualTime, true));
-                pos.transform(copy);
-            }
+            Quaternion quaternion = new Quaternion(xRotateSpeedRadius * actualTime, yRotateSpeedRadius * actualTime, zRotateSpeedRadius * actualTime, true);
+            pos.transform(quaternion);
 
             pos.add(positionOffset);
             pos.transform(transform);
             pos.transform(apply);
+            if (rotateWithLookVec) {
+                pos = getLookVecTransform(pos, direction, verticalVec);
+            }
             points.add(pos);
         }
         if (percent == 1 && !points.isEmpty()) {

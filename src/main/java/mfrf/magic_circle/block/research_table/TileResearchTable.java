@@ -4,6 +4,7 @@ import mfrf.magic_circle.Config;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.NamedContainerTileBase;
 import mfrf.magic_circle.gui.research_table.ResearchTableContainer;
+import mfrf.magic_circle.item.resources.ItemCompetedTestPaper;
 import mfrf.magic_circle.item.resources.ItemTestPaper;
 import mfrf.magic_circle.item.tool.ItemPenAndInk;
 import mfrf.magic_circle.json_recipe_configs.JsonConfigItemResearch;
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 public class TileResearchTable extends NamedContainerTileBase {
@@ -40,7 +42,7 @@ public class TileResearchTable extends NamedContainerTileBase {
             Slot value = Slot.values()[slot];
             switch (value) {
                 case TEST_PAPER: {
-                    if (stack.getItem() instanceof ItemTestPaper) {
+                    if (stack.getItem() instanceof ItemTestPaper || stack.getItem() instanceof ItemCompetedTestPaper) {
                         if (getItem(slot).isEmpty()) {
                             return super.canPlaceItem(slot, stack);
                         }
@@ -113,6 +115,7 @@ public class TileResearchTable extends NamedContainerTileBase {
     public boolean checkAnswer(String answer, UUID playerId) {
         AtomicBoolean flag = new AtomicBoolean(false);
         ItemStack ink = inventory.getItem(Slot.PEN_AND_INK.ordinal());
+        AtomicReference<String> research = new AtomicReference<>("");
         int inkUse = answer.getBytes().length;
         if (!ink.isEmpty() && ink.getItem() instanceof ItemPenAndInk && Config.MAX_USE_PEN_AND_INK.get() - ink.getDamageValue() > inkUse) {
             PlayerKnowledges orCreate = PlayerKnowledge.getOrCreate(level).getOrCreate(playerId);
@@ -134,6 +137,7 @@ public class TileResearchTable extends NamedContainerTileBase {
                                 ResearchTestBase.Serializer.DataContainer dataContainer = optional.get().toDataContainer();
                                 if (dataContainer.answer.asPredicate().test(answer)) {
                                     if (!orCreate.hasUnlocked(dataContainer.research)) {
+                                        research.set(dataContainer.research);
                                         orCreate.unlock(dataContainer.research);
                                         flag.set(true);
                                     }
@@ -153,6 +157,11 @@ public class TileResearchTable extends NamedContainerTileBase {
             }
 
             ink.setDamageValue(ink.getDamageValue() + inkUse);
+        }
+
+        if (flag.get()) {
+            inventory.setItem(Slot.TEST_PAPER.ordinal(), ItemCompetedTestPaper.createCompletedTestPaper(research.get()));
+            markDirty();
         }
 
         return flag.get();

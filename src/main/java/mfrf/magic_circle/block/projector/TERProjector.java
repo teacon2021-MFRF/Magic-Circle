@@ -14,6 +14,9 @@ import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
+import java.util.ArrayList;
+import java.util.function.BiFunction;
+
 public class TERProjector extends TileEntityRenderer<TileProjector> {
     public TERProjector(TileEntityRendererDispatcher p_i226006_1_) {
         super(p_i226006_1_);
@@ -57,7 +60,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
 
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase();
         magicCircleRenderBase.appendNextParallelComponents(
-                new CoordinatesObject(0, 0, 0, 0, 8, new MagicCircleComponentBase.Coordinates(
+                new CoordinatesObject(0, 0, 0, 0, 100, new MagicCircleComponentBase.Coordinates(
                         new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.X, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1),
                         new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Y, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
                         new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1)
@@ -73,8 +76,8 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
                 new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o1).setRotation(t -> new Quaternion(0, gameTime % 360, 0, true)),
 
                 new CircleObject(0, 0, 0, 0, 200, 24).setPositionOffset(offsetBase).setColor(Colors.DUIZE),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, gameTime/2 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, gameTime/2 % 360, 0, true)),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, gameTime / 2 % 360, 0, true)),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, gameTime / 2 % 360, 0, true)),
 
                 new CircleObject(0, 0, 0, 0, 200, 32).setPositionOffset(offsetBase).setColor(Colors.LIHUO),
                 new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o3).setRotation(t -> new Quaternion(0, (gameTime / 4) % 360, 0, true)),

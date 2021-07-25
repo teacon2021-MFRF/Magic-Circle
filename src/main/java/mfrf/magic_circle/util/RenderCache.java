@@ -70,43 +70,43 @@ public class RenderCache {
                         new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Y, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
                         new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1)
 //                        new PositionExpression("t", "math.pow(t,2) + 1", null, 0.05f, 100, 0),
-                )).setPositionOffset(offsetBase),
-                new CircleObject(0, 8, 0, 0, 200, 8).setPositionOffset(offsetBase),
-                new CircleObject(0, 8, 0, 8, 200, 8).setPositionOffset(offsetBase),
-                new CircleObject(0, 4, 0, 0, 200, 7).setPositionOffset(offsetBase),
-                new CircleObject(0, 4, 0, 4, 200, 7).setPositionOffset(offsetBase),
+                )).setPositionOffset(offsetBase).setRotateWithLookVec(),
+                new CircleObject(0, 8, 0, 0, 200, 8).setPositionOffset(offsetBase).setRotateWithLookVec(),
+                new CircleObject(0, 8, 0, 8, 200, 8).setPositionOffset(offsetBase).setRotateWithLookVec(),
+                new CircleObject(0, 4, 0, 0, 200, 7).setPositionOffset(offsetBase).setRotateWithLookVec(),
+                new CircleObject(0, 4, 0, 4, 200, 7).setPositionOffset(offsetBase).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 16).setPositionOffset(offsetBase).setColor(Colors.KUNDI),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o1).setRotation(t -> new Quaternion(0, t % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o1).setRotation(t -> new Quaternion(0, t % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 16).setPositionOffset(offsetBase).setColor(Colors.KUNDI).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o1).setRotation(t -> new Quaternion(0, t % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o1).setRotation(t -> new Quaternion(0, t % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 24).setPositionOffset(offsetBase).setColor(Colors.DUIZE),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, t / 2 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, t / 2 % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 24).setPositionOffset(offsetBase).setColor(Colors.DUIZE).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, t / 2 % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o2).setRotation(t -> new Quaternion(0, t / 2 % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 32).setPositionOffset(offsetBase).setColor(Colors.LIHUO),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o3).setRotation(t -> new Quaternion(0, (t / 4) % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o3).setRotation(t -> new Quaternion(0, (t / 4) % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 32).setPositionOffset(offsetBase).setColor(Colors.LIHUO).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o3).setRotation(t -> new Quaternion(0, (t / 4) % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o3).setRotation(t -> new Quaternion(0, (t / 4) % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 40).setPositionOffset(offsetBase).setColor(Colors.GENSHAN),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o4).setRotation(t -> new Quaternion(0, t / 6 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o4).setRotation(t -> new Quaternion(0, t / 6 % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 40).setPositionOffset(offsetBase).setColor(Colors.GENSHAN).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o4).setRotation(t -> new Quaternion(0, t / 6 % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o4).setRotation(t -> new Quaternion(0, t / 6 % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 48).setPositionOffset(offsetBase).setColor(Colors.SUNDAE),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o5).setRotation(t -> new Quaternion(0, t / 8 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o5).setRotation(t -> new Quaternion(0, t / 8 % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 48).setPositionOffset(offsetBase).setColor(Colors.SUNDAE).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o5).setRotation(t -> new Quaternion(0, t / 8 % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o5).setRotation(t -> new Quaternion(0, t / 8 % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 56).setPositionOffset(offsetBase).setColor(Colors.KANSHUI),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o6).setRotation(t -> new Quaternion(0, t / 10 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o6).setRotation(t -> new Quaternion(0, t / 10 % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 56).setPositionOffset(offsetBase).setColor(Colors.KANSHUI).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o6).setRotation(t -> new Quaternion(0, t / 10 % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o6).setRotation(t -> new Quaternion(0, t / 10 % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 64).setPositionOffset(offsetBase).setColor(Colors.THUNDER),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o7).setRotation(t -> new Quaternion(0, t / 12 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o7).setRotation(t -> new Quaternion(0, t / 12 % 360, 0, true)),
+                new CircleObject(0, 0, 0, 0, 200, 64).setPositionOffset(offsetBase).setColor(Colors.THUNDER).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o7).setRotation(t -> new Quaternion(0, t / 12 % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o7).setRotation(t -> new Quaternion(0, t / 12 % 360, 0, true)).setRotateWithLookVec(),
 
-                new CircleObject(0, 0, 0, 0, 200, 72).setPositionOffset(offsetBase).setColor(Colors.DRYSKY),
-                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o8).setRotation(t -> new Quaternion(0, t / 14 % 360, 0, true)),
-                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o8).setRotation(t -> new Quaternion(0, t / 14 % 360, 0, true))
+                new CircleObject(0, 0, 0, 0, 200, 72).setPositionOffset(offsetBase).setColor(Colors.DRYSKY).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 0, 200, 1).setPositionOffset(o8).setRotation(t -> new Quaternion(0, t / 14 % 360, 0, true)).setRotateWithLookVec(),
+                new CircleObject(0, 3, 0, 3, 200, 1).setPositionOffset(o8).setRotation(t -> new Quaternion(0, t / 14 % 360, 0, true)).setRotateWithLookVec()
         );
 //                new CircleObject(0, 8, 0, 8, 200, 8).setPositionOffset(offsetBase)
         //===============================================================================================================================
