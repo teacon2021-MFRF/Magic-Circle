@@ -121,7 +121,7 @@ public class TileResearchTable extends NamedContainerTileBase {
             PlayerKnowledges orCreate = PlayerKnowledge.getOrCreate(level).getOrCreate(playerId);
             ResearchTestBase.Serializer.DataContainer test = ItemTestPaper.getTest(inventory.getItem(Slot.TEST_PAPER.ordinal()));
             if (test != null && test.answer.asPredicate().test(answer)) {
-                if (orCreate.hasUnlocked(test.research)) {
+                if (!orCreate.hasUnlocked(test.research)) {
                     flag.set(true);
                     orCreate.unlock(test.research);
                 }

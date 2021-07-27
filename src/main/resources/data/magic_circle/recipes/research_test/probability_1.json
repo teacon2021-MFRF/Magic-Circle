@@ -1,0 +1,7 @@
+{
+  "type": "magic_circle:research_test",
+  "difficulty": 1.1,
+  "figure": "magic_circle:textures/figures/probability_1.png",
+  "answer": "[Dd]",
+  "research": "reveal"
+}
