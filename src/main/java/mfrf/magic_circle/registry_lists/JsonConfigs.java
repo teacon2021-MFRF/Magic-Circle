@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class JsonConfigs {
     public static final DeferredRegister<IRecipeSerializer<?>> JSONCONFIG_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MagicCircle.MOD_ID);
+    
     public static final RegistryObject<IRecipeSerializer<JsonConfigGemEffect>> GEN_EFFECT = JSONCONFIG_REGISTER.register("gem_effect", JsonConfigGemEffect.Searlizer::new);
     public static final RegistryObject<IRecipeSerializer<ResearchTestBase>> RESEARCH_TEST = JSONCONFIG_REGISTER.register("research_test", ResearchTestBase.Serializer::new);
     public static final RegistryObject<IRecipeSerializer<JsonConfigItemResearch>> ITEM_RESEARCH_TEST = JSONCONFIG_REGISTER.register("item_research", JsonConfigItemResearch.Serializer::new);

@@ -34,7 +34,7 @@ public class JsonConfigGemEffect extends JsonConfigBase {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return new Searlizer();
+        return JsonConfigs.GEN_EFFECT.get();
     }
 
     @Override

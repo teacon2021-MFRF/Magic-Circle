@@ -1,6 +1,5 @@
 package mfrf.magic_circle.json_recipe_configs;
 
-import com.google.common.base.Charsets;
 import com.google.gson.JsonObject;
 import mfrf.magic_circle.registry_lists.JsonConfigs;
 import mfrf.magic_circle.util.Utils;
@@ -104,7 +103,7 @@ public class JsonConfigItemResearch extends JsonConfigBase {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return new Serializer();
+        return JsonConfigs.ITEM_RESEARCH_TEST.get();
     }
 
     @Override
