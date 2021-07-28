@@ -9,7 +9,7 @@ import mfrf.magic_circle.item.armor.MagesBoots;
 import mfrf.magic_circle.item.armor.MagesCloak;
 import mfrf.magic_circle.item.armor.MagesCrown;
 import mfrf.magic_circle.item.armor.MagesGaiters;
-import mfrf.magic_circle.item.resources.ItemCompetedTestPaper;
+import mfrf.magic_circle.item.resources.ItemCompletedTestPaper;
 import mfrf.magic_circle.item.resources.ItemMagicCrystal;
 import mfrf.magic_circle.item.resources.ItemTestPaper;
 import mfrf.magic_circle.item.tool.ItemPenAndInk;
@@ -49,7 +49,7 @@ public class Items {
     // Equipment===============================================================================================================================================================================================
     public static final RegistryObject<ItemPenAndInk> PEN_AND_INK = ITEM_DEFERRED_REGISTER.register("pen_and_ink", () -> new ItemPenAndInk(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).durability(Config.MAX_USE_PEN_AND_INK.get()).fireResistant()));
     public static final RegistryObject<ItemTestPaper> TEST_PAPER = ITEM_DEFERRED_REGISTER.register("test_paper", () -> new ItemTestPaper(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant()));
-    public static final RegistryObject<ItemCompetedTestPaper> TEST_PAPER_100 = ITEM_DEFERRED_REGISTER.register("test_paper_100", () -> new ItemCompetedTestPaper(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant()));
+    public static final RegistryObject<ItemCompletedTestPaper> TEST_PAPER_100 = ITEM_DEFERRED_REGISTER.register("test_paper_100", () -> new ItemCompletedTestPaper(new Item.Properties().tab(MagicCircle.MAGIC_CIRCLE_RESOURCES).stacksTo(1).fireResistant()));
 
     // staff===============================================================================================================================================================================================
     public static final RegistryObject<ItemStaff> CREATIVE_STAFF = ITEM_DEFERRED_REGISTER.register("creative_stuff", () -> new ItemStaff(STAFF_PROPERTY, new MagicalItemSimpleImplement(

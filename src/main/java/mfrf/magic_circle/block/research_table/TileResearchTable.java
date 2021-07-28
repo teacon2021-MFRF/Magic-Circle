@@ -4,7 +4,7 @@ import mfrf.magic_circle.Config;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.NamedContainerTileBase;
 import mfrf.magic_circle.gui.research_table.ResearchTableContainer;
-import mfrf.magic_circle.item.resources.ItemCompetedTestPaper;
+import mfrf.magic_circle.item.resources.ItemCompletedTestPaper;
 import mfrf.magic_circle.item.resources.ItemTestPaper;
 import mfrf.magic_circle.item.tool.ItemPenAndInk;
 import mfrf.magic_circle.json_recipe_configs.JsonConfigItemResearch;
@@ -42,7 +42,7 @@ public class TileResearchTable extends NamedContainerTileBase {
             Slot value = Slot.values()[slot];
             switch (value) {
                 case TEST_PAPER: {
-                    if (stack.getItem() instanceof ItemTestPaper || stack.getItem() instanceof ItemCompetedTestPaper) {
+                    if (stack.getItem() instanceof ItemTestPaper || stack.getItem() instanceof ItemCompletedTestPaper) {
                         if (getItem(slot).isEmpty()) {
                             return super.canPlaceItem(slot, stack);
                         }
@@ -160,7 +160,7 @@ public class TileResearchTable extends NamedContainerTileBase {
         }
 
         if (flag.get()) {
-            inventory.setItem(Slot.TEST_PAPER.ordinal(), ItemCompetedTestPaper.createCompletedTestPaper(research.get()));
+            inventory.setItem(Slot.TEST_PAPER.ordinal(), ItemCompletedTestPaper.createCompletedTestPaper(research.get()));
             markDirty();
         }
 

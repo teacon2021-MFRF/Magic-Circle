@@ -12,9 +12,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class ItemCompetedTestPaper extends ItemBase {
+public class ItemCompletedTestPaper extends ItemBase {
 
-    public ItemCompetedTestPaper(Item.Properties p_i48487_1_) {
+    public ItemCompletedTestPaper(Item.Properties p_i48487_1_) {
         super(p_i48487_1_);
     }
 

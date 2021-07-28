@@ -3,6 +3,7 @@ package mfrf.magic_circle.registry_lists;
 import mfrf.magic_circle.MagicCircle;
 import mfrf.magic_circle.block.BlockBase;
 import mfrf.magic_circle.block.TestBlock;
+import mfrf.magic_circle.block.VerifyButton;
 import mfrf.magic_circle.block.magic_assemby_table.BlockMagicModelAssemblyTable;
 import mfrf.magic_circle.block.magic_engraver.BlockMagicEngraver;
 import mfrf.magic_circle.block.projector.BlockProjector;
@@ -36,6 +37,9 @@ public class Blocks {
     public static final RegistryObject<Block> TEST_BLOCK = registryObject(new TestBlock(AbstractBlock.Properties.of(Material.METAL).noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "test_block");
     public static final RegistryObject<Block> RUNE = BLOCK_DEFERRED_REGISTER.register("rune", () -> new BlockRune(AbstractBlock.Properties.of(Material.METAL).noOcclusion().harvestLevel(4)));
     public static final RegistryObject<Block> ORE_CRYSTAL = registryObject(new MagicCrystalOre(AbstractBlock.Properties.of(Material.GLASS).harvestTool(ToolType.PICKAXE).harvestLevel(2).strength(30, 30).noOcclusion()), Items.DEFAULT_ITEM_PROPERTY, "magic_crystal_ore");
+
+    //stuff
+    public static final RegistryObject<Block> VERIFY_BUTTON = registryObject(new VerifyButton(AbstractBlock.Properties.of(Material.WOOD).dynamicShape().harvestLevel(1).strength(30,30)),Items.DEFAULT_ITEM_PROPERTY,"verify_button");
 
     public static RegistryObject<Block> registryObject(Block block, Item.Properties itemProperties, String name) {
         Items.registerObject(new BlockItem(block, itemProperties), name);
