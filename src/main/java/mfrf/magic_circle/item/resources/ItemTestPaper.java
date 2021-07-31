@@ -45,6 +45,17 @@ public class ItemTestPaper extends ItemBase {
             }
         }
         return null;
+
+    }
+
+    public static ItemStack randomTestPaper(World world) {
+        ItemStack stack = new ItemStack(Items.TEST_PAPER.get());
+        List<ResearchTestBase> recipes = world.getRecipeManager().getAllRecipesFor(JsonConfigs.Type.RESEARCH_TEST_JSONCONFIG_TYPE);
+        if (!recipes.isEmpty()) {
+            ResearchTestBase researchTestBase = recipes.get(random.nextInt(recipes.size()));
+            stack.addTagElement("research_contain", ((ResearchTestBase.Serializer) researchTestBase.getSerializer()).toNBT(researchTestBase));
+        }
+        return stack;
     }
 
     public static ItemStack createTestPaper(ResearchTestBase researchTestBase) {

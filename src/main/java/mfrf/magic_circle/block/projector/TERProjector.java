@@ -60,12 +60,12 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
 
         MagicCircleRenderBase magicCircleRenderBase = new MagicCircleRenderBase();
         magicCircleRenderBase.appendNextParallelComponents(
-//                new CoordinatesObject(0, 0, 0, 0, 100, new MagicCircleComponentBase.Coordinates(
-//                        new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.X, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1),
-//                        new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Y, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
-//                        new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1)
-////                        new PositionExpression("t", "math.pow(t,2) + 1", null, 0.05f, 100, 0),
-//                )).setPositionOffset(offsetBase),
+                new CoordinatesObject(0, 0, 0, 0, 100, new MagicCircleComponentBase.Coordinates(
+                        new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.X, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1),
+                        new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Y, new MagicCircleComponentBase.Line(-8, 8), new MagicCircleComponentBase.BasicArrowHead(1), 1),
+                        new MagicCircleComponentBase.Axis(MagicCircleComponentBase.DIRECTION.Z, new MagicCircleComponentBase.Line(-72, 72), new MagicCircleComponentBase.BasicArrowHead(1), 1)
+//                        new PositionExpression("t", "math.pow(t,2) + 1", null, 0.05f, 100, 0),
+                )).setPositionOffset(offsetBase),
                 new CircleObject(0, 8, 0, 0, 200, 8).setPositionOffset(offsetBase),
                 new CircleObject(0, 8, 0, 8, 200, 8).setPositionOffset(offsetBase),
                 new CircleObject(0, 4, 0, 0, 200, 7).setPositionOffset(offsetBase),
@@ -115,5 +115,4 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
     public boolean shouldRenderOffScreen(TileProjector p_188185_1_) {
         return true;
     }
-
 }

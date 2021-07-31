@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
@@ -283,6 +284,7 @@ public abstract class MagicCircleComponentBase<T extends MagicCircleComponentBas
         if (!points.isEmpty()) {
             IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
             Matrix4f matrix = matrixStack.last().pose();
+//            List<Vector3f> collect = points.stream().peek(vector3f -> vector3f.add(pos)).collect(Collectors.toList());
 
             matrixStack.pushPose();
             RenderSystem.enableDepthTest();
