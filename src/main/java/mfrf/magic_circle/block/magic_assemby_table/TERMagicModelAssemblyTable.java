@@ -51,8 +51,8 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
                 if (magicCount.get() > 24)
                     magicCount.set(24);
 
-                double angle1 = Math.PI * 2 / magicCount.get();
-//                double angle1 = Math.PI * 2 / 24;
+//                double angle1 = Math.PI * 2 / magicCount.get();
+                double angle1 = Math.PI * 2 / 24;
                 double angle2 = Math.PI * 2 / items.size();
 
                 matrixStack.translate(0.45, 0.6, 0.45);
@@ -87,14 +87,14 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
 
             }
 
-            matrixStack.pushPose();
-            matrixStack.translate(0.5, 0.9, 0.5);
-            matrixStack.scale(0.3f, 0.3f, 0.3f);
-            matrixStack.mulPose(new Quaternion(0, -level.getGameTime(), 0, true));
-            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            IBakedModel ibakedmodel = itemRenderer.getModel(item, level, null);
-            itemRenderer.render(item, ItemCameraTransforms.TransformType.FIXED, true, matrixStack, bufferIn, MagicCircleComponentBase.maxLight, p_225616_6_, ibakedmodel);
-            matrixStack.popPose();
+//            matrixStack.pushPose();
+//            matrixStack.translate(0.5, 0.9, 0.5);
+//            matrixStack.scale(0.3f, 0.3f, 0.3f);
+//            matrixStack.mulPose(new Quaternion(0, -level.getGameTime(), 0, true));
+//            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+//            IBakedModel ibakedmodel = itemRenderer.getModel(item, level, null);
+//            itemRenderer.render(item, ItemCameraTransforms.TransformType.FIXED, true, matrixStack, bufferIn, MagicCircleComponentBase.maxLight, p_225616_6_, ibakedmodel);
+//            matrixStack.popPose();
 
         }
     }

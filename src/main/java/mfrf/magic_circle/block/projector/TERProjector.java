@@ -38,7 +38,7 @@ public class TERProjector extends TileEntityRenderer<TileProjector> {
         //test
         // =====================================================================================
         BlockPos pos = tileProjector.getBlockPos();
-        Vector3f offsetBase = new Vector3f(0.5f, 16, 0.5f);
+        Vector3f offsetBase = new Vector3f(0.5f, 0, 0.5f);
         long gameTime = tileProjector.getLevel().getGameTime();
 
         Vector3f o1 = offsetBase.copy();
