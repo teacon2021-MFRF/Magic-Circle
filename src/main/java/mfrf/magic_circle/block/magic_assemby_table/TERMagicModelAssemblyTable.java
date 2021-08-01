@@ -46,10 +46,10 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
 
     @Override
     public void render(TileMagicModelAssemblyTable tileMagicModelAssemblyTable, float p_225616_2_, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int p_225616_5_, int p_225616_6_) {
-        BlockPos blockPos = tileMagicModelAssemblyTable.getBlockPos();
+//        BlockPos blockPos = tileMagicModelAssemblyTable.getBlockPos();
         World level = tileMagicModelAssemblyTable.getLevel();
-        Random random = level.getRandom();
-        ItemStack item = tileMagicModelAssemblyTable.inventory.getItem(0);
+//        Random random = level.getRandom();
+//        ItemStack item = tileMagicModelAssemblyTable.inventory.getItem(0);
 //        if (!item.isEmpty()) {
 //            if (item.getCapability(Capabilities.MAGICAL_ITEM).isPresent()) {
 //                ArrayList<ItemStack> items = new ArrayList<>(); //temp
