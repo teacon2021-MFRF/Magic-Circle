@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicModelAssemblyTable> {
-    private static ArrayList<ItemStack> items = new ArrayList<>(); //temp
+    private static ArrayList<ItemStack> items = new ArrayList<>(); //temp todo delete
 
     static{
         items.add(new ItemStack(Items.SAPPSIRE.get()));
@@ -50,8 +50,8 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
         World level = tileMagicModelAssemblyTable.getLevel();
         Random random = level.getRandom();
         ItemStack item = tileMagicModelAssemblyTable.inventory.getItem(0);
-        if (!item.isEmpty()) {
-            if (item.getCapability(Capabilities.MAGICAL_ITEM).isPresent()) {
+//        if (!item.isEmpty()) {
+//            if (item.getCapability(Capabilities.MAGICAL_ITEM).isPresent()) {
 //                ArrayList<ItemStack> items = new ArrayList<>(); //temp
 //                AtomicInteger magicCount = new AtomicInteger();
 //                item.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
@@ -99,7 +99,7 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
                     matrixStack.popPose();
                 }
 
-            }
+//            }
 
 //            matrixStack.pushPose();
 //            matrixStack.translate(0.5, 0.9, 0.5);
@@ -110,7 +110,7 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
 //            itemRenderer.render(item, ItemCameraTransforms.TransformType.FIXED, true, matrixStack, bufferIn, MagicCircleComponentBase.maxLight, p_225616_6_, ibakedmodel);
 //            matrixStack.popPose();
 
-        }
+//        }
     }
 
 }
