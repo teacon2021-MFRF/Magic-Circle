@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mfrf.magic_circle.block.technical_blocks.BlockRune;
 import mfrf.magic_circle.registry_lists.Blocks;
 import mfrf.magic_circle.registry_lists.Capabilities;
+import mfrf.magic_circle.registry_lists.Items;
 import mfrf.magic_circle.rendering.MagicCircleComponentBase;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -26,6 +27,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicModelAssemblyTable> {
+    private static ArrayList<ItemStack> items = new ArrayList<>(); //temp
+
+    static{
+        items.add(new ItemStack(Items.SAPPSIRE.get()));
+        items.add(new ItemStack(Items.STARLIGHT_RUBY.get()));
+        items.add(new ItemStack(Items.SUNSTONE.get()));
+        items.add(new ItemStack(Items.RUBY.get()));
+        items.add(new ItemStack(Items.MAGIC_CRYSTAL.get()));
+        items.add(new ItemStack(Items.RUBY.get()));
+        items.add(new ItemStack(Items.STARTLIGHT_SAPPSIRE.get()));
+        items.add(new ItemStack(Items.MAGIC_CRYSTAL.get()));
+    }
+
     public TERMagicModelAssemblyTable(TileEntityRendererDispatcher p_i226006_1_) {
         super(p_i226006_1_);
     }
@@ -38,18 +52,18 @@ public class TERMagicModelAssemblyTable extends TileEntityRenderer<TileMagicMode
         ItemStack item = tileMagicModelAssemblyTable.inventory.getItem(0);
         if (!item.isEmpty()) {
             if (item.getCapability(Capabilities.MAGICAL_ITEM).isPresent()) {
-                ArrayList<ItemStack> items = new ArrayList<>();
-                AtomicInteger magicCount = new AtomicInteger();
-                item.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
-                    items.addAll(iMagicalItem.getEffectContainer().slots.stream().map(slot -> slot.itemStack).collect(Collectors.toList()));
-                    magicCount.set(iMagicalItem.magics().size());
-                });
-
+//                ArrayList<ItemStack> items = new ArrayList<>(); //temp
+//                AtomicInteger magicCount = new AtomicInteger();
+//                item.getCapability(Capabilities.MAGICAL_ITEM).ifPresent(iMagicalItem -> {
+//                    items.addAll(iMagicalItem.getEffectContainer().slots.stream().map(slot -> slot.itemStack).collect(Collectors.toList()));
+//                    magicCount.set(iMagicalItem.magics().size());
+//                });
+//
                 BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
                 BlockState blockState = Blocks.RUNE.get().defaultBlockState();
-
-                if (magicCount.get() > 24)
-                    magicCount.set(24);
+//
+//                if (magicCount.get() > 24)
+//                    magicCount.set(24);
 
 //                double angle1 = Math.PI * 2 / magicCount.get();
                 double angle1 = Math.PI * 2 / 24;
