@@ -28,7 +28,7 @@ public class EndCrystalVein extends Feature<OreFeatureConfig> {
     @Override
     public boolean place(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, OreFeatureConfig oreFeatureConfig) {
         if (iSeedReader.getLevel().dimension().compareTo(Dimension.END) == 0) {
-            if (random.nextFloat() < 0.015) {
+            if (random.nextFloat() < 0.002) {
                 int range = random.nextInt(4) + 8;
                 int height = random.nextInt(255 - range);
                 BlockState blockState = Blocks.ORE_CRYSTAL.get().defaultBlockState();

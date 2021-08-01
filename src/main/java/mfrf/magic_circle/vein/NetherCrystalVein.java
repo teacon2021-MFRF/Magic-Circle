@@ -26,7 +26,7 @@ public class NetherCrystalVein extends Feature<OreFeatureConfig> {
 
     @Override
     public boolean place(ISeedReader iSeedReader, ChunkGenerator chunkGenerator, Random random, BlockPos pos, OreFeatureConfig oreFeatureConfig) {
-        if (iSeedReader.getLevel().dimension().compareTo(Dimension.NETHER) == 0 && random.nextFloat() < 0.15) {
+        if (iSeedReader.getLevel().dimension().compareTo(Dimension.NETHER) == 0 && random.nextFloat() < 0.005) {
             int range = random.nextInt(8) + 12;
             int height = random.nextInt(128 - range - 1);
             BlockState blockState = Blocks.ORE_CRYSTAL.get().defaultBlockState();
